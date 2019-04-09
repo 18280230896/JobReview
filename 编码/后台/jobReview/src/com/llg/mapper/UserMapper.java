@@ -17,4 +17,5 @@ public interface UserMapper {
 	 * @return
 	 */
 	public User login(User user);
+	
 }

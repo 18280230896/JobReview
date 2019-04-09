@@ -1,8 +1,6 @@
 var unameInput = $("input[name='username']:eq(0)");
 var pwdInput = $("input[name='password']:eq(0)");
 
-
-
 $("input").keypress(function(e) {
        var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
         if (eCode == 13){

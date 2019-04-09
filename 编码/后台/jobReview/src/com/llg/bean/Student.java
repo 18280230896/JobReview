@@ -10,10 +10,8 @@ public class Student extends User implements Serializable{
 	public Class getC() {
 		return c;
 	}
-
 	public void setC(Class c) {
 		this.c = c;
 	}
-
 	
 }
