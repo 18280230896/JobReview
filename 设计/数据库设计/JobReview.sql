@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : connection
 Source Server Version : 50717
 Source Host           : localhost:3306
-Source Database       : report
+Source Database       : jobreview
 
 Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2019-04-09 14:39:23
+Date: 2019-04-09 16:36:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,12 +24,14 @@ CREATE TABLE `t_admin` (
   `admin_name` varchar(20) NOT NULL,
   `admin_uname` varchar(20) NOT NULL,
   `admin_pwd` varchar(30) NOT NULL,
+  `role` int(11) NOT NULL,
   PRIMARY KEY (`admin_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_admin
 -- ----------------------------
+INSERT INTO `t_admin` VALUES ('1', '管理员', 'admin', 'admin', '1');
 
 -- ----------------------------
 -- Table structure for `t_class`
@@ -41,7 +43,7 @@ CREATE TABLE `t_class` (
   `class_name` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`class_id`),
   KEY `FK_Relationship_1` (`teacher_id`),
-  CONSTRAINT `FK_Relationship_1` FOREIGN KEY (`teacher_id`) REFERENCES `t_teacher` (`teacher_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Relationship_1` FOREIGN KEY (`teacher_id`) REFERENCES `t_teacher` (`teacher_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -62,8 +64,8 @@ CREATE TABLE `t_class_task` (
   PRIMARY KEY (`ct_id`),
   KEY `FK_Relationship_7` (`task_id`),
   KEY `FK_Relationship_8` (`class_id`),
-  CONSTRAINT `FK_Relationship_7` FOREIGN KEY (`task_id`) REFERENCES `t_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Relationship_8` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Relationship_7` FOREIGN KEY (`task_id`) REFERENCES `t_task` (`task_id`),
+  CONSTRAINT `FK_Relationship_8` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -83,8 +85,8 @@ CREATE TABLE `t_group` (
   PRIMARY KEY (`group_id`),
   KEY `FK_Relationship_16` (`leader_id`),
   KEY `FK_Relationship_3` (`class_id`),
-  CONSTRAINT `FK_Relationship_16` FOREIGN KEY (`leader_id`) REFERENCES `t_student` (`student_id`) ON DELETE SET NULL ON UPDATE SET NULL,
-  CONSTRAINT `FK_Relationship_3` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Relationship_16` FOREIGN KEY (`leader_id`) REFERENCES `t_student` (`student_id`),
+  CONSTRAINT `FK_Relationship_3` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -102,8 +104,8 @@ CREATE TABLE `t_group_student` (
   PRIMARY KEY (`gs_id`),
   KEY `FK_Relationship_4` (`group_id`),
   KEY `FK_Relationship_5` (`student_id`),
-  CONSTRAINT `FK_Relationship_4` FOREIGN KEY (`group_id`) REFERENCES `t_group` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Relationship_5` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Relationship_4` FOREIGN KEY (`group_id`) REFERENCES `t_group` (`group_id`),
+  CONSTRAINT `FK_Relationship_5` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -116,13 +118,14 @@ CREATE TABLE `t_group_student` (
 DROP TABLE IF EXISTS `t_student`;
 CREATE TABLE `t_student` (
   `student_id` int(11) NOT NULL AUTO_INCREMENT,
-  `class_id` int(11) DEFAULT NULL,
-  `student_name` varchar(20) DEFAULT NULL,
-  `studnet_uname` varchar(20) DEFAULT NULL,
-  `student_pwd` varchar(30) DEFAULT NULL,
+  `class_id` int(11) NOT NULL,
+  `student_name` varchar(20) NOT NULL,
+  `student_uname` varchar(20) NOT NULL,
+  `student_pwd` varchar(30) NOT NULL,
+  `role` int(11) NOT NULL,
   PRIMARY KEY (`student_id`),
   KEY `FK_Relationship_2` (`class_id`),
-  CONSTRAINT `FK_Relationship_2` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Relationship_2` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -139,7 +142,7 @@ CREATE TABLE `t_subject` (
   `subject_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`subject_id`),
   KEY `FK_Relationship_9` (`task_id`),
-  CONSTRAINT `FK_Relationship_9` FOREIGN KEY (`task_id`) REFERENCES `t_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Relationship_9` FOREIGN KEY (`task_id`) REFERENCES `t_task` (`task_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -157,8 +160,8 @@ CREATE TABLE `t_subject_studnet` (
   PRIMARY KEY (`ss_id`),
   KEY `FK_Relationship_10` (`subject_id`),
   KEY `FK_Relationship_11` (`student_id`),
-  CONSTRAINT `FK_Relationship_10` FOREIGN KEY (`subject_id`) REFERENCES `t_subject` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Relationship_11` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Relationship_10` FOREIGN KEY (`subject_id`) REFERENCES `t_subject` (`subject_id`),
+  CONSTRAINT `FK_Relationship_11` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -176,7 +179,7 @@ CREATE TABLE `t_task` (
   `task_type` int(11) DEFAULT NULL,
   PRIMARY KEY (`task_id`),
   KEY `FK_Relationship_6` (`teacher_id`),
-  CONSTRAINT `FK_Relationship_6` FOREIGN KEY (`teacher_id`) REFERENCES `t_teacher` (`teacher_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Relationship_6` FOREIGN KEY (`teacher_id`) REFERENCES `t_teacher` (`teacher_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -196,8 +199,8 @@ CREATE TABLE `t_task_file` (
   PRIMARY KEY (`file_id`),
   KEY `FK_Relationship_12` (`subject_id`),
   KEY `FK_Relationship_13` (`student_id`),
-  CONSTRAINT `FK_Relationship_12` FOREIGN KEY (`subject_id`) REFERENCES `t_subject` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Relationship_13` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Relationship_12` FOREIGN KEY (`subject_id`) REFERENCES `t_subject` (`subject_id`),
+  CONSTRAINT `FK_Relationship_13` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -216,8 +219,8 @@ CREATE TABLE `t_task_score` (
   PRIMARY KEY (`score_id`),
   KEY `FK_Relationship_14` (`ct_id`),
   KEY `FK_Relationship_15` (`student_id`),
-  CONSTRAINT `FK_Relationship_14` FOREIGN KEY (`ct_id`) REFERENCES `t_class_task` (`ct_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Relationship_15` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Relationship_14` FOREIGN KEY (`ct_id`) REFERENCES `t_class_task` (`ct_id`),
+  CONSTRAINT `FK_Relationship_15` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -230,9 +233,10 @@ CREATE TABLE `t_task_score` (
 DROP TABLE IF EXISTS `t_teacher`;
 CREATE TABLE `t_teacher` (
   `teacher_id` int(11) NOT NULL AUTO_INCREMENT,
-  `teacher_name` varchar(20) DEFAULT NULL,
-  `teacher_uname` varchar(20) DEFAULT NULL,
-  `teacher_pwd` varchar(20) DEFAULT NULL,
+  `teacher_name` varchar(20) NOT NULL,
+  `teacher_uname` varchar(20) NOT NULL,
+  `teacher_pwd` varchar(20) NOT NULL,
+  `role` int(11) NOT NULL,
   PRIMARY KEY (`teacher_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -241,86 +245,7 @@ CREATE TABLE `t_teacher` (
 -- ----------------------------
 
 -- ----------------------------
--- View structure for `v_bug_info`
+-- View structure for `v_user`
 -- ----------------------------
-DROP VIEW IF EXISTS `v_bug_info`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_bug_info` AS select `b`.`bug_id` AS `bug_id`,`b`.`module_id` AS `module_id`,`b`.`bug_number` AS `bug_number`,`b`.`bug_summary` AS `bug_summary`,`b`.`bug_describe` AS `bug_describe`,`b`.`bug_serious` AS `bug_serious`,`b`.`bug_screenshot` AS `bug_screenshot`,`b`.`bug_case_number` AS `bug_case_number`,`b`.`bug_comment` AS `bug_comment`,`b`.`bug_is_right` AS `bug_is_right`,`b`.`bug_gui_star` AS `bug_gui_star`,`b`.`bug_fun_star` AS `bug_fun_star`,`s`.`student_id` AS `student_id`,`s`.`student_name` AS `student_name`,`s`.`group_id` AS `group_id`,`m`.`task_id` AS `task_id` from ((`t_bug` `b` left join `t_student` `s` on((`b`.`student_id` = `s`.`student_id`))) left join `t_module` `m` on((`b`.`module_id` = `m`.`module_id`))) ;
-
--- ----------------------------
--- View structure for `v_case_info`
--- ----------------------------
-DROP VIEW IF EXISTS `v_case_info`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_case_info` AS select `c`.`case_id` AS `case_id`,`c`.`module_id` AS `module_id`,`c`.`case_num` AS `case_num`,`c`.`case_name` AS `case_name`,`c`.`case_pc` AS `case_pc`,`c`.`case_level` AS `case_level`,`c`.`case_input` AS `case_input`,`c`.`case_step` AS `case_step`,`c`.`case_output` AS `case_output`,`c`.`case_is_right` AS `case_is_right`,`c`.`case_comment` AS `case_comment`,`s`.`student_id` AS `student_id`,`s`.`group_id` AS `group_id`,`s`.`student_name` AS `student_name`,`m`.`task_id` AS `task_id` from ((`t_case` `c` left join `t_student` `s` on((`c`.`student_id` = `s`.`student_id`))) left join `t_module` `m` on((`c`.`module_id` = `m`.`module_id`))) ;
-
--- ----------------------------
--- View structure for `v_class_task`
--- ----------------------------
-DROP VIEW IF EXISTS `v_class_task`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_class_task` AS select `c`.`class_id` AS `class_id`,`c`.`teacher_id` AS `teacher_id`,`c`.`class_name` AS `class_name`,`ct`.`ct_id` AS `ct_id`,`ct`.`ct_start_time` AS `ct_start_time`,`ct`.`ct_end_time` AS `ct_end_time`,`ct`.`ct_status` AS `ct_status`,`t`.`task_id` AS `task_id`,`t`.`task_name` AS `task_name`,`t`.`task_type` AS `task_type`,`t`.`task_describe` AS `task_describe`,`t`.`task_link` AS `task_link` from ((`t_class_task` `ct` left join `t_class` `c` on((`c`.`class_id` = `ct`.`class_id`))) left join `t_task` `t` on((`ct`.`task_id` = `t`.`task_id`))) ;
-
--- ----------------------------
--- View structure for `v_class_task_info`
--- ----------------------------
-DROP VIEW IF EXISTS `v_class_task_info`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_class_task_info` AS select `ct`.`ct_id` AS `ct_id`,`ct`.`class_id` AS `class_id`,`ct`.`ct_start_time` AS `ct_start_time`,`ct`.`ct_end_time` AS `ct_end_time`,`ct`.`ct_status` AS `ct_status`,`t`.`task_id` AS `task_id`,`t`.`teacher_id` AS `teacher_id`,`t`.`task_name` AS `task_name`,`t`.`task_type` AS `task_type`,`t`.`task_describe` AS `task_describe`,`t`.`task_link` AS `task_link`,`tf`.`task_file_id` AS `task_file_id`,`tf`.`task_file_name` AS `task_file_name`,`tf`.`task_file_path` AS `task_file_path`,`m`.`module_id` AS `module_id`,`m`.`module_name` AS `module_name` from (((`t_class_task` `ct` left join `t_task` `t` on((`ct`.`task_id` = `t`.`task_id`))) left join `t_task_file` `tf` on((`t`.`task_id` = `tf`.`task_id`))) left join `t_module` `m` on((`t`.`task_id` = `m`.`task_id`))) ;
-
--- ----------------------------
--- View structure for `v_division`
--- ----------------------------
-DROP VIEW IF EXISTS `v_division`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_division` AS select `m`.`task_id` AS `task_id`,`m`.`module_id` AS `module_id`,`m`.`module_name` AS `module_name`,`gt`.`gt_id` AS `gt_id`,`s`.`student_id` AS `student_id`,`s`.`student_name` AS `student_name`,`g`.`group_id` AS `group_id` from (((`t_group_task` `gt` left join `t_module` `m` on((`m`.`module_id` = `gt`.`module_id`))) left join `t_student` `s` on((`gt`.`student_id` = `s`.`student_id`))) left join `t_group` `g` on((`g`.`group_id` = `s`.`group_id`))) ;
-
--- ----------------------------
--- View structure for `v_group_file_info`
--- ----------------------------
-DROP VIEW IF EXISTS `v_group_file_info`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_group_file_info` AS select `s`.`student_id` AS `student_id`,`s`.`student_name` AS `student_name`,`s`.`group_id` AS `group_id`,`gf`.`group_file_id` AS `group_file_id`,`gf`.`group_file_name` AS `group_file_name`,`gf`.`group_file_path` AS `group_file_path`,`t`.`task_id` AS `task_id`,`t`.`task_name` AS `task_name` from ((`t_group_file` `gf` left join `t_student` `s` on((`s`.`student_id` = `gf`.`student_id`))) left join `t_task` `t` on((`gf`.`task_id` = `t`.`task_id`))) ;
-
--- ----------------------------
--- View structure for `v_group_info`
--- ----------------------------
-DROP VIEW IF EXISTS `v_group_info`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_group_info` AS select `g`.`group_id` AS `group_id`,`g`.`group_num` AS `group_num`,`g`.`group_name` AS `group_name`,`g`.`group_slogan` AS `group_slogan`,`g`.`group_note` AS `group_note`,`g`.`group_leader_id` AS `group_leader_id`,`led`.`student_name` AS `group_leader_name`,`c`.`class_id` AS `class_id`,`c`.`class_name` AS `class_name`,`s`.`student_id` AS `student_id`,`s`.`student_name` AS `student_name` from (((`t_group` `g` left join `t_student` `led` on((`g`.`group_leader_id` = `led`.`student_id`))) left join `t_class` `c` on((`g`.`class_id` = `c`.`class_id`))) left join `t_student` `s` on((`g`.`group_id` = `s`.`group_id`))) ;
-
--- ----------------------------
--- View structure for `v_student_info`
--- ----------------------------
-DROP VIEW IF EXISTS `v_student_info`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_student_info` AS select `s`.`student_id` AS `student_id`,`s`.`student_name` AS `student_name`,`g`.`group_id` AS `group_id`,`g`.`group_num` AS `group_num`,`g`.`group_name` AS `group_name`,`g`.`group_slogan` AS `group_slogan`,`g`.`group_note` AS `group_note`,`c`.`class_id` AS `class_id`,`c`.`class_name` AS `class_name` from ((`t_student` `s` left join `t_group` `g` on((`s`.`group_id` = `g`.`group_id`))) left join `t_class` `c` on((`s`.`class_id` = `c`.`class_id`))) ;
-
--- ----------------------------
--- View structure for `v_student_join_module`
--- ----------------------------
-DROP VIEW IF EXISTS `v_student_join_module`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_student_join_module` AS select `s`.`student_id` AS `student_id`,`s`.`student_name` AS `student_name`,`s`.`group_id` AS `group_id`,`gt`.`gt_id` AS `gt_id`,`m`.`module_id` AS `module_id`,`m`.`module_name` AS `module_name` from ((`t_group_task` `gt` left join `t_student` `s` on((`s`.`student_id` = `gt`.`student_id`))) left join `t_module` `m` on((`gt`.`module_id` = `m`.`module_id`))) ;
-
--- ----------------------------
--- View structure for `v_taskinfo`
--- ----------------------------
-DROP VIEW IF EXISTS `v_taskinfo`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_taskinfo` AS select `t`.`task_id` AS `task_id`,`t`.`teacher_id` AS `teacher_id`,`t`.`task_name` AS `task_name`,`t`.`task_type` AS `task_type`,`t`.`task_describe` AS `task_describe`,`t`.`task_link` AS `task_link`,`m`.`module_id` AS `module_id`,`m`.`module_name` AS `module_name`,`f`.`task_file_id` AS `task_file_id`,`f`.`task_file_name` AS `task_file_name`,`f`.`task_file_path` AS `task_file_path` from ((`t_task` `t` left join `t_module` `m` on((`t`.`task_id` = `m`.`task_id`))) left join `t_task_file` `f` on((`t`.`task_id` = `f`.`task_id`))) ;
-
--- ----------------------------
--- Procedure structure for `p_timing`
--- ----------------------------
-DROP PROCEDURE IF EXISTS `p_timing`;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `p_timing`()
-begin
-	update t_class_task set ct_status=1 where now()<ct_start_time;
-	update t_class_task set ct_status=2 where now()>ct_start_time and now()<ct_end_time;
-	update t_class_task set ct_status=3 where now()>ct_end_time;
-end
-;;
-DELIMITER ;
-
--- ----------------------------
--- Event structure for `e_timing`
--- ----------------------------
-DROP EVENT IF EXISTS `e_timing`;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` EVENT `e_timing` ON SCHEDULE EVERY 5 SECOND STARTS '2018-01-01 00:00:00' ON COMPLETION PRESERVE ENABLE DO BEGIN
-call p_timing();
-END
-;;
-DELIMITER ;
+DROP VIEW IF EXISTS `v_user`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_user` AS select `t_admin`.`admin_id` AS `id`,`t_admin`.`admin_name` AS `name`,`t_admin`.`admin_uname` AS `username`,`t_admin`.`admin_pwd` AS `password`,`t_admin`.`role` AS `role` from `t_admin` union all select `t_teacher`.`teacher_id` AS `id`,`t_teacher`.`teacher_name` AS `name`,`t_teacher`.`teacher_uname` AS `username`,`t_teacher`.`teacher_pwd` AS `password`,`t_teacher`.`role` AS `role` from `t_teacher` union all select `t_student`.`student_id` AS `id`,`t_student`.`student_name` AS `name`,`t_student`.`student_uname` AS `username`,`t_student`.`student_pwd` AS `password`,`t_student`.`role` AS `role` from `t_student` ;
