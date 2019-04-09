@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llg.mapper.TaskScoreMapper">
+	<resultMap type="TaskScore" id="taskScore">
+		<id property="id" column="score_id"/>
+		<result property="score" column="score_num"/>
+		<association property="student" javaType="Student">
+			<id property="id" column="student_id"/>
+		</association>
+		<association property="classTask" javaType="ClassTask">
+			<id property="id" column="ct_id"/>
+		</association>
+	</resultMap>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llg.mapper.StudentMapper">
+	<resultMap type="Student" id="student">
+		<id property="id" column="student_id"/>
+		<result property="name" column="student_name"/>
+		<result property="username" column="student_uname"/>
+		<result property="password" column="student_password"/>
+		<association property="c" javaType="Class">
+			<id property="id" column="class_id"/>
+		</association>
+	</resultMap>
+</mapper>
