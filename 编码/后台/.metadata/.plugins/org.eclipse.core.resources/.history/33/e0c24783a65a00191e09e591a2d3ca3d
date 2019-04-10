@@ -1,0 +1,13 @@
+package com.llg.mapper;
+
+import com.llg.bean.User;
+
+/**
+ * 
+ * @author 罗龙贵
+ * @Data 2019年4月9日 下午5:01:31
+ */
+public interface UserMapper {
+
+	public User login(User user);
+}

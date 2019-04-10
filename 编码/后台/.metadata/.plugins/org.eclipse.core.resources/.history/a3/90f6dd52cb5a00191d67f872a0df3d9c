@@ -1,0 +1,17 @@
+package com.llg.service;
+
+import java.util.List;
+
+import com.llg.bean.Teacher;
+
+/**
+ * 
+ * @author 罗龙贵
+ * @Date 2019年4月9日 下午9:24:55
+ */
+public interface TeacherService {
+
+	public int getTeacherNum();
+	
+	public List<Teacher> getTeacherList(Integer startNum,Integer pageSize);
+}

@@ -1,0 +1,19 @@
+package com.llg.mapper;
+
+import com.llg.bean.Admin;
+
+/**
+ * 
+ * @author 罗龙贵
+ * @Data 2019年4月9日 下午7:27:54
+ */
+public interface AdminMapper {
+	
+	/**
+	 * 通过id查找管理员
+	 * @author 罗龙贵
+	 * @data 2019年4月9日 下午7:28:25
+	 * @return
+	 */
+	public Admin getAdminById();
+}

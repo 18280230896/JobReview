@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llg.mapper.TeacherMapper">
+	<resultMap type="Teacher" id="teacher" extends="User">
+		<id property="id" column="teacher_id"/>
+		<result property="name" column="teacher_name"/>
+		<result property="username" column="teacher_uname"/>
+		<result property="password" column="teacher_pwd"/>
+	</resultMap>
+	<select id="getTeacherById" parameterType="Integer" resultMap="teacher">
+		select * from t_teacher where teacher_id = #{id}
+	</select>
+	<update id="updateInfo" parameterType="User">
+		update t_teacher
+		set teacher_name=#{name},teacher_uname=#{username},teacher_pwd=#{password}
+		where teacher_id=#{id}
+	</update>
+	<select id="getTeacherNum" resultType="Integer">
+		select count(teacher_id) from t_teacher
+	</select>
+	
+	<select id="getTeacherList" parameterType="QueryVo" resultType="teacher">
+		select * from t_teacher order by teacher_id desc limit #{startNum},#{pageSize}
+	</select>
+</mapper>

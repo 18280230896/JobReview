@@ -1,0 +1,24 @@
+package com.llg.service.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.llg.bean.Teacher;
+import com.llg.service.TeacherService;
+
+@Service
+public class TeacherServiceImpl implements TeacherService {
+
+	@Override
+	public int getTeacherNum() {
+		return 0;
+	}
+
+	@Override
+	public List<Teacher> getTeacherList(Integer startNum, Integer pageSize) {
+		
+		return null;
+	}
+
+}

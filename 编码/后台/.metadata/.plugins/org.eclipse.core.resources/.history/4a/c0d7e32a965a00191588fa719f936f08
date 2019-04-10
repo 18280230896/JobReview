@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jobReview.mapper.ClassTaskMapper">
+	<resultMap type="ClassTask" id="classTask">
+		<id property="id" column="ct_id"/>
+		<result property="type" column="ct_type"/>
+		<result property="startTime" column="ct_start_time"/>
+		<result property="endTime" column="ct_end_time"/>
+		<association property="task" javaType="Task">
+			<id property="id" column="task_id"/>
+		</association>
+		<association property="c" javaType="Class">
+			<id property="id" column="class_id"/>
+		</association>
+	</resultMap>
+</mapper>
