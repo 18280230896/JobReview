@@ -28,4 +28,32 @@ public interface TeacherService {
 	 * @return
 	 */
 	public List<Teacher> getTeacherList(Integer startNum,Integer pageSize);
+	
+	
+	/**
+	 * 添加教师
+	 * @author 罗龙贵
+	 * @date 2019年4月10日 上午8:36:50
+	 * @param teacher
+	 * @return返回1成功，返回其他失败，用户名已存在
+	 */
+	public int addTeacher(Teacher teacher);
+	
+	
+	/**
+	 * 删除指定教师
+	 * @author 罗龙贵
+	 * @date 2019年4月10日 上午9:08:51
+	 * @param id  要删除教师的id
+	 */
+	public void deleteTeacher(Integer id);
+	
+	
+	/**
+	 * 修改指定教师的基本信息
+	 * @author 罗龙贵
+	 * @date 2019年4月10日 上午9:09:34
+	 * @param teacher 要修改的教师
+	 */
+	public void updateTeacher(Teacher teacher);
 }

@@ -47,4 +47,20 @@ public interface TeacherMapper {
 	 * @return
 	 */
 	public List<Teacher> getTeacherList(QueryVo vo);
+	
+	/**
+	 * 添加教师
+	 * @author 罗龙贵
+	 * @date 2019年4月10日 上午9:11:43
+	 * @param teacher
+	 */
+	public void addTeacher(Teacher teacher);
+	
+	/**
+	 * 删除指定教师
+	 * @author 罗龙贵
+	 * @date 2019年4月10日 上午9:19:40
+	 * @param id 要删除的教师的id
+	 */
+	public void deleteTeacher(Integer id);
 }

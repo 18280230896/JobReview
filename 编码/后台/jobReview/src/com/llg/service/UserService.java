@@ -37,4 +37,14 @@ public interface UserService {
 	 * @return status=1表示修改成功，0表示旧密码错误
 	 */
 	public int updatePwd(User user,String newPassword,String oldPassword);
+	
+	
+	/**
+	 * 验证用户名是否存在
+	 * @author 罗龙贵
+	 * @date 2019年4月10日 上午8:23:47
+	 * @param username
+	 * @return
+	 */
+	public boolean usernameIsExist(String username);
 }

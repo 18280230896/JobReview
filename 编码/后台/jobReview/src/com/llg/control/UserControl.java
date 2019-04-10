@@ -115,4 +115,20 @@ public class UserControl {
 		result.put("status", userService.updatePwd(user, newPassword, oldPassword));
 		return result;
 	}
+	
+	
+	/**
+	 * ajax请求验证用户名是否存在
+	 * @author 罗龙贵
+	 * @date 2019年4月10日 上午8:29:12
+	 * @param username
+	 * @return
+	 */
+	@RequestMapping(value="usernameIsExist.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> usernameIsExist(String username){
+		Map<String, Object> result = new HashMap<>();
+		result.put("msg", userService.usernameIsExist(username)? 0 : 1);
+		return result;
+	}
 }

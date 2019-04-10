@@ -18,4 +18,14 @@ public interface UserMapper {
 	 */
 	public User login(User user);
 	
+	
+	/**
+	 * 通过用户名获取用户信息
+	 * @author 罗龙贵
+	 * @date 2019年4月10日 上午8:25:06
+	 * @param username
+	 * @return
+	 */
+	public User getUserByUserName(String username);
+	
 }

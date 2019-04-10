@@ -7,5 +7,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	<select id="login" parameterType="User" resultType="User">
  		select * from v_user where username=#{username} and password=#{password}
  	</select>
+ 	
+ 	<select id="getUserByUserName" parameterType="String" resultType="User">
+ 		select * from v_user where username=#{username}
+ 	</select>
 
 </mapper>

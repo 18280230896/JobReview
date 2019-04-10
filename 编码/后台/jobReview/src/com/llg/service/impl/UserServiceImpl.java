@@ -63,4 +63,9 @@ public class UserServiceImpl implements UserService{
 		return 0;
 	}
 
+	@Override
+	public boolean usernameIsExist(String username) {
+		return usermaper.getUserByUserName(username) == null ? false : true;
+	}
+
 }

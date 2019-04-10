@@ -25,4 +25,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getTeacherList" parameterType="QueryVo" resultMap="teacher">
 		select * from t_teacher order by teacher_id desc limit #{startNum},#{pageSize}
 	</select>
+	
+	<insert id="addTeacher" parameterType="Teacher">
+		insert into t_teacher values(null,#{name},#{username},#{password},2)
+	</insert>
+	
+	<delete id="deleteTeacher" parameterType="Integer">
+		delete from t_teacher where teacher_id=#{id}
+	</delete>
 </mapper>
