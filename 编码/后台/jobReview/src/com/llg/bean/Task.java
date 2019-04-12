@@ -1,5 +1,6 @@
 package com.llg.bean;
 
+import java.util.List;
 import java.io.Serializable;
 
 public class Task implements Serializable{
@@ -9,6 +10,7 @@ public class Task implements Serializable{
 	private String name;
 	private int type;
 	private Teacher teacher;
+	private List<Subject> subjects;
 	public Integer getId() {
 		return id;
 	}
@@ -33,9 +35,18 @@ public class Task implements Serializable{
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
 	}
+	public List<Subject> getSubjects() {
+		return subjects;
+	}
+	public void setSubjects(List<Subject> subjects) {
+		this.subjects = subjects;
+	}
 	@Override
 	public String toString() {
-		return "Task [id=" + id + ", name=" + name + ", type=" + type + ", teacher=" + teacher + "]";
+		return "Task [id=" + id + ", name=" + name + ", type=" + type + ", teacher=" + teacher + ", subjects="
+				+ subjects + "]";
 	}
+
+	
 	
 }

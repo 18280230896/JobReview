@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap type="ClassTask" id="classTask">
 		<id property="id" column="ct_id"/>
 		<result property="type" column="ct_type"/>
+		<result property="semester" column="ct_semester"/>
 		<result property="startTime" column="ct_start_time"/>
 		<result property="endTime" column="ct_end_time"/>
 		<association property="task" javaType="Task">

@@ -1,0 +1,76 @@
+//点击添加题目
+var index = 1;
+$("#addSubject").click(function(){
+	var newNode = $("<div class='form-group add'>"+
+						"<label class='control-label sr-only col-md-3'>题目"+(i+1)+":</label>"+
+						"<div class='col-md-8'>"+
+							"<div class='input-group'>"+
+								"<textarea  type='text' class='form-control moduleName' name='tasks["+(index++)+"].name' placeholder='请输入题目'></textarea>"+
+								"<span class='input-group-btn'>"+
+									"<button type='button' class='btn btn-default delSubjectBtn'>"+
+										"<span class='glyphicon glyphicon-remove delSubjectBtn'>"+
+									"</button>"+
+								"</span>"+
+								"</span>"+
+							"</div> "+
+							"<span class='help-block'></span>"+
+						"</div>"+
+					"</div>");
+	newNode.hide();
+	$("#addTaskModal .form-group").eq(2).after(newNode);
+	newNode.removeClass("hidden").slideDown(200);
+});
+
+$("form").click(function(event){
+	//点击删除模块按钮
+	if($(event.target).hasClass("delModuleBtn")){
+		var target;
+		if(event.target.nodeName === "BUTTON"){
+			target = $(event.target);
+		}else if(event.target.nodeName === "SPAN"){
+			target = $(event.target).parent();
+		}
+		target.parent().parent().parent().parent().slideUp(200,function(){
+			target.parent().parent().parent().parent().remove();
+		});
+	}
+	//点击删除文件按钮
+	if($(event.target).attr("class") == "close"){
+		$(event.target).parent().parent().parent().parent().slideUp(200,function(){
+			$(event.target).parent().parent().parent().parent().remove();
+		});
+	}
+});
+
+$("form").change(function(event){
+	if($(event.target).attr("type") == "file"){
+		//获取值
+		var v = $(event.target).val();
+		var arr = v.split("\\");
+		$(event.target).prev().text(arr[arr.length-1]);
+		$(event.target).parent().parent().parent().parent().slideDown(200);
+	}
+});
+
+//点击添加任务附件按钮
+$(".addTaskFileBtn").click(function(){
+	if($(".file-group").length == 0 || $(".file-group:last input").eq(0).val() != ""){
+		var newNode = $("<div class='row file-group'>"+
+						"<div class='col-md-8 col-md-offset-3'>"+
+							"<div class='panel panel-default'>"+
+								"<div class='panel-heading'>"+
+									"<span class='close'>&times</span>"+
+									"<span class='panel-title'>文件一</span>"+
+									"<input type='file' name='files' class='hide'>"+
+								"</div>"+
+							"</div>"+
+						"</div>"+
+					"</div>");
+		newNode.hide();
+		$(".row:last").after(newNode);
+		$(".file-group:last input").eq(0).click();
+	}else{
+		$(".file-group:last input").eq(0).click();
+	}
+});
+

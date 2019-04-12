@@ -9,6 +9,7 @@ public class ClassTask implements Serializable{
 
 	private Integer id;
 	private int type;
+	private int semester;
 	private Timestamp startTime;
 	private Time endTime;
 	private Task task;
@@ -49,11 +50,19 @@ public class ClassTask implements Serializable{
 	public void setC(Class c) {
 		this.c = c;
 	}
+	
+	public int getSemester() {
+		return semester;
+	}
+	public void setSemester(int semester) {
+		this.semester = semester;
+	}
 	@Override
 	public String toString() {
-		return "ClassTask [id=" + id + ", type=" + type + ", startTime=" + startTime + ", endTime=" + endTime
-				+ ", task=" + task + ", c=" + c + "]";
+		return "ClassTask [id=" + id + ", type=" + type + ", semester=" + semester + ", startTime=" + startTime
+				+ ", endTime=" + endTime + ", task=" + task + ", c=" + c + "]";
 	}
+	
 	
 	
 }

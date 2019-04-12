@@ -3,6 +3,7 @@ $.ajax({
 	url:"getUserInfo.action",
 	type:"post",
 	dataType:"json",
+	async:false,
 	success:function(result){
 		if(result.user != null){
 			$("#name").text(result.user.name);

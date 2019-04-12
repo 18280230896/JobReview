@@ -11,3 +11,6 @@
 1554962272755	Move compilation unit
 1554965909932	Extract local variable 'forName'
 1554988808292	Delete element
+1555051781130	Delete element
+1555054250738	Extract local variable 'classList'
+1555070570453	Extract local variable 'taskList'

@@ -11,4 +11,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<id property="id" column="teacher_id"/>
 		</association>
 	</resultMap>
+	
+	<insert id="addTask" parameterType="Task">
+		<selectKey keyProperty="id" order="AFTER" resultType="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into t_task values(null,#{teacher.id},#{name},#{type})
+	</insert>
+	
+	<delete id="deleteTask" parameterType="Integer">
+		delete from t_task where task_id = #{id}
+	</delete>
+	
+	<update id="updateTask" parameterType="Task">
+		udpate t_task set task_name=#{name},task_type=#{type} where task_id=#{id}
+	</update>
+	
+	<select id="getTaskById" parameterType="Integer" resultMap="task">
+		select * from t_task where task_id=#{id}
+	</select>
+	
+	<select id="getTaskTotal" parameterType="Integer" resultType="Integer">
+		select count(*) from t_task where teacher_id = #{id}
+	</select>
+	
+	<select id="getTaskList" parameterType="Integer" resultMap="task">
+		select * from t_task 
+		where teacher_id = #{0}
+		order by task_id desc
+		limit #{1},#{2}
+	</select>
 </mapper>

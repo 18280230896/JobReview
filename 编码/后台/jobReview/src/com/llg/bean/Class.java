@@ -7,6 +7,7 @@ public class Class implements Serializable{
 
 	private Integer id;
 	private String name;
+	private int semester;
 	private Teacher teacher;
 	public Integer getId() {
 		return id;
@@ -26,10 +27,21 @@ public class Class implements Serializable{
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
 	}
+	
+	
+	public int getSemester() {
+		return semester;
+	}
+	public void setSemester(int semester) {
+		this.semester = semester;
+	}
 	@Override
 	public String toString() {
-		return "Class [id=" + id + ", name=" + name + ", teacher=" + teacher + "]";
+		return "Class [id=" + id + ", name=" + name + ", semester=" + semester + ", teacher=" + teacher + "]";
 	}
+	
+	
+	
 	
 	
 }

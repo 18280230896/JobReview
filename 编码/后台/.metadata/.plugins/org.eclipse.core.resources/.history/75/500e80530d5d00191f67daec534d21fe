@@ -1,0 +1,9 @@
+package com.llg.service;
+
+import com.llg.bean.Task;
+
+public interface TaskService {
+
+	
+	public void addTask(Task task);
+}
