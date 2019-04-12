@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2019-04-12 14:34:57
+Date: 2019-04-12 18:39:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -39,17 +39,26 @@ INSERT INTO `t_admin` VALUES ('1', '管理员', 'admin', '111111', '1');
 DROP TABLE IF EXISTS `t_class`;
 CREATE TABLE `t_class` (
   `class_id` int(11) NOT NULL AUTO_INCREMENT,
-  `teacher_id` int(11) DEFAULT NULL,
-  `class_name` varchar(20) DEFAULT NULL,
+  `teacher_id` int(11) NOT NULL,
+  `class_name` varchar(20) NOT NULL,
+  `class_semester` int(11) NOT NULL,
   PRIMARY KEY (`class_id`),
   KEY `FK_Relationship_1` (`teacher_id`),
   CONSTRAINT `FK_Relationship_1` FOREIGN KEY (`teacher_id`) REFERENCES `t_teacher` (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_class
 -- ----------------------------
-INSERT INTO `t_class` VALUES ('2', '2', '213');
+INSERT INTO `t_class` VALUES ('2', '2', '7773', '0');
+INSERT INTO `t_class` VALUES ('3', '2', '7773', '0');
+INSERT INTO `t_class` VALUES ('4', '2', '7773', '0');
+INSERT INTO `t_class` VALUES ('5', '2', '7773', '0');
+INSERT INTO `t_class` VALUES ('6', '2', '7773', '0');
+INSERT INTO `t_class` VALUES ('7', '2', '7773', '0');
+INSERT INTO `t_class` VALUES ('8', '2', '7773', '0');
+INSERT INTO `t_class` VALUES ('9', '2', '7773', '0');
+INSERT INTO `t_class` VALUES ('11', '2', '7dsfsd', '0');
 
 -- ----------------------------
 -- Table structure for `t_class_task`
@@ -61,6 +70,7 @@ CREATE TABLE `t_class_task` (
   `class_id` int(11) DEFAULT NULL,
   `ct_type` int(11) DEFAULT NULL,
   `ct_status` int(11) DEFAULT NULL,
+  `ct_semester` int(11) DEFAULT NULL,
   `ct_start_time` datetime DEFAULT NULL,
   `ct_end_time` datetime DEFAULT NULL,
   PRIMARY KEY (`ct_id`),
