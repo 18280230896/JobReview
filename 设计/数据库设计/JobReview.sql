@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2019-04-12 18:39:36
+Date: 2019-04-12 22:07:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -44,21 +44,31 @@ CREATE TABLE `t_class` (
   `class_semester` int(11) NOT NULL,
   PRIMARY KEY (`class_id`),
   KEY `FK_Relationship_1` (`teacher_id`),
-  CONSTRAINT `FK_Relationship_1` FOREIGN KEY (`teacher_id`) REFERENCES `t_teacher` (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+  CONSTRAINT `FK_Relationship_1` FOREIGN KEY (`teacher_id`) REFERENCES `t_teacher` (`teacher_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_class
 -- ----------------------------
-INSERT INTO `t_class` VALUES ('2', '2', '7773', '0');
-INSERT INTO `t_class` VALUES ('3', '2', '7773', '0');
-INSERT INTO `t_class` VALUES ('4', '2', '7773', '0');
-INSERT INTO `t_class` VALUES ('5', '2', '7773', '0');
-INSERT INTO `t_class` VALUES ('6', '2', '7773', '0');
-INSERT INTO `t_class` VALUES ('7', '2', '7773', '0');
-INSERT INTO `t_class` VALUES ('8', '2', '7773', '0');
-INSERT INTO `t_class` VALUES ('9', '2', '7773', '0');
-INSERT INTO `t_class` VALUES ('11', '2', '7dsfsd', '0');
+INSERT INTO `t_class` VALUES ('2', '2', '7773', '1');
+INSERT INTO `t_class` VALUES ('3', '2', '7773', '1');
+INSERT INTO `t_class` VALUES ('4', '2', '7773', '2');
+INSERT INTO `t_class` VALUES ('5', '2', '7773', '2');
+INSERT INTO `t_class` VALUES ('6', '2', '7773', '3');
+INSERT INTO `t_class` VALUES ('7', '2', '7773', '3');
+INSERT INTO `t_class` VALUES ('8', '2', '7773', '4');
+INSERT INTO `t_class` VALUES ('9', '2', '7773', '6');
+INSERT INTO `t_class` VALUES ('11', '2', '7dsfsd', '6');
+INSERT INTO `t_class` VALUES ('14', '2', '七二微软', '1');
+INSERT INTO `t_class` VALUES ('15', '2', '去微软', '4');
+INSERT INTO `t_class` VALUES ('16', '2', '12', '1');
+INSERT INTO `t_class` VALUES ('17', '2', '123', '1');
+INSERT INTO `t_class` VALUES ('18', '2', 'aa', '2');
+INSERT INTO `t_class` VALUES ('19', '2', 'aa', '2');
+INSERT INTO `t_class` VALUES ('20', '2', '123', '1');
+INSERT INTO `t_class` VALUES ('21', '2', 'af', '1');
+INSERT INTO `t_class` VALUES ('22', '2', '221', '1');
+INSERT INTO `t_class` VALUES ('23', '2', 'afd', '1');
 
 -- ----------------------------
 -- Table structure for `t_class_task`
@@ -66,18 +76,18 @@ INSERT INTO `t_class` VALUES ('11', '2', '7dsfsd', '0');
 DROP TABLE IF EXISTS `t_class_task`;
 CREATE TABLE `t_class_task` (
   `ct_id` int(11) NOT NULL AUTO_INCREMENT,
-  `task_id` int(11) DEFAULT NULL,
-  `class_id` int(11) DEFAULT NULL,
-  `ct_type` int(11) DEFAULT NULL,
-  `ct_status` int(11) DEFAULT NULL,
-  `ct_semester` int(11) DEFAULT NULL,
-  `ct_start_time` datetime DEFAULT NULL,
-  `ct_end_time` datetime DEFAULT NULL,
+  `task_id` int(11) NOT NULL,
+  `class_id` int(11) NOT NULL,
+  `ct_type` int(11) NOT NULL,
+  `ct_status` int(11) NOT NULL,
+  `ct_semester` int(11) NOT NULL,
+  `ct_start_time` datetime NOT NULL,
+  `ct_end_time` datetime NOT NULL,
   PRIMARY KEY (`ct_id`),
   KEY `FK_Relationship_7` (`task_id`),
   KEY `FK_Relationship_8` (`class_id`),
-  CONSTRAINT `FK_Relationship_7` FOREIGN KEY (`task_id`) REFERENCES `t_task` (`task_id`),
-  CONSTRAINT `FK_Relationship_8` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`)
+  CONSTRAINT `FK_Relationship_7` FOREIGN KEY (`task_id`) REFERENCES `t_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Relationship_8` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -90,15 +100,15 @@ CREATE TABLE `t_class_task` (
 DROP TABLE IF EXISTS `t_group`;
 CREATE TABLE `t_group` (
   `group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `class_id` int(11) DEFAULT NULL,
+  `class_id` int(11) NOT NULL,
   `leader_id` int(11) DEFAULT NULL,
-  `group_num` varchar(30) DEFAULT NULL,
-  `group_name` varchar(30) DEFAULT NULL,
+  `group_num` varchar(30) NOT NULL,
+  `group_name` varchar(30) NOT NULL,
   PRIMARY KEY (`group_id`),
   KEY `FK_Relationship_16` (`leader_id`),
   KEY `FK_Relationship_3` (`class_id`),
-  CONSTRAINT `FK_Relationship_16` FOREIGN KEY (`leader_id`) REFERENCES `t_student` (`student_id`),
-  CONSTRAINT `FK_Relationship_3` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`)
+  CONSTRAINT `FK_Relationship_16` FOREIGN KEY (`leader_id`) REFERENCES `t_student` (`student_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `FK_Relationship_3` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -111,13 +121,13 @@ CREATE TABLE `t_group` (
 DROP TABLE IF EXISTS `t_group_student`;
 CREATE TABLE `t_group_student` (
   `gs_id` int(11) NOT NULL AUTO_INCREMENT,
-  `student_id` int(11) DEFAULT NULL,
-  `group_id` int(11) DEFAULT NULL,
+  `student_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
   PRIMARY KEY (`gs_id`),
   KEY `FK_Relationship_4` (`group_id`),
   KEY `FK_Relationship_5` (`student_id`),
-  CONSTRAINT `FK_Relationship_4` FOREIGN KEY (`group_id`) REFERENCES `t_group` (`group_id`),
-  CONSTRAINT `FK_Relationship_5` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`)
+  CONSTRAINT `FK_Relationship_4` FOREIGN KEY (`group_id`) REFERENCES `t_group` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Relationship_5` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -137,7 +147,7 @@ CREATE TABLE `t_student` (
   `role` int(11) NOT NULL,
   PRIMARY KEY (`student_id`),
   KEY `FK_Relationship_2` (`class_id`),
-  CONSTRAINT `FK_Relationship_2` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`)
+  CONSTRAINT `FK_Relationship_2` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -151,12 +161,12 @@ INSERT INTO `t_student` VALUES ('1', '2', '222222', '222222', '222222', '3');
 DROP TABLE IF EXISTS `t_subject`;
 CREATE TABLE `t_subject` (
   `subject_id` int(11) NOT NULL AUTO_INCREMENT,
-  `task_id` int(11) DEFAULT NULL,
-  `subject_name` varchar(255) DEFAULT NULL,
+  `task_id` int(11) NOT NULL,
+  `subject_name` varchar(255) NOT NULL,
   PRIMARY KEY (`subject_id`),
   KEY `FK_Relationship_9` (`task_id`),
-  CONSTRAINT `FK_Relationship_9` FOREIGN KEY (`task_id`) REFERENCES `t_task` (`task_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `FK_Relationship_9` FOREIGN KEY (`task_id`) REFERENCES `t_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_subject
@@ -168,13 +178,13 @@ CREATE TABLE `t_subject` (
 DROP TABLE IF EXISTS `t_subject_studnet`;
 CREATE TABLE `t_subject_studnet` (
   `ss_id` int(11) NOT NULL AUTO_INCREMENT,
-  `subject_id` int(11) DEFAULT NULL,
-  `student_id` int(11) DEFAULT NULL,
+  `subject_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
   PRIMARY KEY (`ss_id`),
   KEY `FK_Relationship_10` (`subject_id`),
   KEY `FK_Relationship_11` (`student_id`),
-  CONSTRAINT `FK_Relationship_10` FOREIGN KEY (`subject_id`) REFERENCES `t_subject` (`subject_id`),
-  CONSTRAINT `FK_Relationship_11` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`)
+  CONSTRAINT `FK_Relationship_10` FOREIGN KEY (`subject_id`) REFERENCES `t_subject` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Relationship_11` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -187,13 +197,13 @@ CREATE TABLE `t_subject_studnet` (
 DROP TABLE IF EXISTS `t_task`;
 CREATE TABLE `t_task` (
   `task_id` int(11) NOT NULL AUTO_INCREMENT,
-  `teacher_id` int(11) DEFAULT NULL,
-  `task_name` varchar(30) DEFAULT NULL,
-  `task_type` int(11) DEFAULT NULL,
+  `teacher_id` int(11) NOT NULL,
+  `task_name` varchar(30) NOT NULL,
+  `task_type` int(11) NOT NULL,
   PRIMARY KEY (`task_id`),
   KEY `FK_Relationship_6` (`teacher_id`),
-  CONSTRAINT `FK_Relationship_6` FOREIGN KEY (`teacher_id`) REFERENCES `t_teacher` (`teacher_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `FK_Relationship_6` FOREIGN KEY (`teacher_id`) REFERENCES `t_teacher` (`teacher_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_task
@@ -205,15 +215,15 @@ CREATE TABLE `t_task` (
 DROP TABLE IF EXISTS `t_task_file`;
 CREATE TABLE `t_task_file` (
   `file_id` int(11) NOT NULL AUTO_INCREMENT,
-  `subject_id` int(11) DEFAULT NULL,
-  `student_id` int(11) DEFAULT NULL,
+  `subject_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
   `file_name` varchar(30) DEFAULT NULL,
   `file_path` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`file_id`),
   KEY `FK_Relationship_12` (`subject_id`),
   KEY `FK_Relationship_13` (`student_id`),
-  CONSTRAINT `FK_Relationship_12` FOREIGN KEY (`subject_id`) REFERENCES `t_subject` (`subject_id`),
-  CONSTRAINT `FK_Relationship_13` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`)
+  CONSTRAINT `FK_Relationship_12` FOREIGN KEY (`subject_id`) REFERENCES `t_subject` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Relationship_13` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -226,14 +236,14 @@ CREATE TABLE `t_task_file` (
 DROP TABLE IF EXISTS `t_task_score`;
 CREATE TABLE `t_task_score` (
   `score_id` int(11) NOT NULL AUTO_INCREMENT,
-  `student_id` int(11) DEFAULT NULL,
-  `ct_id` int(11) DEFAULT NULL,
-  `score_num` int(11) DEFAULT NULL,
+  `student_id` int(11) NOT NULL,
+  `ct_id` int(11) NOT NULL,
+  `score_num` int(11) NOT NULL,
   PRIMARY KEY (`score_id`),
   KEY `FK_Relationship_14` (`ct_id`),
   KEY `FK_Relationship_15` (`student_id`),
-  CONSTRAINT `FK_Relationship_14` FOREIGN KEY (`ct_id`) REFERENCES `t_class_task` (`ct_id`),
-  CONSTRAINT `FK_Relationship_15` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`)
+  CONSTRAINT `FK_Relationship_14` FOREIGN KEY (`ct_id`) REFERENCES `t_class_task` (`ct_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Relationship_15` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
