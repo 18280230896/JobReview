@@ -1,0 +1,28 @@
+var javaEditor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            mode: "text/x-java"
+        });
+$("#run").click(function(){
+	var code = javaEditor.getValue();
+	$.ajax({
+		url:"run.action",
+		type:"post",
+		dataType:"json",
+		data:{"code":code},
+		success:function(result){
+			if(result.status == 1){
+				$(".console").empty();
+				var arr = result.out.split("\n");
+				for(var i = 0;i<arr.length;i++){
+					$(".console").append($("<p class='out'>"+result.out+"</p>"))
+				}
+				$(".console").append($("<p class='err'>"+result.err+"</p>"));
+			}else if(result.status == 3){
+				console.log(result.msg);
+				$(".console").empty();
+				$(".console").append($("<p class='err'>"+result.msg+"</p>"));
+			}
+		}
+	});
+});

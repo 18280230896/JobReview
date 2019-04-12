@@ -23,6 +23,18 @@ public class AdminControl {
 	@Autowired
 	private TeacherService teacherService;
 	
+	
+	/**
+	 * 跳转到管理员首页
+	 * @author 罗龙贵
+	 * @data 2019年4月9日 下午7:04:34
+	 * @return
+	 */
+	@RequestMapping(value="adminIndex.action",method=RequestMethod.GET)
+	public String toAdminIndex(){
+		return "adminIndex";
+	}
+	
 	/**
 	 * ajax返回教师总数
 	 * @author 罗龙贵
@@ -88,6 +100,13 @@ public class AdminControl {
 		return result;
 	}
 	
+	/**
+	 * 修改指定教师的信息
+	 * @author 罗龙贵
+	 * @date 2019年4月12日 上午11:50:59
+	 * @param teacher 要修改的教师及修改后的各项属性
+	 * @return
+	 */
 	@RequestMapping(value="adminUpdateTeacher.action" , method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> adminUpdateTeacher(Teacher teacher){

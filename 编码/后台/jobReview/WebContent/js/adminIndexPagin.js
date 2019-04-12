@@ -193,17 +193,3 @@ function toPage(target){
 		}
 	}
 }
-
-//操作提示
-function tips(sign,msg){
-	if(sign === "success"){
-		$("#alert .alert").addClass("bg-success").removeClass("bg-danger").removeClass("bg-warning");
-	}else if(sign === "warning"){
-		$("#alert .alert").addClass("bg-warning").removeClass("bg-danger").removeClass("bg-success");
-	}else if(sign === "error"){
-		$("#alert .alert").addClass("bg-danger").removeClass("bg-success").removeClass("bg-warning");
-	}
-	$("#alert #msg").text(msg);
-	$("#alert").modal("show");
-}
-

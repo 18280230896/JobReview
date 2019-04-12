@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService{
 		if(user.getRole() == 2) user2 = teacherMapper.getTeacherById(user.getId());
 		if(user.getRole() == 3) user2 = studentMapper.getStudentById(user.getId());
 		//ÅĞ¶Ï¾ÉÃÜÂëÊÇ·ñÕıÈ·
-		if(user != null && user.getUsername().equals(oldPassword)){
+		if(user2 != null && user2.getPassword().equals(oldPassword)){
 			//ĞŞ¸ÄÃÜÂë
 			user2.setPassword(newPassword);
 			if(user.getRole() == 1) adminMapper.updateInfo(user2);

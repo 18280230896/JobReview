@@ -1,0 +1,42 @@
+package com.llg.util;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.PrintStream;
+
+public class MyRunnable {
+	
+	private static PrintStream systemOut;
+	private static PrintStream systemErr;
+	private ByteArrayOutputStream bout;
+	private ByteArrayOutputStream berr;
+
+	public MyRunnable(ByteArrayOutputStream bout, ByteArrayOutputStream berr) {
+		super();
+		this.bout = bout;
+		this.berr = berr;
+	}
+
+	public void run(String name,File file){
+		PrintStream out = new PrintStream(bout);
+		PrintStream err = new PrintStream(berr);
+		setOutAndErr(out,err);
+		try {
+			Class.forName(name, true, new MyClassLoad(file));
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public synchronized static void setOutAndErr(PrintStream out,PrintStream err){
+		systemOut = System.out;
+		systemErr = System.err;
+		System.setOut(out);
+		System.setErr(err);
+	}
+	
+	public synchronized static void reductionOutAndErr(){
+		System.setOut(systemOut);
+		System.setErr(systemErr);
+	}
+}

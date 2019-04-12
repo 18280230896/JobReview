@@ -1,0 +1,23 @@
+package test;
+
+
+public class Test {
+	public static void main(String[] args) {
+		
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				output();
+			}
+		});
+		thread.start();
+		//如何在不改变output()方法的前提下终止thread线程
+		
+	}
+	public static void output(){
+		int i = 0;
+		while(true){
+			System.out.println(++i);
+		}
+	}
+}

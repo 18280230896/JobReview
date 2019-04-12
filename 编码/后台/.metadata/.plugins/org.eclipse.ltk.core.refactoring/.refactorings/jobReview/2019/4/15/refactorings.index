@@ -2,3 +2,12 @@
 1554796436559	Rename resource '天空.jpg'
 1554796452271	Rename resource 'loginbj.jpg'
 1554797507737	Delete element
+1554947630031	Delete element
+1554947641659	Delete element
+1554947645863	Delete element
+1554947648310	Delete element
+1554948296007	Move compilation unit
+1554956023858	Extract local variable 'bytes'
+1554962272755	Move compilation unit
+1554965909932	Extract local variable 'forName'
+1554988808292	Delete element

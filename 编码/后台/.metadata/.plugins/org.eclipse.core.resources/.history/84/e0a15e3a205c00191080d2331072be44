@@ -1,0 +1,90 @@
+package com.llg.util;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.UUID;
+
+
+/**
+ * 文件操作工具类
+ * @author 罗龙贵
+ * @Date 2019年4月11日 上午10:55:37
+ */
+public class FileUtil {
+	
+	/**
+	 * 用uuid生成一个随机文件名
+	 * @author 罗龙贵
+	 * @date 2019年4月11日 上午10:56:38
+	 * @return
+	 */
+	public static String createFileName(){
+		return "Test"+UUID.randomUUID().toString().replace("-", "").toLowerCase();
+	}
+	
+	/**
+	 * 通过传入的文件路径创建一个文件
+	 * @author 罗龙贵
+	 * @date 2019年4月11日 上午11:19:27
+	 * @param fileName 要创建的文件路径名
+	 * @return 返回创建好的文件对象
+	 */
+	public static File createFile(String fileName){
+		File file = new File(fileName);
+		File parent = file.getParentFile();
+		//判断父级目录是否存在，不存在则创建
+		if(!parent.exists()) parent.mkdirs();
+		//判断文件是否存在，不存在则创建
+		if(!file.exists()){
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return file;
+	}
+	
+	/**
+	 * 将指定内容写入指定文件
+	 * @author 罗龙贵
+	 * @date 2019年4月11日 下午2:04:55
+	 * @param file 指定的文件
+	 * @param content 要写入的内容
+	 * @return
+	 */
+	public static boolean write(File file,String content){
+		FileOutputStream out = null;
+		BufferedOutputStream bo = null;
+		try {
+			out = new FileOutputStream(file);
+			bo = new BufferedOutputStream(out);
+			byte[] bytes = content.getBytes("UTF-8");
+			bo.write(bytes, 0, bytes.length);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally {
+			if(bo != null){
+				try {
+					bo.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if(out != null){
+				try {
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}	
+		}
+		return true;
+	}
+}
