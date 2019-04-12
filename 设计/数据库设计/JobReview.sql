@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2019-04-09 16:36:28
+Date: 2019-04-12 14:34:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,7 +31,7 @@ CREATE TABLE `t_admin` (
 -- ----------------------------
 -- Records of t_admin
 -- ----------------------------
-INSERT INTO `t_admin` VALUES ('1', '管理员', 'admin', 'admin', '1');
+INSERT INTO `t_admin` VALUES ('1', '管理员', 'admin', '111111', '1');
 
 -- ----------------------------
 -- Table structure for `t_class`
@@ -44,11 +44,12 @@ CREATE TABLE `t_class` (
   PRIMARY KEY (`class_id`),
   KEY `FK_Relationship_1` (`teacher_id`),
   CONSTRAINT `FK_Relationship_1` FOREIGN KEY (`teacher_id`) REFERENCES `t_teacher` (`teacher_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_class
 -- ----------------------------
+INSERT INTO `t_class` VALUES ('2', '2', '213');
 
 -- ----------------------------
 -- Table structure for `t_class_task`
@@ -59,6 +60,7 @@ CREATE TABLE `t_class_task` (
   `task_id` int(11) DEFAULT NULL,
   `class_id` int(11) DEFAULT NULL,
   `ct_type` int(11) DEFAULT NULL,
+  `ct_status` int(11) DEFAULT NULL,
   `ct_start_time` datetime DEFAULT NULL,
   `ct_end_time` datetime DEFAULT NULL,
   PRIMARY KEY (`ct_id`),
@@ -126,11 +128,12 @@ CREATE TABLE `t_student` (
   PRIMARY KEY (`student_id`),
   KEY `FK_Relationship_2` (`class_id`),
   CONSTRAINT `FK_Relationship_2` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_student
 -- ----------------------------
+INSERT INTO `t_student` VALUES ('1', '2', '222222', '222222', '222222', '3');
 
 -- ----------------------------
 -- Table structure for `t_subject`
@@ -238,11 +241,19 @@ CREATE TABLE `t_teacher` (
   `teacher_pwd` varchar(20) NOT NULL,
   `role` int(11) NOT NULL,
   PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_teacher
 -- ----------------------------
+INSERT INTO `t_teacher` VALUES ('2', '测试教师', '111111', '111111', '2');
+INSERT INTO `t_teacher` VALUES ('3', '222222', '222222', '222222', '2');
+INSERT INTO `t_teacher` VALUES ('4', '123123', '123123', '1232133', '2');
+INSERT INTO `t_teacher` VALUES ('5', '3122', '213123', '12312312', '2');
+INSERT INTO `t_teacher` VALUES ('6', '123123', '1231323', '213123', '2');
+INSERT INTO `t_teacher` VALUES ('7', '123123', '1231313', '1231233', '2');
+INSERT INTO `t_teacher` VALUES ('8', 'qqqqqqq32', 'qqqqqq', 'qqqqqq', '2');
+INSERT INTO `t_teacher` VALUES ('10', '13', '3441334', '413241324', '2');
 
 -- ----------------------------
 -- View structure for `v_user`
