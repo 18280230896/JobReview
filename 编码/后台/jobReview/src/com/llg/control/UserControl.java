@@ -44,7 +44,7 @@ public class UserControl {
 	@RequestMapping(value="toLogin.action",method=RequestMethod.GET)
 	public String toLogin(){
 		
-		return "login";
+		return "login.html";
 	}
 	
 	/**

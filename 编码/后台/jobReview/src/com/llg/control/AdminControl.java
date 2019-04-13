@@ -32,7 +32,7 @@ public class AdminControl {
 	 */
 	@RequestMapping(value="adminIndex.action",method=RequestMethod.GET)
 	public String toAdminIndex(){
-		return "adminIndex";
+		return "adminIndex.html";
 	}
 	
 	/**

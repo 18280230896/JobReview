@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llg.mapper.ClassTaskMapper">
+	<resultMap type="ClassTask" id="classTask">
+		<id property="id" column="ct_id"/>
+		<result property="type" column="ct_type"/>
+		<result property="semester" column="ct_semester"/>
+		<result property="startTime" column="ct_start_time"/>
+		<result property="endTime" column="ct_end_time"/>
+		<association property="task" javaType="Task">
+			<id property="id" column="task_id"/>
+			<result property="name" column="task_name"/>
+			<result property="type" column="task_type"/>
+		</association>
+		<association property="c" javaType="Class">
+			<id property="id" column="class_id"/>
+			<result property="name" column="class_name"/>
+		</association>
+	</resultMap>
+	
+	<insert id="addClassTask" parameterType="ClassTask">
+		insert into t_class_task 
+		values(null,#{task.id},#{c.id},#{type},2,#{c.semester},#{startTime},#{endTime})
+	</insert>
+	
+	<delete id="deleteClassTask" parameterType="Integer">
+		delete from t_class_task where ct_id = #{id}
+	</delete>
+	
+	<update id="updateClassTask" parameterType="ClassTask">
+		update t_class_task
+		set ct_type = #{type},
+		ct_semester = #{semester},
+		ct_start_time = #{startTime},
+		ct_end_time = #{endTime}
+		where ct_id = #{id}
+	</update>
+	
+	<select id="geClassTaskById" parameterType="Integer" resultMap="classTask">
+		select * from t_class_task where ct_id = #{id}
+	</select>
+	
+	<select id="getClassTaskTotal" parameterType="Integer" resultType="Integer">
+		select count(ct_id) from t_class_task where class_id = #{id}
+	</select>
+	
+	<select id="getClassTaskList" parameterType="Integer" resultMap="classTask">
+		select * from v_class_task_info
+		where class_id = #{0}
+		order by ct_id desc
+		limit #{1},#{2}
+	</select>
+	
+	<select id="getClassTaskAll" parameterType="Integer" resultMap="classTask">
+		select * from t_class_task where class_id = #{id}
+	</select>
+</mapper>

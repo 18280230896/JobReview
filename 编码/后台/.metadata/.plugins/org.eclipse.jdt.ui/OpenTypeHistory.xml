@@ -2,6 +2,7 @@
 <typeInfoHistroy>
 <typeInfo handle="=jobReview/src&lt;com.llg.mapper{AdminMapper.java[AdminMapper" modifiers="513" timestamp="1554813113333"/>
 <typeInfo handle="=jobReview/src&lt;com.llg.service{TeacherService.java[TeacherService" modifiers="513" timestamp="1554858595523"/>
-<typeInfo handle="=jobReview/src&lt;com.llg.service{ClassService.java[ClassService" modifiers="513" timestamp="1555052314451"/>
-<typeInfo handle="=jobReview/src&lt;com.llg.service{TaskService.java[TaskService" modifiers="513" timestamp="1555064229470"/>
+<typeInfo handle="=jobReview/src&lt;com.llg.service{ClassService.java[ClassService" modifiers="513" timestamp="1555054443970"/>
+<typeInfo handle="=jobReview/src&lt;com.llg.service{TaskService.java[TaskService" modifiers="513" timestamp="1555064742849"/>
+<typeInfo handle="=jobReview/src&lt;com.llg.service{ClassTaskService.java[ClassTaskService" modifiers="513" timestamp="1555127371157"/>
 </typeInfoHistroy>

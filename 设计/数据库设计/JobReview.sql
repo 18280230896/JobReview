@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2019-04-12 22:07:41
+Date: 2019-04-13 21:37:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -67,8 +67,6 @@ INSERT INTO `t_class` VALUES ('18', '2', 'aa', '2');
 INSERT INTO `t_class` VALUES ('19', '2', 'aa', '2');
 INSERT INTO `t_class` VALUES ('20', '2', '123', '1');
 INSERT INTO `t_class` VALUES ('21', '2', 'af', '1');
-INSERT INTO `t_class` VALUES ('22', '2', '221', '1');
-INSERT INTO `t_class` VALUES ('23', '2', 'afd', '1');
 
 -- ----------------------------
 -- Table structure for `t_class_task`
@@ -81,6 +79,7 @@ CREATE TABLE `t_class_task` (
   `ct_type` int(11) NOT NULL,
   `ct_status` int(11) NOT NULL,
   `ct_semester` int(11) NOT NULL,
+  `ct_proportion` int(11) NOT NULL,
   `ct_start_time` datetime NOT NULL,
   `ct_end_time` datetime NOT NULL,
   PRIMARY KEY (`ct_id`),
@@ -88,11 +87,12 @@ CREATE TABLE `t_class_task` (
   KEY `FK_Relationship_8` (`class_id`),
   CONSTRAINT `FK_Relationship_7` FOREIGN KEY (`task_id`) REFERENCES `t_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Relationship_8` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_class_task
 -- ----------------------------
+INSERT INTO `t_class_task` VALUES ('13', '15', '21', '2', '2', '1', '64', '2019-04-13 21:35:44', '2019-04-27 00:00:00');
 
 -- ----------------------------
 -- Table structure for `t_group`
@@ -166,11 +166,23 @@ CREATE TABLE `t_subject` (
   PRIMARY KEY (`subject_id`),
   KEY `FK_Relationship_9` (`task_id`),
   CONSTRAINT `FK_Relationship_9` FOREIGN KEY (`task_id`) REFERENCES `t_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_subject
 -- ----------------------------
+INSERT INTO `t_subject` VALUES ('25', '15', '循环打印1-100');
+INSERT INTO `t_subject` VALUES ('26', '15', '打印0-20的素数');
+INSERT INTO `t_subject` VALUES ('27', '15', '求10的阶乘');
+INSERT INTO `t_subject` VALUES ('28', '16', '13243');
+INSERT INTO `t_subject` VALUES ('29', '16', '213424');
+INSERT INTO `t_subject` VALUES ('30', '16', '132434');
+INSERT INTO `t_subject` VALUES ('31', '17', '2222');
+INSERT INTO `t_subject` VALUES ('32', '17', '2222');
+INSERT INTO `t_subject` VALUES ('33', '17', '2222');
+INSERT INTO `t_subject` VALUES ('34', '18', '3333');
+INSERT INTO `t_subject` VALUES ('35', '18', '333');
+INSERT INTO `t_subject` VALUES ('36', '18', '333');
 
 -- ----------------------------
 -- Table structure for `t_subject_studnet`
@@ -203,11 +215,15 @@ CREATE TABLE `t_task` (
   PRIMARY KEY (`task_id`),
   KEY `FK_Relationship_6` (`teacher_id`),
   CONSTRAINT `FK_Relationship_6` FOREIGN KEY (`teacher_id`) REFERENCES `t_teacher` (`teacher_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_task
 -- ----------------------------
+INSERT INTO `t_task` VALUES ('15', '2', '任务单1.1', '1');
+INSERT INTO `t_task` VALUES ('16', '2', '132424', '1');
+INSERT INTO `t_task` VALUES ('17', '2', '22222', '2');
+INSERT INTO `t_task` VALUES ('18', '2', '33333', '2');
 
 -- ----------------------------
 -- Table structure for `t_task_file`
@@ -276,7 +292,36 @@ INSERT INTO `t_teacher` VALUES ('8', 'qqqqqqq32', 'qqqqqq', 'qqqqqq', '2');
 INSERT INTO `t_teacher` VALUES ('10', '13', '3441334', '413241324', '2');
 
 -- ----------------------------
+-- View structure for `v_class_task_info`
+-- ----------------------------
+DROP VIEW IF EXISTS `v_class_task_info`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_class_task_info` AS select `c`.`class_id` AS `class_id`,`c`.`class_name` AS `class_name`,`ct`.`ct_id` AS `ct_id`,`ct`.`ct_type` AS `ct_type`,`ct`.`ct_status` AS `ct_status`,`ct`.`ct_semester` AS `ct_semester`,`ct`.`ct_proportion` AS `ct_proportion`,`ct`.`ct_start_time` AS `ct_start_time`,`ct`.`ct_end_time` AS `ct_end_time`,`t`.`task_id` AS `task_id`,`t`.`task_name` AS `task_name`,`t`.`task_type` AS `task_type` from ((`t_class_task` `ct` left join `t_class` `c` on((`c`.`class_id` = `ct`.`class_id`))) left join `t_task` `t` on((`ct`.`task_id` = `t`.`task_id`))) ;
+
+-- ----------------------------
 -- View structure for `v_user`
 -- ----------------------------
 DROP VIEW IF EXISTS `v_user`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_user` AS select `t_admin`.`admin_id` AS `id`,`t_admin`.`admin_name` AS `name`,`t_admin`.`admin_uname` AS `username`,`t_admin`.`admin_pwd` AS `password`,`t_admin`.`role` AS `role` from `t_admin` union all select `t_teacher`.`teacher_id` AS `id`,`t_teacher`.`teacher_name` AS `name`,`t_teacher`.`teacher_uname` AS `username`,`t_teacher`.`teacher_pwd` AS `password`,`t_teacher`.`role` AS `role` from `t_teacher` union all select `t_student`.`student_id` AS `id`,`t_student`.`student_name` AS `name`,`t_student`.`student_uname` AS `username`,`t_student`.`student_pwd` AS `password`,`t_student`.`role` AS `role` from `t_student` ;
+
+-- ----------------------------
+-- Procedure structure for `p_timing`
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `p_timing`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `p_timing`()
+begin
+	update t_class_task set ct_status=1 where now()<ct_start_time;
+	update t_class_task set ct_status=2 where now()>ct_start_time and now()<ct_end_time;
+	update t_class_task set ct_status=3 where now()>ct_end_time;
+end
+;;
+DELIMITER ;
+
+-- ----------------------------
+-- Event structure for `e_timer`
+-- ----------------------------
+DROP EVENT IF EXISTS `e_timer`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` EVENT `e_timer` ON SCHEDULE EVERY 5 SECOND STARTS '2018-01-01 00:00:00' ON COMPLETION PRESERVE ENABLE DO call p_timing()
+;;
+DELIMITER ;

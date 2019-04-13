@@ -1,7 +1,6 @@
 package com.llg.bean;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 public class ClassTask implements Serializable{
@@ -10,8 +9,10 @@ public class ClassTask implements Serializable{
 	private Integer id;
 	private int type;
 	private int semester;
+	private int status;
+	private int proportion;
 	private Timestamp startTime;
-	private Time endTime;
+	private Timestamp endTime;
 	private Task task;
 	private Class c;
 	public Integer getId() {
@@ -32,10 +33,19 @@ public class ClassTask implements Serializable{
 	public void setStartTime(Timestamp startTime) {
 		this.startTime = startTime;
 	}
-	public Time getEndTime() {
+	
+	
+	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	public Timestamp getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(Time endTime) {
+	public void setEndTime(Timestamp endTime) {
 		this.endTime = endTime;
 	}
 	public Task getTask() {
@@ -57,11 +67,19 @@ public class ClassTask implements Serializable{
 	public void setSemester(int semester) {
 		this.semester = semester;
 	}
+	public int getProportion() {
+		return proportion;
+	}
+	public void setProportion(int proportion) {
+		this.proportion = proportion;
+	}
 	@Override
 	public String toString() {
-		return "ClassTask [id=" + id + ", type=" + type + ", semester=" + semester + ", startTime=" + startTime
-				+ ", endTime=" + endTime + ", task=" + task + ", c=" + c + "]";
+		return "ClassTask [id=" + id + ", type=" + type + ", semester=" + semester + ", status=" + status
+				+ ", proportion=" + proportion + ", startTime=" + startTime + ", endTime=" + endTime + ", task=" + task
+				+ ", c=" + c + "]";
 	}
+	
 	
 	
 	

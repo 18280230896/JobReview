@@ -76,8 +76,8 @@ function createTable(){
 	//循环创建数据条目
 	for(var i=0;i<data.length;i++){
 		var type;
-		if(data[i].type == 1) type = "Java";
-		if(data[i].type == 2) type = "Oracle";
+		if(data[i].type == 1) type = "Java 任务";
+		if(data[i].type == 2) type = "Oracle 任务";
 		var tr = $("<tr>"+
 					"<td>"+((nowPage-1)*pageSize+i+1)+"</td>"+
 					"<td>"+data[i].name+"</td>"+

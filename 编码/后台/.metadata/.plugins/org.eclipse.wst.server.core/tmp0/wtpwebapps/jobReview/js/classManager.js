@@ -11,7 +11,7 @@ $("table").click(function(event){
 		$("#dleTeacherModal").modal("show");
 		$("#dleTeacherModal input").val($(event.target).parent().parent().index()-1);
 	}else if($(event.target).hasClass("btn-primary")){
-		$("#toClassInfo input").val(data[$(event.target).parent().parent().index()-1].classId);
+		$("#toClassInfo input").val(data[$(event.target).parent().parent().index()-1].id);
 		$("#toClassInfo")[0].submit();
 	}
 });

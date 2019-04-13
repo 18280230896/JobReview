@@ -14,3 +14,7 @@
 1555051781130	Delete element
 1555054250738	Extract local variable 'classList'
 1555070570453	Extract local variable 'taskList'
+1555120232029	Rename resource 'html'
+1555120430353	Rename resource 'taskManager.jsp'
+1555121185563	Delete element
+1555156661839	Extract local variable 'endTime'
