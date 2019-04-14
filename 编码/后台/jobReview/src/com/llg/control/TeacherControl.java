@@ -1,27 +1,38 @@
 package com.llg.control;
 
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.llg.bean.Class;
 import com.llg.bean.ClassTask;
+import com.llg.bean.Student;
 import com.llg.bean.Task;
 import com.llg.bean.Teacher;
 import com.llg.bean.User;
 import com.llg.service.ClassService;
 import com.llg.service.ClassTaskService;
+import com.llg.service.StudentService;
 import com.llg.service.TaskService;
 
 @Controller
@@ -33,6 +44,9 @@ public class TeacherControl {
 	private TaskService taskService;
 	@Autowired
 	private ClassTaskService classTaskService;
+	@Autowired
+	private StudentService studentService;
+	
 	
 	/**
 	 * 跳转到教师首页
@@ -382,6 +396,177 @@ public class TeacherControl {
 		classTask.setStatus(3);
 		classTaskService.updateClassTask(classTask);
 		result.put("msg", 1);
+		return result;
+	}
+	
+	
+	/**
+	 * 获取班级学生数量
+	 * @author 罗龙贵
+	 * @date 2019年4月13日 下午11:05:42
+	 * @param classId
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetStudentCount.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetStudentCount(Integer classId){
+		Map<String, Object> result = new HashMap<>();
+		int count = studentService.getStudentTotal(classId);
+		result.put("msg", 1);
+		result.put("count", count);
+		return result;
+	}
+	
+	
+	/**
+	 * 分页获取班级学生列表
+	 * @author 罗龙贵
+	 * @date 2019年4月13日 下午11:07:21
+	 * @param classId
+	 * @param startNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetStudentList.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetStudentList(Integer classId,Integer startNum,Integer pageSize){
+		Map<String, Object> result = new HashMap<>();
+		List<Student> students = studentService.getStudentList(classId, startNum, pageSize);
+		result.put("msg", 1);
+		result.put("students", students);
+		return result;
+	}
+	
+	
+	/**
+	 * 添加学生
+	 * @author 罗龙贵
+	 * @date 2019年4月13日 下午11:12:30
+	 * @param classId
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value="teacherAddStudent.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherAddStudent(Integer classId,Student student){
+		Map<String, Object> result = new HashMap<>();
+		Class c = new Class();
+		c.setId(classId);
+		student.setC(c);
+		result.put("msg", studentService.addStudent(student));
+		return result;
+	}
+	
+	
+	/**
+	 * 修改学生信息
+	 * @author 罗龙贵
+	 * @date 2019年4月13日 下午11:13:38
+	 * @param student
+	 * @return
+	 */
+	@RequestMapping(value="teacherUpdateStudent.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherUpdateStudent(Student student){
+		Map<String, Object> result = new HashMap<>();
+		studentService.updateStudent(student);
+		result.put("msg", 1);
+		return result;
+	}
+	
+	
+	/**
+	 * 删除学生
+	 * @author 罗龙贵
+	 * @date 2019年4月13日 下午11:16:08
+	 * @param studentId
+	 * @return
+	 */
+	@RequestMapping(value="teacherDeleteStudent.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherDeleteStudent(Integer studentId){
+		Map<String, Object> result = new HashMap<>();
+		studentService.deleteStudent(studentId);
+		result.put("msg", 1);
+		return result;
+	}
+	
+	
+	/**
+	 * 批量添加学生
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 上午9:35:19
+	 * @param file
+	 * @param cid
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value="teacherBatchAddStudent.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherBatchAddStudent(MultipartFile file,Integer cid) throws IOException{
+		Map<String, Object> result = new HashMap<>();
+		//判断文件是否为空
+		if(file.isEmpty()){
+			//1、表示正确，2、表示文件为空 ，3、表示文件格式不符合要求
+			result.put("msg", "2");
+			return result;
+		}
+		//获取文件名
+		String fileName = file.getOriginalFilename();
+		//获取文件后缀名
+		String ext = FilenameUtils.getExtension(fileName);
+		if(ext.equals("xlsx") || ext.equals("xls")){
+			Workbook workbook;
+			if(ext.equals("xls")){
+				workbook = new HSSFWorkbook(file.getInputStream());
+			}else{
+				workbook = new XSSFWorkbook(file.getInputStream());
+			}
+			List<Student> students = new ArrayList<>();
+			int count=0;//有效行
+			int success=0;//成功
+			int fail=0;//失败
+			//遍历sheet
+			for(int sheetNum=0;sheetNum<workbook.getNumberOfSheets();sheetNum++){
+				//遍历每行
+				for(int rowNum=0;rowNum <= workbook.getSheetAt(sheetNum).getLastRowNum();rowNum++){
+					if(workbook.getSheetAt(sheetNum).getRow(rowNum) == null)
+						continue;
+					Cell nameCell = workbook.getSheetAt(sheetNum).getRow(rowNum).getCell(0);
+					Cell usernameCell = workbook.getSheetAt(sheetNum).getRow(rowNum).getCell(1);
+					Cell passwordCell = workbook.getSheetAt(sheetNum).getRow(rowNum).getCell(2);
+					String name = null,username = null,password = null;
+					if(nameCell != null && usernameCell != null && passwordCell != null){
+						name = nameCell.toString().split("\\.")[0];
+						username = usernameCell.toString().split("\\.")[0];
+						password = passwordCell.toString().split("\\.")[0];
+						String regExp = "^[0-9a-zA-Z]{6,20}$";
+						if((name.toCharArray()).length<2 || (name.toCharArray()).length>11){
+							continue;
+						}
+						if((!Pattern.matches(regExp, username)) || (!Pattern.matches(regExp, password))){
+							continue;
+						}
+						count++;
+						Student student = new Student();
+						student.setName(name);
+						student.setUsername(username);
+						student.setPassword(password);
+						students.add(student);
+					}else{
+						continue;
+					}
+				}
+			}
+			success = studentService.batchAddStudent(students, cid);
+			workbook.close();
+			result.put("msg", "1");
+			result.put("count", count);
+			result.put("success", success);
+			result.put("fail", fail);
+		}else{
+			result.put("msg", "3");
+		}
 		return result;
 	}
 	

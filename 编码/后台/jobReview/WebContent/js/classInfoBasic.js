@@ -123,9 +123,8 @@ $("#TaskManager .table").click(function(event){
 
 //点击批量导入
 $("#StudentManager .page-header .btn-primary").click(function(){
-	$(this).siblings("form").children("input").click();
+	$(this).siblings("form").children("input:eq(0)").click();
 });
-
 $("#StudentManager .table").click(function(){
 	if($(event.target).hasClass("btn-danger")){
 		//点击删除学生按钮
@@ -190,7 +189,7 @@ $("#addStudent input").eq(1).on("input propertychange",function(){
 		data:{"username":value},
 		dataType:"json",
 		success:function(result){
-			if(result.msg == 2){
+			if(result.msg == 0){
 				//存在
 				addStudentUserNameInput = false;
 				$("#addStudent .form-group").eq(1).addClass("has-error").removeClass("has-sucess");

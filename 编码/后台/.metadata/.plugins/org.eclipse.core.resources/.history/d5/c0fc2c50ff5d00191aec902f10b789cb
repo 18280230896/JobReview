@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llg.mapper.StudentMapper">
+	<resultMap type="Student" id="student">
+		<id property="id" column="student_id"/>
+		<result property="name" column="student_name"/>
+		<result property="username" column="student_uname"/>
+		<result property="password" column="student_pwd"/>
+		<result property="role" column="role"/>
+		<association property="c" javaType="Class">
+			<id property="id" column="class_id"/>
+		</association>
+	</resultMap>
+	<select id="getStudentById" parameterType="Integer" resultMap="student">
+		select * from t_student where student_id = #{id}
+	</select>
+	<update id="updateInfo" parameterType="User">
+		update t_student 
+		set student_name=#{name},student_uname=#{username},student_pwd=#{password}
+		where student_id=#{id}
+	</update>
+	
+	<insert id="addStudent" parameterType="Student">
+		insert into t_student values(null,#{c.id},#{name},#{username},#{password},3);
+	</insert>
+	
+	<delete id="deleteStudent" parameterType="Integer">
+		delete from t_student where student_id = #{id}
+	</delete>
+	
+	<select id="getStudentTotal" parameterType="Integer" resultType="Integer">
+		select count(student_id) where class_id = #{id}
+	</select>
+	
+	<select id="getStudentList" parameterType="Integer" resultMap="student">
+		select * from t_student 
+		where class_id = #{0}
+		order by student_id desc
+		limit #{1},#{0}
+	</select>
+</mapper>

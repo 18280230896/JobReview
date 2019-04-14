@@ -75,9 +75,9 @@ function studentCreateTable(){
 	for(var i=0;i<students.length;i++){
 		var tr = $("<tr>"+
 						"<td>"+((studentNowPage-1)*pageSize+i+1)+"</td>"+
-						"<td>"+students[i].studentName+"</td>"+
-						"<td>"+students[i].studentUserName+"</td>"+
-						"<td>"+students[i].studentPwd+"</td>"+
+						"<td>"+students[i].name+"</td>"+
+						"<td>"+students[i].username+"</td>"+
+						"<td>"+students[i].password+"</td>"+
 						"<td>"+
 							" <button class='btn btn-danger btn-sm'>删除</button>"+
 							" <button class='btn btn-primary btn-sm'>修改</button>"+

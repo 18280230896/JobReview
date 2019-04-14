@@ -113,7 +113,7 @@ $("#delModal .btn").eq(1).click(function(){
 		});
 	}else if(index == 3){
 		//删除学生
-		var studentId = students[$("#delModal input").eq(1).val()].studentId;
+		var studentId = students[$("#delModal input").eq(1).val()].id;
 		$.ajax({
 			url:"teacherDeleteStudent.action",
 			type:"post",
@@ -153,7 +153,7 @@ $("#delModal .btn").eq(1).click(function(){
 		});
 	}
 });
-//点击确认添加学生提示框
+//点击确认添加学生按钮
 $("#addStudent .btn").eq(1).click(function(){
 	//输入验证
 	if(!addStudentNameInput) {
@@ -174,7 +174,7 @@ $("#addStudent .btn").eq(1).click(function(){
 	$.ajax({
 		url:"teacherAddStudent.action",
 		type:"post",
-		data:{"classId":classId,"studentName":name,"studentUserName":username,"studentPwd":password},
+		data:{"classId":classId,"name":name,"username":username,"password":password},
 		dataType:"json",
 		success:function(result){
 			if(result.msg == 1){
@@ -184,7 +184,18 @@ $("#addStudent .btn").eq(1).click(function(){
 				//刷新界面
 				studentInit();
 				//显示提示
-				tips("success","添加成功！")
+				tips("success","添加成功！");
+				//重置input
+				$("#addStudent input").val("");
+				addStudentNameInput = false;
+				addStudentUserNameInput = false;
+				addStudentPasswordInput = false;
+				$("#addStudent .form-group").removeClass("has-success");
+			}else{
+				//弹窗消失
+				$("#addStudent").modal("hide");
+				//显示提示
+				tips("error","用户名已存在！");
 				//重置input
 				$("#addStudent input").val("");
 				addStudentNameInput = false;
@@ -213,7 +224,7 @@ $("#fileInput").change(function(){
 				//刷新界面
 				studentInit();
 				//显示提示
-				tips("success","导入成功！有效数据条数:"+result.count+",成功条数:"+result.success);
+				tips("success","成功导入"+result.success+"条数据！");
 				//重置input
 				$("#fileInput").val("");
 			}else if(result.msg == 2){
@@ -238,13 +249,13 @@ $("#udpateStudnetModal .btn").click(function(){
 		$("#udpateStudnetModal input").eq(1).focus();
 		return;
 	}
-	var studentId = students[$("#udpateStudnetModal input").eq(2).val()].studentId;
+	var studentId = students[$("#udpateStudnetModal input").eq(2).val()].id;
 	var name = $("#udpateStudnetModal input").eq(0).val();
 	var password = $("#udpateStudnetModal input").eq(1).val();
 	$.ajax({
 		url:"teacherUpdateStudent.action",
 		type:"post",
-		data:{"studentId":studentId,"studentName":name,"studentPwd":password},
+		data:{"id":studentId,"name":name,"password":password},
 		dataType:"json",
 		success:function(result){
 			if(result.msg == 1){

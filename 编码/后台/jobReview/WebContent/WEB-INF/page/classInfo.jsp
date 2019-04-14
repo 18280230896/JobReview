@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
 	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-	<title>班级详情</title>
+	<title>${c.name}</title>
 </head>
 <body>
 <input id="classId" type="hidden" value="${c.id}">
@@ -41,6 +41,7 @@
 		</div>
 	</div>
 </nav>
+
 <div class="container">
 	<div class="row">
 		<ul class="nav nav-tabs">
@@ -66,7 +67,7 @@
 					<button class="btn btn-info pull-right" data-toggle="modal" data-target="#addStudent">添加学生</button>
 					<form class="hide" id="fileForm" enctype="multipart/form-data">
 						<input type="file" id="fileInput" name="file"/>
-						<input type="hidden" value="${c.id}" name="classId">
+						<input type="hidden" value="${c.id}" name="cid">
 					</form>
 				</h3>
 				<table class="table table-hover table-striped">
@@ -372,7 +373,7 @@
 <div class="modal fade" id="alert">
 	<div class="modal-dialog modal-sm">
 		<div class="alert text-center">
-			<span id="msg"></span>
+			<span id="msg" style="font-size: 17px;"></span>
 		</div>
 	</div>
 </div>
@@ -394,10 +395,6 @@
 </div>
 
 <div class="hide">
-	<form action="teacherToReviewCase.action" method="post">
-		<input type="hidden" name="ctId">
-		<button type="submit" id="toReviewCaseBtn"></button>
-	</form>
 	<form action="teacherToReviewBug.action" method="post">
 		<input type="hidden" name="ctId">
 		<button type="submit" id="toReviewBugBtn"></button>
@@ -410,7 +407,6 @@
 <script src="bootstrap/js/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.js"></script>
 <script src="bootstrap/js/docs.min.js"></script>
-<script src="js/classInfoBasic.js"></script>
 <script src="laydate/laydate.js"></script>
 <script src="js/userInfo.js"></script>
 <script src="js/classInfoTaskPaging.js"></script>
