@@ -7,7 +7,6 @@ $("#addTask .add").click(function(){
 		var proportion = $("#proportion option:selected").val();
 		var startTime = $("#addTask input").eq(1).val();
 		var endTime = $("#addTask input").eq(2).val();
-		console.log(proportion);
 		$.ajax({
 			url:"teacherAddClassTask.action",
 			type:"post",
@@ -39,10 +38,10 @@ $("#updateModal .btn").eq(1).click(function(){
 	var endTime = $("#updateModal input").eq(3).val();
 	if((new Date(startTime)).getTime() >= (new Date(endTime)).getTime()){
 		$("#updateModal .help-block").eq(1).hide().text("截止时间必须大于开始时间！").slideDown(200);
-		$("#updateModal .form-group").eq(2).addClass("has-error");
+		$("#updateModal .form-group").eq(3).addClass("has-error");
 	}else{
 		$("#updateModal .help-block").eq(1).slideUp(200);
-		$("#updateModal .form-group").eq(2).removeClass("has-error");
+		$("#updateModal .form-group").eq(3).removeClass("has-error");
 		$.ajax({
 			url:"teacherUpdateClassTask.action",
 			type:"post",
@@ -133,7 +132,7 @@ $("#delModal .btn").eq(1).click(function(){
 		});
 	}else if(index == 4){
 		//删除小组
-		var groupId = groups[$("#delModal input").eq(1).val()].groupId;
+		var groupId = groups[$("#delModal input").eq(1).val()].id;
 		$.ajax({
 			url:"teacherDeleteGroup.action",
 			type:"post",
@@ -278,18 +277,14 @@ $("#addGroupModal .btn").eq(1).click(function(){
 	//输入验证
 	if(!addGroupNumInput) $("#addGroupModal input").eq(0).focus();
 	else if(!addGroupNameInput) $("#addGroupModal input").eq(1).focus();
-	else if(!addGroupSolGanInput) $("#addGroupModal textarea").eq(0).focus();
-	else if(!addGroupNoteInput) $("#addGroupModal textarea").eq(1).focus();
 	else{
 		//提交
 		var num = $("#addGroupModal input").eq(0).val();
 		var name = $("#addGroupModal input").eq(1).val();
-		var solgan = $("#addGroupModal textarea").eq(0).val();
-		var note = $("#addGroupModal textarea").eq(1).val();
 		$.ajax({
 			url:"teacherAddGroup.action",
 			type:"post",
-			data:{"classId":classId,"groupNum":num,"groupName":name,"groupSlogan":solgan,"groupNote":note},
+			data:{"classId":classId,"num":num,"name":name},
 			dataType:"json",
 			success:function(result){
 				if(result.msg == 1){

@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.llg.bean.Class;
+import com.llg.bean.Group;
 import com.llg.bean.Student;
+import com.llg.mapper.GroupMapper;
 import com.llg.mapper.StudentMapper;
 import com.llg.mapper.UserMapper;
 import com.llg.service.StudentService;
@@ -17,6 +19,8 @@ public class StudentServiceImpl implements StudentService {
 	private StudentMapper studentMapper;
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private GroupMapper groupMapper;
 	
 	@Override
 	public int addStudent(Student student) {
@@ -39,7 +43,8 @@ public class StudentServiceImpl implements StudentService {
 		if(student.getName() != null && !"".equals(student.getName())) student2.setName(student.getName());
 		if(student.getUsername() != null && !"".equals(student.getUsername())) student2.setUsername(student.getUsername());
 		if(student.getPassword() != null && !"".equals(student.getPassword())) student2.setPassword(student.getPassword());
-		studentMapper.updateInfo(student2);
+		if(student.getGroup() != null) student2.setGroup(student.getGroup());
+		studentMapper.updateStudent(student2);
 	}
 
 	@Override
@@ -65,6 +70,32 @@ public class StudentServiceImpl implements StudentService {
 			}
 		}
 		return success;
+	}
+
+	@Override
+	public List<Student> getNotGroupStudent(Integer cid) {
+		return studentMapper.getNotGroupStudent(cid);
+	}
+
+	@Override
+	public Student getStudentById(Integer studentId) {
+		return studentMapper.getStudentById(studentId);
+	}
+
+	@Override
+	public void removeGroupStudent(Integer studentId, Integer groupId) {
+		//获取小组信息
+		Group group = groupMapper.getGroupById(groupId);
+		//判断是否是组长
+		if(group.getLeader() != null && studentId == group.getLeader().getId()){
+			Student student = new Student();
+			student.setId(null);
+			group.setLeader(student);
+			groupMapper.updateGroup(group);
+		}
+		Student student = studentMapper.getStudentById(studentId);
+		student.setGroup(new Group());
+		studentMapper.updateStudent(student);
 	}
 	
 }

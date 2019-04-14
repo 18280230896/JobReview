@@ -1,27 +1,24 @@
 package com.llg.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Group implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
-	private String Num;
+	private String num;
 	private String name;
 	private Student leader;
 	private Class c;
+	private List<Student> member;
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getNum() {
-		return Num;
-	}
-	public void setNum(String num) {
-		Num = num;
-	}
+	
 	public String getName() {
 		return name;
 	}
@@ -42,11 +39,23 @@ public class Group implements Serializable{
 	public void setLeader(Student leader) {
 		this.leader = leader;
 	}
+	public String getNum() {
+		return num;
+	}
+	public void setNum(String num) {
+		this.num = num;
+	}
+	public List<Student> getMember() {
+		return member;
+	}
+	public void setMember(List<Student> member) {
+		this.member = member;
+	}
 	@Override
 	public String toString() {
-		return "Group [id=" + id + ", Num=" + Num + ", name=" + name + ", leader=" + leader + ", c=" + c + "]";
+		return "Group [id=" + id + ", num=" + num + ", name=" + name + ", leader=" + leader + ", c=" + c + ", member="
+				+ member + "]";
 	}
-	
-	
+
 	
 }

@@ -106,16 +106,6 @@
 						<input type="text" class="form-control">
 						<span class="help-block"></span>
 					</div>
-					<div class="form-group">
-						<label class="control-label">小组口号：</label>
-						<textarea class="form-control"></textarea>
-						<span class="help-block"></span>
-					</div>
-					<div class="form-group">
-						<label class="control-label">备注信息：</label>
-						<textarea class="form-control"></textarea>
-						<span class="help-block"></span>
-					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -232,7 +222,6 @@
 									<option value="${i}">${i}%</option>
 								</c:forEach>
 							</select>
-						<span class="help-block"></span>
 					</div>
 					<div class="form-group">
 						<label class="control-label">开始时间：</label>
@@ -412,8 +401,8 @@
 <script src="js/classInfoTaskPaging.js"></script>
 <script src="js/classInfoStudentPaging.js"></script>
 <script src="js/classInfoGroupPaging.js"></script>
-<script src="js/classInfo.js"></script>
 <script src="js/classInfoBasic.js"></script>
+<script src="js/classInfo.js"></script>
 <script>
 laydate.render({
   elem: '#startTime',

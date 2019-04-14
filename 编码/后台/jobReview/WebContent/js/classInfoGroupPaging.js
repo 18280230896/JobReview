@@ -74,8 +74,8 @@ function createTable(){
 	for(var i=0;i<groups.length;i++){
 		var tr = $("<tr>"+
 						"<td>"+((nowPage-1)*pageSize+i+1)+"</td>"+
-						"<td>"+groups[i].groupNum+"</td>"+
-						"<td>"+groups[i].groupName+"</td>"+
+						"<td>"+groups[i].num+"</td>"+
+						"<td>"+groups[i].name+"</td>"+
 						"<td>"+
 							" <button class='btn btn-danger btn-sm'>删除</button>"+
 							" <button class='btn btn-primary btn-sm'>查看详情</button>"+

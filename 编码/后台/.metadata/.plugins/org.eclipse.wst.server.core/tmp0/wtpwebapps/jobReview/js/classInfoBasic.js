@@ -151,7 +151,7 @@ $("#GruopManager .table").click(function(event){
 		//弹出提示框
 		$("#delModal").modal("show");
 	}else if($(event.target).hasClass("btn-primary")){
-		$("#toGroupInfo input").val(groups[$(event.target).parent().parent().index()-1].groupId);
+		$("#toGroupInfo input").val(groups[$(event.target).parent().parent().index()-1].id);
 		$("#toGroupInfo")[0].submit();
 	}
 	
@@ -250,8 +250,6 @@ $("#udpateStudnetModal input").eq(1).on("input propertychange",function(){
 
 var addGroupNumInput = false;
 var addGroupNameInput = false;
-var addGroupSolGanInput = false;
-var addGroupNoteInput = false;
 //添加小组输入验证
 $("#addGroupModal input:lt(2)").on("input propertychange",function(){
 	var value = $(this).val();
@@ -268,31 +266,6 @@ $("#addGroupModal input:lt(2)").on("input propertychange",function(){
 		$(this).parent().addClass("has-success").removeClass("has-error");
 	}
 });
-$("#addGroupModal textarea:eq(0)").on("input propertychange",function(){
-	var value = $(this).val();
-	if(value.length < 1 || value.length > 100){
-		addGroupSolGanInput = false;
-		$(this).next().hide().text("只能输入1-100个字符！").slideDown(200);
-		$(this).parent().addClass("has-error").removeClass("has-success");
-	}else{
-		addGroupSolGanInput = true;
-		$(this).next().slideUp(200);
-		$(this).parent().addClass("has-success").removeClass("has-error");
-	}
-});
-$("#addGroupModal textarea:eq(1)").on("input propertychange",function(){
-	var value = $(this).val();
-	if(value.length > 100){
-		addGroupNoteInput = false;
-		$(this).next().hide().text("最多输入100个字符！").slideDown(200);
-		$(this).parent().addClass("has-error").removeClass("has-success");
-	}else{
-		addGroupNoteInput = true;
-		$(this).next().slideUp(200);
-		$(this).parent().addClass("has-success").removeClass("has-error");
-	}
-});
-
 $("#updateModal").on("show.bs.modal",function(){
 	$("#updateModal .form-group").removeClass("has-error");
 	$("#updateModal .help-block").text("");

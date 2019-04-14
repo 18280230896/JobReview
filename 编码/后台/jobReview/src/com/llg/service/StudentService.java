@@ -64,4 +64,34 @@ public interface StudentService {
 	 * @return
 	 */
 	public int batchAddStudent(List<Student> students,Integer cid);
+	
+	
+	/**
+	 * 获取没有分组的学生列表
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 下午4:26:16
+	 * @param cid
+	 * @return
+	 */
+	public List<Student> getNotGroupStudent(Integer cid);
+
+
+	/**
+	 * 通过id获取学生
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 下午4:43:19
+	 * @param studentId
+	 * @return
+	 */
+	public Student getStudentById(Integer studentId);
+	
+	
+	/**
+	 * 将学生从小组中移除
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 下午4:59:16
+	 * @param studentId
+	 * @param groupId
+	 */
+	public void removeGroupStudent(Integer studentId,Integer groupId);
 }

@@ -26,12 +26,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.llg.bean.Class;
 import com.llg.bean.ClassTask;
+import com.llg.bean.Group;
 import com.llg.bean.Student;
 import com.llg.bean.Task;
 import com.llg.bean.Teacher;
 import com.llg.bean.User;
 import com.llg.service.ClassService;
 import com.llg.service.ClassTaskService;
+import com.llg.service.GroupService;
 import com.llg.service.StudentService;
 import com.llg.service.TaskService;
 
@@ -46,6 +48,8 @@ public class TeacherControl {
 	private ClassTaskService classTaskService;
 	@Autowired
 	private StudentService studentService;
+	@Autowired
+	private GroupService groupService;
 	
 	
 	/**
@@ -567,6 +571,214 @@ public class TeacherControl {
 		}else{
 			result.put("msg", "3");
 		}
+		return result;
+	}
+	
+	/**
+	 * 获取班级小组数量
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 上午10:40:16
+	 * @param classId
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetGroupTotal.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetGroupTotal(Integer classId){
+		Map<String, Object> result = new HashMap<>();
+		int count = groupService.getGroupTotal(classId);
+		result.put("msg", 1);
+		result.put("count", count);
+		return result;
+	}
+	
+	
+	/**
+	 * 分页获取小组列表
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 上午10:44:17
+	 * @param classId
+	 * @param startNum
+	 * @param pageSize
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetGroupList.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetGroupList(Integer classId,Integer startNum,Integer pageSize){
+		Map<String, Object> result = new HashMap<>();
+		List<Group> groupList = groupService.getGroupList(classId, startNum, pageSize);
+		result.put("msg", 1);
+		result.put("groups", groupList);
+		return result;
+	}
+	
+	/**
+	 * 添加小组
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 上午10:49:40
+	 * @param classId
+	 * @param group
+	 * @return
+	 */
+	@RequestMapping(value="teacherAddGroup.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherAddGroup(Integer classId,Group group){
+		Map<String, Object> result = new HashMap<>();
+		Class c = new Class();
+		c.setId(classId);
+		group.setC(c);
+		groupService.addGroup(group);
+		result.put("msg", 1);
+		return result;
+	}
+	
+	
+	/**
+	 * 删除小组
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 上午10:51:07
+	 * @param groupId
+	 * @return
+	 */
+	@RequestMapping(value="teacherDeleteGroup.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherDeleteGroup(Integer groupId){
+		Map<String, Object> result = new HashMap<>();
+		groupService.deleteGroup(groupId);
+		result.put("msg", 1);
+		return result;
+	}
+	
+	/**
+	 * 跳转到小组详情界面
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 上午11:09:01
+	 * @param groupId
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="teacherToGroupInfo.action",method=RequestMethod.POST)
+	public String teacherToGroupInfo(Integer groupId,HttpServletRequest request){
+		Group group = groupService.getGroupById(groupId);
+		request.setAttribute("group", group);
+		return "groupInfo.jsp";
+	}
+	
+	
+	/**
+	 * 获取小组详情
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 上午11:47:28
+	 * @param groupId
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetGroupInfo.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetGroupInfo(Integer groupId){
+		Map<String, Object> result = new HashMap<>();
+		Group group = groupService.getGroupInfo(groupId);
+		result.put("msg", 1);
+		result.put("group", group);
+		return result;
+	}
+	
+
+	/**
+	 * 获取没有分组的学生
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 下午4:27:43
+	 * @param classId
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetNotStudentList.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetNotStudentList(Integer classId){
+		Map<String, Object> result = new HashMap<>();
+		List<Student> students = studentService.getNotGroupStudent(classId);
+		result.put("msg", 1);
+		result.put("students", students);
+		return result;
+	}
+	
+	
+	/**
+	 * 将学生添加到小组
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 下午4:32:27
+	 * @param groupId
+	 * @param studentId
+	 * @return
+	 */
+	@RequestMapping(value="teacherAddStudentToGroup.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherAddStudentToGroup(Integer groupId,Integer studentId){
+		Map<String, Object> result = new HashMap<>();
+		Student student = studentService.getStudentById(studentId);
+		if(student.getGroup() != null && student.getGroup().getId() != null){
+			result.put("msg", 0);
+			return result;
+		}
+		Group group = new Group();
+		group.setId(groupId);
+		student.setId(studentId);
+		student.setGroup(group);
+		studentService.updateStudent(student);
+		result.put("msg", 1);
+		return result;
+	}
+	
+	/**
+	 * 将学生从小组中移除
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 下午5:00:26
+	 * @param studentId
+	 * @param groupId
+	 * @return
+	 */
+	@RequestMapping(value="teacherRemoveStudentToGroup.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherRemoveStudentToGroup(Integer studentId,Integer groupId){
+		Map<String, Object> result = new HashMap<>();
+		studentService.removeGroupStudent(studentId, groupId);
+		result.put("msg", 1);
+		return result;
+	}
+	
+	
+	/**
+	 * 将学生任命为组长
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 下午5:06:19
+	 * @param studentId
+	 * @param groupId
+	 * @return
+	 */
+	@RequestMapping(value="teacherAddLeader.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherAddLeader(Integer studentId,Integer groupId){
+		Map<String, Object> result = new HashMap<>();
+		Student student = new Student();
+		student.setId(studentId);
+		Group group = new Group();
+		group.setId(groupId);
+		group.setLeader(student);
+		groupService.updateGroup(group);
+		result.put("msg", 1);
+		return result;
+	}
+	
+	/**
+	 * 修改小组信息
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 下午5:59:12
+	 * @param group
+	 * @return
+	 */
+	@RequestMapping(value="teacherUpdateGroupInfo.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherUpdateGroupInfo(Group group){
+		Map<String, Object> result = new HashMap<>();
+		groupService.updateGroup(group);
+		result.put("msg", 1);
 		return result;
 	}
 	

@@ -69,4 +69,23 @@ public interface StudentMapper {
 	 * @return
 	 */
 	public List<Student> getStudentList(Integer cid,Integer startNum,Integer pageSize);
+	
+	
+	/**
+	 * 获取班级中所有没分组的学生
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 下午4:23:37
+	 * @param cid
+	 * @return
+	 */
+	public List<Student> getNotGroupStudent(Integer cid);
+	
+	
+	/**
+	 * 修改学生信息
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 下午4:58:05
+	 * @param student
+	 */
+	public void updateStudent(Student student);
 }

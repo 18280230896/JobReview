@@ -5,13 +5,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.llg.mapper.GroupMapper">
 	<resultMap type="Group" id="group">
 		<id property="id" column="group_id"/>
-		<result property="Num" column="group_num"/>
+		<result property="num" column="group_num"/>
 		<result property="name" column="group_name"/>
 		<association property="leader" javaType="Student">
 			<id property="id" column="leader_id"/>
+			<result property="name" column="leader_name"/>
 		</association>
 		<association property="c" javaType="Class">
 			<id property="id" column="class_id"/>
 		</association>
+		<collection property="member" ofType="Student">
+			<id property="id" column="student_id"/>
+			<result property="name" column="student_name"/>
+		</collection>
 	</resultMap>
+	
+	<insert id="addGroup" parameterType="Group">
+		insert into t_group values(null,#{c.id},null,#{num},#{name})
+	</insert>
+	
+	<delete id="deleteGroup" parameterType="Integer">
+		delete from t_group where group_id = #{id}
+	</delete>
+	
+	<update id="updateGroup" parameterType="Group">
+		update t_group
+		set group_num = #{num},group_name = #{name},leader_id = #{leader.id}
+		where group_id = #{id}
+	</update>
+	
+	<select id="getGroupById" parameterType="Integer" resultMap="group">
+		select * from t_group where group_id = #{id}
+	</select>
+	
+	<select id="getGroupTotal" parameterType="Integer" resultType="Integer">
+		select count(*) from t_group where class_id = #{id}
+	</select>
+	
+	<select id="getGroupList" parameterType="Integer" resultMap="group">
+		select * from t_group
+		where class_id = #{0}
+		limit #{1},#{2}
+	</select>
+	
+	<select id="getGroupInfo" parameterType="Integer" resultMap="group">
+		select * from v_group_info where group_id = #{id}
+	</select>
+	
 </mapper>

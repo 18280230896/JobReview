@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llg.mapper.GroupMapper">
+	<resultMap type="Group" id="group">
+		<id property="id" column="group_id"/>
+		<result property="num" column="group_num"/>
+		<result property="name" column="group_name"/>
+		<association property="leader" javaType="Student">
+			<id property="id" column="leader_id"/>
+		</association>
+		<association property="c" javaType="Class">
+			<id property="id" column="class_id"/>
+		</association>
+	</resultMap>
+	
+	<insert id="addGroup" parameterType="Group">
+		insert into t_group values(null,#{c.id},null,#{num},#{name})
+	</insert>
+	
+	<delete id="deleteGroup" parameterType="Integer">
+		delete from t_group where group_id = #{id}
+	</delete>
+	
+	<update id="updateGroup" parameterType="Group">
+		update t_group
+		set group_num = #{num},group_name = #{name},leader_id = #{leader.id}
+	</update>
+	
+	<select id="getGroupById" parameterType="Integer" resultMap="group">
+		select * from t_group where group_id = #{id}
+	</select>
+	
+	<select id="getGroupTotal" parameterType="Integer" resultType="Integer">
+		select count(*) from t_group where class_id = #{id}
+	</select>
+	
+	<select id="getGroupList" parameterType="Integer" resultMap="group">
+		select * from t_group
+		where class_id = #{0}
+		limit #{1},#{2}
+	</select>
+	
+</mapper>
