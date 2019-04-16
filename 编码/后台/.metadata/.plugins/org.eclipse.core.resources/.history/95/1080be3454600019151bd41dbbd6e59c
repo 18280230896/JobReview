@@ -1,0 +1,28 @@
+//获取任务信息
+var ctid = $("#ctid").val();
+var classTask;
+getClassTaskInfo();
+//判断任务类型
+//if(classTask.type === 2)
+
+showClassTask();
+
+function getClassTaskInfo(){
+	$.ajax({
+		url:"studentGetClassTaskInfo.action",
+		type:"post",
+		data:{"ctid":ctid},
+		dataType:"json",
+		async:false,
+		success:function(result){
+			if(result.msg == 1){
+				classTask = result.classTask;
+			}
+		}
+	});
+}
+
+
+function showClassTask(){
+	
+}

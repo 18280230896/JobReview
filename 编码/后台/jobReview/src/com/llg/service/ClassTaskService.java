@@ -41,7 +41,7 @@ public interface ClassTaskService {
 	 * @date 2019年4月13日 上午10:46:19
 	 * @param id
 	 */
-	public void getClassTaskById(Integer id);
+	public ClassTask getClassTaskById(Integer id);
 	
 	
 	/**
@@ -96,4 +96,14 @@ public interface ClassTaskService {
 	 * @return
 	 */
 	public List<ClassTask> getTaskClassList(Integer tid,Integer startNum,Integer pageSize);
+	
+	
+	/**
+	 * 获取班级任务详情
+	 * @author 罗龙贵
+	 * @date 2019年4月16日 下午10:06:40
+	 * @param ctid
+	 * @return
+	 */
+	public ClassTask getClassTaskInfo(Integer ctid);
 }

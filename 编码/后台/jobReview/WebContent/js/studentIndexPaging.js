@@ -93,7 +93,6 @@ function createTable(){
 		}
 		var task_type;
 		classTasks[i].task.type == 1 ? task_type = "Java 任务" : task_type = "Oracle 任务";
-		console.log(classTasks[i].task.type);
 		var ct_type;
 		classTasks[i].type == 1 ? ct_type = "个人任务" : ct_type = "小组任务";
 		var tr = $("<tr>"+
@@ -105,7 +104,7 @@ function createTable(){
 					"<td>"+dateFtt("yyyy-MM-dd hh:mm:ss",new Date(classTasks[i].endTime))+"</td>"+
 					"<td class='"+statusClass+"'>"+status+"</td>"+
 					"<td>"+
-						" <button class='btn btn-info btn-sm'>查看详情</button>"+
+						" <a href='student2TaskInfo.action?ctid="+classTasks[i].id+"'><button class='btn btn-info btn-sm'>详情</button></a>"+
 					"</td>"+
 				"</tr>");
 		$("table").append(tr);

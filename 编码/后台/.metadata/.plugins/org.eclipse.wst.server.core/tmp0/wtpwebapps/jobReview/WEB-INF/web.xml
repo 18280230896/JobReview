@@ -4,7 +4,6 @@
   <welcome-file-list>
     <welcome-file>toLogin.action</welcome-file>
   </welcome-file-list>
-  
   <!-- 配置spring配置文件在项目启动时加载 -->
   <context-param>
   	<param-name>contextConfigLocation</param-name>

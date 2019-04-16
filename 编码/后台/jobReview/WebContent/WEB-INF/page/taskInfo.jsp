@@ -185,26 +185,24 @@
 				<h4 class="modal-title">修改任务名称</h4>
 			</div>
 			<div class="modal-body">
-				<form>
-					<div class="form-group">
-						<label class="control-label">任务名称：</label>
-						<input type="text" class="form-control" id="taskName"/>
-						<span class="help-block"></span>
-					</div>
-					<div class="form-group">
-						<label class="control-label">任务类型：</label>
-						<select class="form-control" id="taskType">
-							<option value="1">Java 任务</option>
-							<option value="2">Oracle 任务</option>
-						</select>
-						<span class="help-block"></span>
-					</div>
-					<div class="form-group">
-						<label class="control-label">题目名称：</label>
-						<textarea class="form-control" rows="6"></textarea>
-						<span class="help-block"></span>
-					</div>
-				</form>
+				<div class="form-group">
+					<label class="control-label">任务名称：</label>
+					<input type="text" class="form-control" id="taskName"/>
+					<span class="help-block"></span>
+				</div>
+				<div class="form-group">
+					<label class="control-label">任务类型：</label>
+					<select class="form-control" id="taskType">
+						<option value="1">Java 任务</option>
+						<option value="2">Oracle 任务</option>
+					</select>
+					<span class="help-block"></span>
+				</div>
+				<div class="form-group">
+					<label class="control-label">题目名称：</label>
+					<textarea class="form-control" rows="6"></textarea>
+					<span class="help-block"></span>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-default" data-dismiss="modal">取消</button>

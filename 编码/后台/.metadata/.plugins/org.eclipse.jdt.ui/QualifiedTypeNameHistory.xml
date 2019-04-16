@@ -33,14 +33,11 @@
 <fullyQualifiedTypeName name="com.llg.mapper.GroupMapper"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="com.llg.bean.Group"/>
-<fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
-<fullyQualifiedTypeName name="com.llg.service.TaskService"/>
 <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
 <fullyQualifiedTypeName name="org.apache.coyote.http11.filters.VoidInputFilter"/>
 <fullyQualifiedTypeName name="com.llg.mapper.SubjectMapper"/>
 <fullyQualifiedTypeName name="com.llg.bean.Subject"/>
 <fullyQualifiedTypeName name="com.llg.service.SubjectService"/>
-<fullyQualifiedTypeName name="com.llg.bean.Task"/>
 <fullyQualifiedTypeName name="org.springframework.stereotype.Controller"/>
 <fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMapping"/>
@@ -53,11 +50,14 @@
 <fullyQualifiedTypeName name="com.llg.service.ClassTaskService"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
 <fullyQualifiedTypeName name="com.llg.bean.User"/>
-<fullyQualifiedTypeName name="com.llg.bean.Student"/>
 <fullyQualifiedTypeName name="java.lang.Class"/>
 <fullyQualifiedTypeName name="com.llg.bean.Class"/>
 <fullyQualifiedTypeName name="com.llg.service.ClassService"/>
-<fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
+<fullyQualifiedTypeName name="com.llg.bean.Student"/>
+<fullyQualifiedTypeName name="com.llg.service.TaskService"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="com.llg.bean.ClassTask"/>
+<fullyQualifiedTypeName name="com.llg.bean.Task"/>
 </qualifiedTypeNameHistroy>

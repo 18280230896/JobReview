@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.llg.bean.Class;
 import com.llg.bean.ClassTask;
 import com.llg.bean.Student;
+import com.llg.bean.Task;
 import com.llg.bean.User;
 import com.llg.service.ClassService;
 import com.llg.service.ClassTaskService;
 import com.llg.service.StudentService;
+import com.llg.service.TaskService;
 
 @Controller
 public class StudentControl {
@@ -29,6 +32,8 @@ public class StudentControl {
 	private ClassService classService;
 	@Autowired
 	private ClassTaskService classTaskService;
+	@Autowired
+	private TaskService taskService;
 	
 	/**
 	 * 跳转到学生首页
@@ -99,6 +104,55 @@ public class StudentControl {
 		List<ClassTask> classTasks = classTaskService.getClassTaskList(student.getC().getId(), startNum, pageSize);
 		result.put("msg", 1);
 		result.put("classTasks", classTasks);
+		return result;
+	}
+	
+	/**
+	 * 学生跳转到任务提交界面
+	 * @author 罗龙贵
+	 * @date 2019年4月16日 下午9:20:38
+	 * @param ctid
+	 * @param session
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="student2TaskInfo.action",method=RequestMethod.GET)
+	public String student2TaskInfo(Integer ctid,HttpSession session,HttpServletRequest request){
+		//获取任务详情
+		ClassTask classTask = classTaskService.getClassTaskById(ctid);
+		//获取学生信息
+		User user = (User)session.getAttribute("user");
+		Student student = studentService.getStudentById(user.getId());
+		//判断此任务是否是该学生要执行的任务
+		if(classTask == null || classTask.getC().getId() != student.getC().getId()) return "redirect:studentIndex.action";
+		//获取任务信息
+		Task task = taskService.getTaskById(classTask.getC().getId());
+		if(task.getType() == 1){
+			//java任务
+			request.setAttribute("classTask", classTask);
+			request.setAttribute("task", task);
+			return "reportJavaJob.jsp";
+		}
+		return "";
+	}
+	
+	
+	/**
+	 * 获取班级任务的详细信息
+	 * @author 罗龙贵
+	 * @date 2019年4月16日 下午10:08:35
+	 * @param ctid
+	 * @return
+	 */
+	@RequestMapping(value="studentGetClassTaskInfo.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> studentGetClassTaskInfo(Integer ctid){
+		Map<String, Object> result = new HashMap<>();
+		ClassTask classTask = classTaskService.getClassTaskInfo(ctid);
+		Task task = taskService.getTaskInfo(classTask.getTask().getId());
+		result.put("msg", 1);
+		result.put("classTask", classTask);
+		result.put("task", task);
 		return result;
 	}
 	

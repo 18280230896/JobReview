@@ -1,0 +1,38 @@
+//获取任务信息
+var ctid = $("#ctid").val();
+var classTask;
+var task;
+getClassTaskInfo();
+//判断任务类型
+//if(classTask.type === 2)
+
+showClassTask();
+
+function getClassTaskInfo(){
+	$.ajax({
+		url:"studentGetClassTaskInfo.action",
+		type:"post",
+		data:{"ctid":ctid},
+		dataType:"json",
+		async:false,
+		success:function(result){
+			if(result.msg == 1){
+				classTask = result.classTask;
+				task = subjects.task;
+			}
+		}
+	});
+	
+}
+
+
+function showClassTask(){
+	var length = task.subject.length;
+	if(length == 0)
+	$(".content-list").css("width",length+"00%")
+}
+
+function prohibit(){
+	var newNode = $("<h4>该任务还没有添加题目哦！</h4>");
+	$(".subject")
+}

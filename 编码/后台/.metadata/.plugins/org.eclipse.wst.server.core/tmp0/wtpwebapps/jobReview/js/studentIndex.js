@@ -7,6 +7,7 @@ $.ajax({
 	success:function(result){
 		student = result.student;
 		//显示学生信息
+		$("title").text("欢迎你！"+student.name);
 		$("#studentInfo .form-control-static:eq(0)").text(student.name);
 		$("#studentInfo .form-control-static:eq(1)").text(student.c.name);
 		if(student.group != null){

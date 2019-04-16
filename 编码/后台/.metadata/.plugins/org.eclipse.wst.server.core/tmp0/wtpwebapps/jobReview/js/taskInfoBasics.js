@@ -33,6 +33,14 @@ $("#taskInfo .glyphicon").click(function(event){
 	
 });
 
+$("#taskName").keypress(function(e) {
+    var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+    if (eCode == 13){
+    	$("#updateModal .modal-footer .btn:eq(1)").focus().click();
+    	return false;
+    }
+});
+
 var updateTaskNameInput = true;
 $("#taskName").on("input propertychange",function(){
 	var value = $("#taskName").val();

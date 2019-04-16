@@ -71,4 +71,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by ct_id desc 
 		limit #{1},#{2}
 	</select>
+	
+	<select id="getClassTaskInfo" parameterType="Integer" resultMap="classTask">
+		select * from v_class_task_info
+		where ct_id = #{id}
+	</select>
 </mapper>

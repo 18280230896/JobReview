@@ -1,0 +1,53 @@
+//获取任务信息
+var ctid = $("#ctid").val();
+var classTask;
+var task;
+getClassTaskInfo();
+//判断任务类型
+//if(classTask.type === 2)
+
+showClassTask();
+
+function getClassTaskInfo(){
+	$.ajax({
+		url:"studentGetClassTaskInfo.action",
+		type:"post",
+		data:{"ctid":ctid},
+		dataType:"json",
+		async:false,
+		success:function(result){
+			if(result.msg == 1){
+				classTask = result.classTask;
+				task = subjects.task;
+			}
+		}
+	});
+	
+}
+
+
+function showClassTask(){
+	var length = task.subjects.length;
+	if(length == 0){
+		prohibit();
+		return;
+	}
+	$(".content-list").css("width",length+"00%");
+	for(var i=0;i<length;i++){
+		var newLi = $("<li class='content'>"+
+					"<div class='subject'>"+
+						"<h4>该任务还没有添加题目！</h4>"+
+					"</div>"+
+					"<div class='fengong'>"+
+						"<p>该题目分工：张三、李四</p>"+
+					"</div>"+
+				"</li>")
+	}
+}
+
+function prohibit(){
+	$(".content-list").append($("<h4>该任务还没有添加题目哦！</h4>"));
+	$(".prevSubject").prop("disabled","disabled");
+	$(".nextSubject").prop("disabled","disabled");
+	$("#submitBtn").prop("disabled","disabled");
+}

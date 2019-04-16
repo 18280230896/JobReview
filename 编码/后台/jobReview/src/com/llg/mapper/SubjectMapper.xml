@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<update id="updateSubject" parameterType="Subject">
-		update t_subject set subject_name=#{name}
+		update t_subject set subject_name=#{name} where subject_id = #{id}
 	</update>
 	
 	<select id="getSubjectById" parameterType="Integer" resultMap="subject">

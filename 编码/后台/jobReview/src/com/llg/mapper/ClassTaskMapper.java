@@ -97,4 +97,14 @@ public interface ClassTaskMapper {
 	 * @return
 	 */
 	public List<ClassTask> getTaskClassList(Integer tid,Integer startNum,Integer pageSize);
+	
+	
+	/**
+	 * 获取班级任务详情
+	 * @author 罗龙贵
+	 * @date 2019年4月16日 下午10:04:58
+	 * @param ctid
+	 * @return
+	 */
+	public ClassTask getClassTaskInfo(Integer ctid);
 }

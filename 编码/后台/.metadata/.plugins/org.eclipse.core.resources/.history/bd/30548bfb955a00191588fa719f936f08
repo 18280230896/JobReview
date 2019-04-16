@@ -1,5 +1,0 @@
-package com.jobReview.mapper;
-
-public interface GroupMapper {
-
-}

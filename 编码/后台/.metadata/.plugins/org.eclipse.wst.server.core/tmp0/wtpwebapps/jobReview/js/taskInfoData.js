@@ -79,9 +79,7 @@ $("#updateModal .btn-primary").click(function(){
 			return;
 		}
 		var id = $("#updateModal .modal-footer input:eq(1)").val();
-		console.log(id);
 		var name = $("#updateModal textarea").val();
-		console.log(name);
 		$.ajax({
 			url:"teacherUpdateSubject.action",
 			type:"post",

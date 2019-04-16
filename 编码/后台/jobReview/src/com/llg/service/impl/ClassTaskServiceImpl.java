@@ -48,8 +48,8 @@ public class ClassTaskServiceImpl implements ClassTaskService {
 	}
 
 	@Override
-	public void getClassTaskById(Integer id) {
-		classTaskMapper.geClassTaskById(id);
+	public ClassTask getClassTaskById(Integer id) {
+		return classTaskMapper.geClassTaskById(id);
 	}
 
 	@Override
@@ -90,6 +90,11 @@ public class ClassTaskServiceImpl implements ClassTaskService {
 	@Override
 	public List<ClassTask> getTaskClassList(Integer tid, Integer startNum, Integer pageSize) {
 		return classTaskMapper.getTaskClassList(tid, startNum, pageSize);
+	}
+
+	@Override
+	public ClassTask getClassTaskInfo(Integer ctid) {
+		return classTaskMapper.getClassTaskInfo(ctid);
 	}
 
 }
