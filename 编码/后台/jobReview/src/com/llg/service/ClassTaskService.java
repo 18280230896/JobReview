@@ -2,6 +2,7 @@ package com.llg.service;
 
 import java.util.List;
 
+import com.llg.bean.Class;
 import com.llg.bean.ClassTask;
 import com.llg.bean.Task;
 
@@ -50,7 +51,7 @@ public interface ClassTaskService {
 	 * @param cid °à¼¶id
 	 * @return
 	 */
-	public int getClassTaskTotal(Integer cid);
+	public int getClassTaskTotal(Class c);
 	
 	
 	/**

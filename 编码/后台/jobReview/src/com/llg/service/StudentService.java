@@ -94,4 +94,14 @@ public interface StudentService {
 	 * @param groupId
 	 */
 	public void removeGroupStudent(Integer studentId,Integer groupId);
+	
+	
+	/**
+	 * 获取学生详细信息
+	 * @author 罗龙贵
+	 * @date 2019年4月16日 上午10:53:05
+	 * @param studentId
+	 * @return
+	 */
+	public Student getStudentInfo(Integer studentId);
 }

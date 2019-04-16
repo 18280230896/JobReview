@@ -2,6 +2,7 @@ package com.llg.mapper;
 
 import java.util.List;
 
+import com.llg.bean.Class;
 import com.llg.bean.ClassTask;
 
 public interface ClassTaskMapper {
@@ -50,7 +51,7 @@ public interface ClassTaskMapper {
 	 * @param cid
 	 * @return
 	 */
-	public int  getClassTaskTotal(Integer cid);
+	public int  getClassTaskTotal(Class c);
 	
 	
 	/**

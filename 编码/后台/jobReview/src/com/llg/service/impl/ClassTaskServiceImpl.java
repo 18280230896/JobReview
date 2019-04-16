@@ -53,8 +53,8 @@ public class ClassTaskServiceImpl implements ClassTaskService {
 	}
 
 	@Override
-	public int getClassTaskTotal(Integer cid) {
-		return classTaskMapper.getClassTaskTotal(cid);
+	public int getClassTaskTotal(Class c) {
+		return classTaskMapper.getClassTaskTotal(c);
 	}
 
 	@Override

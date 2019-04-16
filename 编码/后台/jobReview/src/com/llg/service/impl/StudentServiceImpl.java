@@ -97,5 +97,10 @@ public class StudentServiceImpl implements StudentService {
 		student.setGroup(new Group());
 		studentMapper.updateStudent(student);
 	}
+
+	@Override
+	public Student getStudentInfo(Integer studentId) {
+		return studentMapper.getStudentInfo(studentId);
+	}
 	
 }

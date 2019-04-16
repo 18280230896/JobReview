@@ -1,0 +1,33 @@
+package com.llg.control;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+public class StudentControl {
+
+	/**
+	 * 跳转到学生首页
+	 * @author 罗龙贵
+	 * @date 2019年4月16日 上午10:47:47
+	 * @return
+	 */
+	@RequestMapping(value="studentIndex.action",method=RequestMethod.GET)
+	public String studentIndex(){
+		return "studentIndex.html";
+	}
+	
+	
+	@RequestMapping(value="getStudentInfo.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getStudentInfo(){
+		Map<String, Object> result = new HashMap<>();
+		
+		return result;
+	}
+}

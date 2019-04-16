@@ -11,9 +11,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="role" column="role"/>
 		<association property="c" javaType="Class">
 			<id property="id" column="class_id"/>
+			<result property="name" column="class_name"/>
+			<result property="semester" column="class_semester"/>
 		</association>
 		<association property="group" javaType="Group">
 			<id property="id" column="group_id"/>
+			<result property="num" column="group_num"/>
+			<result property="name" column="group_name"/>
 		</association>
 	</resultMap>
 	<select id="getStudentById" parameterType="Integer" resultMap="student">
@@ -22,8 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateInfo" parameterType="User">
 		update t_student 
 		set student_name=#{name},
-		student_uname=#{username},
-		student_pwd=#{password},
+		student_pwd=#{password}
 		where student_id=#{id}
 	</update>
 	
@@ -59,4 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from t_student where class_id = #{id} and group_id is null;
 	</select>
 	
+	<select id="getStudentInfo" parameterType="Integer" resultMap="student">
+		select * from v_student_info where student_id = #{id}
+	</select>
 </mapper>

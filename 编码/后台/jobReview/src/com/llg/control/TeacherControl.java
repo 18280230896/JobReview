@@ -282,7 +282,8 @@ public class TeacherControl {
 	@ResponseBody
 	public Map<String, Object> teacherGetClassTaskTotal(Integer classId){
 		Map<String, Object> result = new HashMap<>();
-		int count = classTaskService.getClassTaskTotal(classId);
+		Class c = classService.getClassById(classId);
+		int count = classTaskService.getClassTaskTotal(c);
 		result.put("msg", 1);
 		result.put("count", count);
 		return result;

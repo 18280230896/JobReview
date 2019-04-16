@@ -88,4 +88,13 @@ public interface StudentMapper {
 	 * @param student
 	 */
 	public void updateStudent(Student student);
+	
+	/**
+	 * 获取学生的详细信息
+	 * @author 罗龙贵
+	 * @date 2019年4月16日 上午10:50:06
+	 * @param id
+	 * @return
+	 */
+	public Student getStudentInfo(Integer id);
 }

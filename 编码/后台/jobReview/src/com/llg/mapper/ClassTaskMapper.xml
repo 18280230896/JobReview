@@ -46,8 +46,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from t_class_task where ct_id = #{id}
 	</select>
 	
-	<select id="getClassTaskTotal" parameterType="Integer" resultType="Integer">
-		select count(ct_id) from t_class_task where class_id = #{id}
+	<select id="getClassTaskTotal" parameterType="Class" resultType="Integer">
+		select count(ct_id) from t_class_task where class_id = #{id} and ct_semester = #{semester}
 	</select>
 	
 	<select id="getClassTaskList" parameterType="Integer" resultMap="classTask">

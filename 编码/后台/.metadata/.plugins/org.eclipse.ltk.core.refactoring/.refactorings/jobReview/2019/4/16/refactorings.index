@@ -2,3 +2,5 @@
 1555211313186	Extract local variable 'groupById'
 1555230432985	Extract local variable 'notGroupStudent'
 1555238638963	Extract local variable 'taskById'
+1555384906468	Extract local variable 'c'
+1555385091897	Extract local variable 'count'
