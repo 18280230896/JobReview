@@ -28,6 +28,7 @@ import com.llg.bean.Class;
 import com.llg.bean.ClassTask;
 import com.llg.bean.Group;
 import com.llg.bean.Student;
+import com.llg.bean.Subject;
 import com.llg.bean.Task;
 import com.llg.bean.Teacher;
 import com.llg.bean.User;
@@ -35,6 +36,7 @@ import com.llg.service.ClassService;
 import com.llg.service.ClassTaskService;
 import com.llg.service.GroupService;
 import com.llg.service.StudentService;
+import com.llg.service.SubjectService;
 import com.llg.service.TaskService;
 
 @Controller
@@ -50,6 +52,8 @@ public class TeacherControl {
 	private StudentService studentService;
 	@Autowired
 	private GroupService groupService;
+	@Autowired
+	private SubjectService subjectService;
 	
 	
 	/**
@@ -778,6 +782,145 @@ public class TeacherControl {
 	public Map<String, Object> teacherUpdateGroupInfo(Group group){
 		Map<String, Object> result = new HashMap<>();
 		groupService.updateGroup(group);
+		result.put("msg", 1);
+		return result;
+	}
+	
+	
+	/**
+	 * 跳转到任务详情界面
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 下午6:45:06
+	 * @param taskId
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="teacherToTaskInfo.action",method=RequestMethod.POST)
+	public String teacherToTaskInfo(Integer taskId,HttpServletRequest request){
+		Task task = taskService.getTaskById(taskId);
+		request.setAttribute("task", task);
+		return "taskInfo.jsp";
+	}
+	
+	
+	/**
+	 * 获取任务详细信息
+	 * @author 罗龙贵
+	 * @date 2019年4月15日 下午2:39:39
+	 * @param taskId
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetTaskInfo.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetTaskInfo(Integer taskId){
+		Map<String, Object> result = new HashMap<>();
+		Task task = taskService.getTaskInfo(taskId);
+		result.put("msg", 1);
+		result.put("task", task);
+		return result;
+	}
+	
+	/**
+	 * 获取执行指定任务的班级数量
+	 * @author 罗龙贵
+	 * @date 2019年4月15日 下午3:07:06
+	 * @param taskId
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetExeTaskClassTotal.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetExeTaskClassTotal(Integer taskId){
+		Map<String, Object> result = new HashMap<>();
+		int count = classTaskService.getTaskClassTotal(taskId);
+		result.put("msg", 1);
+		result.put("count", count);
+		return result;
+	}
+	
+	/**
+	 * 分页获取执行指定任务的班级列表
+	 * @author 罗龙贵
+	 * @date 2019年4月15日 下午3:07:28
+	 * @param taskId
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetExeTaskClassList.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetExeTaskClassList(Integer taskId,Integer startNum,Integer pageSize){
+		Map<String, Object> result = new HashMap<>();
+		List<ClassTask> classTasks = classTaskService.getTaskClassList(taskId, startNum, pageSize);
+		result.put("msg", 1);
+		result.put("classTasks", classTasks);
+		return result;
+	}
+	
+	
+	/**
+	 * 修改任务信息
+	 * @author 罗龙贵
+	 * @date 2019年4月15日 下午5:02:09
+	 * @param task
+	 * @return
+	 */
+	@RequestMapping(value="teacherUpdateTaskInfo.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherUpdateTaskInfo(Task task){
+		Map<String, Object> result = new HashMap<>();
+		taskService.updateTask(task);
+		result.put("msg", 1);
+		return result;
+	}
+	
+	/**
+	 * 添加一个题目
+	 * @author 罗龙贵
+	 * @date 2019年4月16日 上午9:17:16
+	 * @param subject
+	 * @param tid
+	 * @return
+	 */
+	@RequestMapping(value="teacheraddSubject.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacheraddSubject(Subject subject,Integer tid){
+		Map<String, Object> result = new HashMap<>();
+		Task task = new Task();
+		task.setId(tid);
+		subject.setTask(task);
+		subjectService.addSubject(subject);
+		result.put("msg", 1);
+		return result;
+	}
+	
+	
+	/**
+	 * 删除一个题目
+	 * @author 罗龙贵
+	 * @date 2019年4月16日 上午9:17:58
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="teacherDelSubject.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherDelSubject(Integer id){
+		Map<String, Object> result = new HashMap<>();
+		subjectService.deleteSubject(id);
+		result.put("msg", 1);
+		return result;
+	}
+	
+	
+	/**
+	 * 修改题目信息
+	 * @author 罗龙贵
+	 * @date 2019年4月16日 上午9:19:38
+	 * @param subject
+	 * @return
+	 */
+	@RequestMapping(value="teacherUpdateSubject.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherUpdateSubject(Subject subject){
+		Map<String, Object> result = new HashMap<>();
+		subjectService.updateSubject(subject);
 		result.put("msg", 1);
 		return result;
 	}

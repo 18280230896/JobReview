@@ -62,4 +62,16 @@ public interface TaskService {
 	 * @return
 	 */
 	public List<Task> getTaskList(Integer tid,Integer startNum,Integer pageSize);
+	
+	
+	/**
+	 * 通过id获取任务信息
+	 * @author 罗龙贵
+	 * @date 2019年4月14日 下午6:42:48
+	 * @param id
+	 * @return
+	 */
+	public Task getTaskById(Integer id);
+	
+	
 }

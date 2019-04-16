@@ -60,4 +60,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getClassTaskAll" parameterType="Integer" resultMap="classTask">
 		select * from t_class_task where class_id = #{id}
 	</select>
+	
+	<select id="getTaskClassTotal" parameterType="Integer" resultType="Integer">
+		select count(ct_id) from t_class_task where task_id = #{id}
+	</select>
+	
+	<select id="getTaskClassList" parameterType="Integer" resultMap="classTask">
+		select * from v_class_task_info
+		where task_id = #{0}
+		order by ct_id desc 
+		limit #{1},#{2}
+	</select>
 </mapper>

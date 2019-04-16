@@ -73,4 +73,26 @@ public interface ClassTaskService {
 	 * @return
 	 */
 	public List<Task> getNotTaskList(Integer tid,Integer classId);
+	
+	
+	/**
+	 * 获取执行指定任务的班级数量
+	 * @author 罗龙贵
+	 * @date 2019年4月15日 下午3:03:56
+	 * @param tid
+	 * @return
+	 */
+	public int getTaskClassTotal(Integer tid);
+	
+	
+	/**
+	 * 分页获取执行指定任务的班级列表
+	 * @author 罗龙贵
+	 * @date 2019年4月15日 下午3:04:56
+	 * @param tid
+	 * @param startNum
+	 * @param pageSize
+	 * @return
+	 */
+	public List<ClassTask> getTaskClassList(Integer tid,Integer startNum,Integer pageSize);
 }

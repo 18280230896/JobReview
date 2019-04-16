@@ -79,8 +79,17 @@ public class ClassTaskServiceImpl implements ClassTaskService {
 				}
 			}	
 		}
-		
 		return tasks;
+	}
+
+	@Override
+	public int getTaskClassTotal(Integer tid) {
+		return classTaskMapper.getTaskClassTotal(tid);
+	}
+
+	@Override
+	public List<ClassTask> getTaskClassList(Integer tid, Integer startNum, Integer pageSize) {
+		return classTaskMapper.getTaskClassList(tid, startNum, pageSize);
 	}
 
 }

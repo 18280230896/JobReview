@@ -76,4 +76,16 @@ public interface TaskMapper {
 	 * @return
 	 */
 	public List<Task> getTaskListAll(Integer tid);
+	
+	
+	/**
+	 * 获取任务详细信息
+	 * @author 罗龙贵
+	 * @date 2019年4月15日 下午2:37:54
+	 * @param id
+	 * @return
+	 */
+	public Task getTaskInfo(Integer id);
+	
+	
 }

@@ -11,6 +11,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<id property="id" column="teacher_id"/>
 		</association>
 	</resultMap>
+	<resultMap type="Task" id="taskInfo" extends="task">
+		<collection property="subjects" ofType="Subject">
+			<id property="id" column="subject_id"/>
+			<result property="name" column="subject_name"/>
+		</collection>
+	</resultMap>
 	
 	<insert id="addTask" parameterType="Task">
 		<selectKey keyProperty="id" order="AFTER" resultType="Integer">
@@ -24,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<update id="updateTask" parameterType="Task">
-		udpate t_task set task_name=#{name},task_type=#{type} where task_id=#{id}
+		update t_task set task_name=#{name},task_type=#{type} where task_id=#{id}
 	</update>
 	
 	<select id="getTaskById" parameterType="Integer" resultMap="task">
@@ -44,5 +50,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="getTaskListAll" parameterType="Integer" resultMap="task">
 		select * from t_task where teacher_id = #{id}
+	</select>
+	
+	<select id="getTaskInfo" parameterType="Integer" resultMap="taskInfo">
+		select * from v_task_info where task_id = #{id}
 	</select>
 </mapper>

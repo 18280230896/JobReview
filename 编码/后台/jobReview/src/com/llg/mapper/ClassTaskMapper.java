@@ -74,4 +74,26 @@ public interface ClassTaskMapper {
 	 * @return
 	 */
 	public List<ClassTask> getClassTaskAll(Integer cid);
+	
+	
+	/**
+	 * 获取指定执行指定任务的班级总数
+	 * @author 罗龙贵
+	 * @date 2019年4月15日 下午2:58:26
+	 * @param tid
+	 * @return
+	 */
+	public int getTaskClassTotal(Integer tid);
+	
+	
+	/**
+	 * 分页获取执行执行任务的班级列表
+	 * @author 罗龙贵
+	 * @date 2019年4月15日 下午3:01:44
+	 * @param tid
+	 * @param startNum
+	 * @param pageSize
+	 * @return
+	 */
+	public List<ClassTask> getTaskClassList(Integer tid,Integer startNum,Integer pageSize);
 }

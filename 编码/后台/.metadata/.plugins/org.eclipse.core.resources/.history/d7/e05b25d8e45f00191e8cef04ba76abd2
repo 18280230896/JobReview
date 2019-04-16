@@ -1,0 +1,14 @@
+package com.llg.service;
+
+import com.llg.bean.Subject;
+
+public interface SubjectService {
+
+	/**
+	 * 添加一个任务
+	 * @author 罗龙贵
+	 * @date 2019年4月15日 下午6:56:09
+	 * @param subject
+	 */
+	public void addSubject(Subject subject);
+}

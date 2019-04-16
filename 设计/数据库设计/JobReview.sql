@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2019-04-14 18:04:59
+Date: 2019-04-16 10:06:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -39,7 +39,7 @@ INSERT INTO `t_admin` VALUES ('1', '管理员', 'admin', '111111', '1');
 DROP TABLE IF EXISTS `t_class`;
 CREATE TABLE `t_class` (
   `class_id` int(11) NOT NULL AUTO_INCREMENT,
-  `teacher_id` int(11) DEFAULT NULL,
+  `teacher_id` int(11) NOT NULL,
   `class_name` varchar(20) NOT NULL,
   `class_semester` int(11) NOT NULL,
   PRIMARY KEY (`class_id`),
@@ -58,8 +58,8 @@ INSERT INTO `t_class` VALUES ('1', '1', '616322', '1');
 DROP TABLE IF EXISTS `t_class_task`;
 CREATE TABLE `t_class_task` (
   `ct_id` int(11) NOT NULL AUTO_INCREMENT,
-  `task_id` int(11) DEFAULT NULL,
-  `class_id` int(11) DEFAULT NULL,
+  `task_id` int(11) NOT NULL,
+  `class_id` int(11) NOT NULL,
   `ct_type` int(11) NOT NULL,
   `ct_status` int(11) NOT NULL,
   `ct_semester` int(11) NOT NULL,
@@ -84,7 +84,7 @@ INSERT INTO `t_class_task` VALUES ('1', '1', '1', '1', '1', '1', '5', '2019-04-1
 DROP TABLE IF EXISTS `t_group`;
 CREATE TABLE `t_group` (
   `group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `class_id` int(11) DEFAULT NULL,
+  `class_id` int(11) NOT NULL,
   `leader_id` int(11) DEFAULT NULL,
   `group_num` varchar(30) NOT NULL,
   `group_name` varchar(30) NOT NULL,
@@ -106,7 +106,7 @@ INSERT INTO `t_group` VALUES ('1', '1', '4', '第一组帆帆发', '第一组啊
 DROP TABLE IF EXISTS `t_student`;
 CREATE TABLE `t_student` (
   `student_id` int(11) NOT NULL AUTO_INCREMENT,
-  `class_id` int(11) DEFAULT NULL,
+  `class_id` int(11) NOT NULL,
   `group_id` int(11) DEFAULT NULL,
   `student_name` varchar(20) NOT NULL,
   `student_uname` varchar(20) NOT NULL,
@@ -125,10 +125,10 @@ CREATE TABLE `t_student` (
 INSERT INTO `t_student` VALUES ('2', '1', null, '1231', '312312312', '3123123', '3');
 INSERT INTO `t_student` VALUES ('3', '1', null, '学生1', 'username1', 'password1', '3');
 INSERT INTO `t_student` VALUES ('4', '1', '1', '学生3', 'username3', 'password3', '3');
-INSERT INTO `t_student` VALUES ('5', '1', null, '学生5', 'username5', 'password5', '3');
+INSERT INTO `t_student` VALUES ('5', '1', '1', '学生5', 'username5', 'password5', '3');
 INSERT INTO `t_student` VALUES ('6', '1', '1', '学生7', 'username7', 'password7', '3');
-INSERT INTO `t_student` VALUES ('7', '1', null, '学生9', 'username9', 'password9', '3');
-INSERT INTO `t_student` VALUES ('8', '1', null, '学生10', 'username10', 'password10', '3');
+INSERT INTO `t_student` VALUES ('7', '1', '1', '学生9', 'username9', 'password9', '3');
+INSERT INTO `t_student` VALUES ('8', '1', '1', '学生10', 'username10', 'password10', '3');
 INSERT INTO `t_student` VALUES ('9', '1', null, '学生12', 'username12', 'password12', '3');
 INSERT INTO `t_student` VALUES ('11', '1', null, '学生15q\'we', 'username15', 'pasqwe', '3');
 INSERT INTO `t_student` VALUES ('12', '1', null, '学生16', 'username16', 'password16', '3');
@@ -139,20 +139,22 @@ INSERT INTO `t_student` VALUES ('12', '1', null, '学生16', 'username16', 'pass
 DROP TABLE IF EXISTS `t_subject`;
 CREATE TABLE `t_subject` (
   `subject_id` int(11) NOT NULL AUTO_INCREMENT,
-  `task_id` int(11) DEFAULT NULL,
+  `task_id` int(11) NOT NULL,
   `subject_name` varchar(255) NOT NULL,
   PRIMARY KEY (`subject_id`),
   KEY `FK_Relationship_9` (`task_id`),
   CONSTRAINT `FK_Relationship_9` FOREIGN KEY (`task_id`) REFERENCES `t_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_subject
 -- ----------------------------
-INSERT INTO `t_subject` VALUES ('1', '1', '题目一xxxxx');
-INSERT INTO `t_subject` VALUES ('2', '1', '题目2');
-INSERT INTO `t_subject` VALUES ('3', '1', '题目三');
-INSERT INTO `t_subject` VALUES ('6', '3', '而为人去 ');
+INSERT INTO `t_subject` VALUES ('6', '3', '这是第一个题目去');
+INSERT INTO `t_subject` VALUES ('7', '4', '这是第一个题目去');
+INSERT INTO `t_subject` VALUES ('8', '4', '这是第一个题目去');
+INSERT INTO `t_subject` VALUES ('9', '4', '这是第一个题目去');
+INSERT INTO `t_subject` VALUES ('14', '1', '额外热切');
+INSERT INTO `t_subject` VALUES ('15', '1', '这是第一个题目');
 
 -- ----------------------------
 -- Table structure for `t_subject_studnet`
@@ -160,8 +162,8 @@ INSERT INTO `t_subject` VALUES ('6', '3', '而为人去 ');
 DROP TABLE IF EXISTS `t_subject_studnet`;
 CREATE TABLE `t_subject_studnet` (
   `ss_id` int(11) NOT NULL AUTO_INCREMENT,
-  `subject_id` int(11) DEFAULT NULL,
-  `student_id` int(11) DEFAULT NULL,
+  `subject_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
   PRIMARY KEY (`ss_id`),
   KEY `FK_Relationship_10` (`subject_id`),
   KEY `FK_Relationship_11` (`student_id`),
@@ -179,19 +181,20 @@ CREATE TABLE `t_subject_studnet` (
 DROP TABLE IF EXISTS `t_task`;
 CREATE TABLE `t_task` (
   `task_id` int(11) NOT NULL AUTO_INCREMENT,
-  `teacher_id` int(11) DEFAULT NULL,
+  `teacher_id` int(11) NOT NULL,
   `task_name` varchar(30) NOT NULL,
   `task_type` int(11) NOT NULL,
   PRIMARY KEY (`task_id`),
   KEY `FK_Relationship_6` (`teacher_id`),
   CONSTRAINT `FK_Relationship_6` FOREIGN KEY (`teacher_id`) REFERENCES `t_teacher` (`teacher_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_task
 -- ----------------------------
-INSERT INTO `t_task` VALUES ('1', '1', '任务单1.1', '1');
+INSERT INTO `t_task` VALUES ('1', '1', '任务单', '2');
 INSERT INTO `t_task` VALUES ('3', '1', '其为人温柔', '1');
+INSERT INTO `t_task` VALUES ('4', '1', '啊123', '1');
 
 -- ----------------------------
 -- Table structure for `t_task_file`
@@ -199,8 +202,8 @@ INSERT INTO `t_task` VALUES ('3', '1', '其为人温柔', '1');
 DROP TABLE IF EXISTS `t_task_file`;
 CREATE TABLE `t_task_file` (
   `file_id` int(11) NOT NULL AUTO_INCREMENT,
-  `subject_id` int(11) DEFAULT NULL,
-  `student_id` int(11) DEFAULT NULL,
+  `subject_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
   `file_name` varchar(30) NOT NULL,
   `file_path` varchar(30) NOT NULL,
   PRIMARY KEY (`file_id`),
@@ -220,8 +223,8 @@ CREATE TABLE `t_task_file` (
 DROP TABLE IF EXISTS `t_task_score`;
 CREATE TABLE `t_task_score` (
   `score_id` int(11) NOT NULL AUTO_INCREMENT,
-  `student_id` int(11) DEFAULT NULL,
-  `ct_id` int(11) DEFAULT NULL,
+  `student_id` int(11) NOT NULL,
+  `ct_id` int(11) NOT NULL,
   `score_num` int(11) NOT NULL,
   PRIMARY KEY (`score_id`),
   KEY `FK_Relationship_14` (`ct_id`),
@@ -263,6 +266,12 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- ----------------------------
 DROP VIEW IF EXISTS `v_group_info`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_group_info` AS select `g`.`group_id` AS `group_id`,`g`.`group_num` AS `group_num`,`g`.`group_name` AS `group_name`,`lead`.`student_id` AS `leader_id`,`lead`.`student_name` AS `leader_name`,`s`.`student_id` AS `student_id`,`s`.`student_name` AS `student_name` from ((`t_group` `g` left join `t_student` `lead` on((`g`.`leader_id` = `lead`.`student_id`))) left join `t_student` `s` on((`g`.`group_id` = `s`.`group_id`))) ;
+
+-- ----------------------------
+-- View structure for `v_task_info`
+-- ----------------------------
+DROP VIEW IF EXISTS `v_task_info`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_task_info` AS select `t`.`task_id` AS `task_id`,`t`.`task_name` AS `task_name`,`t`.`task_type` AS `task_type`,`s`.`subject_id` AS `subject_id`,`s`.`subject_name` AS `subject_name` from (`t_task` `t` left join `t_subject` `s` on((`t`.`task_id` = `s`.`task_id`))) ;
 
 -- ----------------------------
 -- View structure for `v_user`

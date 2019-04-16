@@ -3,8 +3,9 @@
 <typeInfo handle="=jobReview/src&lt;com.llg.mapper{AdminMapper.java[AdminMapper" modifiers="513" timestamp="1554813113333"/>
 <typeInfo handle="=jobReview/src&lt;com.llg.service{TeacherService.java[TeacherService" modifiers="513" timestamp="1554858595523"/>
 <typeInfo handle="=jobReview/src&lt;com.llg.service{ClassService.java[ClassService" modifiers="513" timestamp="1555054443970"/>
-<typeInfo handle="=jobReview/src&lt;com.llg.service{TaskService.java[TaskService" modifiers="513" timestamp="1555064742849"/>
-<typeInfo handle="=jobReview/src&lt;com.llg.service{ClassTaskService.java[ClassTaskService" modifiers="513" timestamp="1555127371157"/>
+<typeInfo handle="=jobReview/src&lt;com.llg.service{TaskService.java[TaskService" modifiers="513" timestamp="1555309776014"/>
+<typeInfo handle="=jobReview/src&lt;com.llg.service{ClassTaskService.java[ClassTaskService" modifiers="513" timestamp="1555311909435"/>
 <typeInfo handle="=jobReview/src&lt;com.llg.service{StudentService.java[StudentService" modifiers="513" timestamp="1555232371290"/>
 <typeInfo handle="=jobReview/src&lt;com.llg.service{GroupService.java[GroupService" modifiers="513" timestamp="1555213586205"/>
+<typeInfo handle="=jobReview/src&lt;com.llg.service{SubjectService.java[SubjectService" modifiers="513" timestamp="1555331670378"/>
 </typeInfoHistroy>
