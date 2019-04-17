@@ -2,6 +2,7 @@ package com.llg.control;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,13 +28,6 @@ import com.llg.util.MyRunnable;
 public class UserControl {
 	@Autowired
 	private UserService userService;
-	
-	private static final String LOCAL_PATH = "D:\\jobReview\\";
-	private static final String LOCAL_JOB_PATH = LOCAL_PATH+"job\\";
-	private static final String LOCAL_TEMP_PATH = LOCAL_PATH+"temp\\";
-	private static final String VIRTUAL_PATH = "file/";
-	private static final String VIRTUAL_JOB_PATH = VIRTUAL_PATH+"job/";
-	private static final String VIRTUAL_TEMP_PATH = VIRTUAL_PATH+"temp/";
 	
 	/**
 	 * 跳转到登录界面
@@ -146,8 +140,8 @@ public class UserControl {
 	public Map<String, Object> run(String code){
 		Map<String, Object> result = new HashMap<>();
 		String fileName = FileUtil.createFileName();
-		File file = FileUtil.createFile(LOCAL_TEMP_PATH+fileName+".java");
-		code = "package com.llg.test;\npublic class "+fileName+" {\n"+code+"}";
+		File file = FileUtil.createFile(FileUtil.LOCAL_TEMP_PATH+fileName+".java");
+		code = "package com.llg.test;public class "+fileName+" {"+code+"}";
 		String className = FileUtil.parseClassName(code);
 		//将代码写入文件
 		if(!FileUtil.write(file, code)){
@@ -168,10 +162,16 @@ public class UserControl {
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		ByteArrayOutputStream berr = new ByteArrayOutputStream(); 
 		MyRunnable runnable = new MyRunnable(bout, berr);
-		runnable.run(className, FileUtil.createFile(LOCAL_TEMP_PATH+fileName+".class"));
+		runnable.run(className, FileUtil.createFile(FileUtil.LOCAL_TEMP_PATH+fileName+".class"));
 		result.put("status", 1);
-		result.put("out", new String(bout.toByteArray()));
-		result.put("err", new String(berr.toByteArray()));
+		try {
+			byte[] outByte = bout.toByteArray();
+			byte[] errByte = berr.toByteArray();
+			result.put("out", new String(outByte,0,outByte.length,"UTF-8"));
+			result.put("err", new String(errByte,0,errByte.length,"UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		return result;
 	}
 	

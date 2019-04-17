@@ -4,3 +4,7 @@
 1555238638963	Extract local variable 'taskById'
 1555384906468	Extract local variable 'c'
 1555385091897	Extract local variable 'count'
+1555468784073	Extract local variable 'divisionList'
+1555498051588	Delete element
+1555498259672	Delete element
+1555498285309	Delete element

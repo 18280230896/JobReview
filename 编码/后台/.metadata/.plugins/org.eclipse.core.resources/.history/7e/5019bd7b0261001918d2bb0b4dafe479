@@ -1,0 +1,7 @@
+package com.llg.service.impl;
+
+import com.llg.service.WorkService;
+
+public class WorkServiceImpl implements WorkService {
+
+}

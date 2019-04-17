@@ -19,6 +19,12 @@ import java.util.UUID;
  * @Date 2019年4月11日 上午10:55:37
  */
 public class FileUtil {
+	public static final String LOCAL_PATH = "D:\\jobReview\\";
+	public static final String LOCAL_JOB_PATH = LOCAL_PATH+"job\\";
+	public static final String LOCAL_TEMP_PATH = LOCAL_PATH+"temp\\";
+	public static final String VIRTUAL_PATH = "file/";
+	public static final String VIRTUAL_JOB_PATH = VIRTUAL_PATH+"job/";
+	public static final String VIRTUAL_TEMP_PATH = VIRTUAL_PATH+"temp/";
 	
 	/**
 	 * 用uuid生成一个随机文件名
@@ -27,7 +33,7 @@ public class FileUtil {
 	 * @return
 	 */
 	public static String createFileName(){
-		return "Test"+UUID.randomUUID().toString().replace("-", "").toLowerCase();
+		return "Job"+UUID.randomUUID().toString().replace("-", "").toLowerCase();
 	}
 	
 	/**
@@ -106,10 +112,12 @@ public class FileUtil {
 			out = new ByteArrayOutputStream();
 			in = new FileInputStream(file);
 			byte[] b = new byte[1024];
-			while(in.read(b) != -1){
-				out.write(b, 0, b.length);
+			int len;
+			while((len = in.read(b)) != -1){
+				out.write(b, 0, len);
 			}
-			content = out.toString("UTF-8");
+			byte[] arr = out.toByteArray();
+			content = new String(arr, 0, arr.length, "UTF-8");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

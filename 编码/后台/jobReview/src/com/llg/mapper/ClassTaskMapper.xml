@@ -76,4 +76,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from v_class_task_info
 		where ct_id = #{id}
 	</select>
+	
+	<select id="getClassTaskByTCId" parameterType="Integer" resultMap="classTask">
+		select * from t_class_task where task_id = #{0} and class_id = #{1}
+	</select>
 </mapper>

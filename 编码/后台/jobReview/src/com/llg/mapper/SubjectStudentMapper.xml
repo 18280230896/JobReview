@@ -10,6 +10,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</association>
 		<association property="student" javaType="Student">
 			<id property="id" column="student_id"/>
+			<result property="name" column="student_name"/>
+			<association property="group" javaType="Group">
+				<id property="id" column="group_id"/>
+			</association>
 		</association>
 	</resultMap>
+	
+	<insert id="addDivision" parameterType="SubjectStudent">
+		insert into t_subject_student values(null,#{subject.id},#{student.id})
+	</insert>
+	
+	<delete id="deleteDivision" parameterType="Integer" >
+		delete from t_subject_student  where ss_id = #{id}
+	</delete>
+	
+	<select id="getById" parameterType="Integer" resultMap="subjectStudent">
+		select * from v_division where ss_id = #{id}
+	</select>
+	
+	<select id="getDivivionList" parameterType="Integer" resultMap="subjectStudent">
+		select * from v_division where subject_id = #{0} and group_id = #{1}
+	</select>
+	
+	<select id="getSubjectStudentById" parameterType="Integer" resultMap="subjectStudent">
+		select * from v_division where subject_id = #{0} and student_id = #{1}
+	</select>
 </mapper>

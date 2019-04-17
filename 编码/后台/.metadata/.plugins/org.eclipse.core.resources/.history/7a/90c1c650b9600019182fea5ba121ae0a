@@ -1,0 +1,47 @@
+package com.llg.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.llg.bean.SubjectStudent;
+import com.llg.mapper.SubjectStudentMapper;
+import com.llg.service.SubjectStudentService;
+@Service
+public class SubjectStudentServiceImpl implements SubjectStudentService {
+
+	@Autowired
+	private SubjectStudentMapper mapper;
+	@Override
+	public void addDivision(SubjectStudent subjectStudent) {
+		mapper.addDivision(subjectStudent);
+	}
+
+	@Override
+	public void addBatchDivision(List<SubjectStudent> subjectStudents) {
+		for (SubjectStudent subjectStudent : subjectStudents) {
+			mapper.addDivision(subjectStudent);
+		}
+	}
+
+	@Override
+	public void deleteDivision(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteBatchDivision(Integer[] ids) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void getDivisionList(Integer sid, Integer gid) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+}

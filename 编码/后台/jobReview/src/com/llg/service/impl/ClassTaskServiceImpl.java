@@ -97,4 +97,9 @@ public class ClassTaskServiceImpl implements ClassTaskService {
 		return classTaskMapper.getClassTaskInfo(ctid);
 	}
 
+	@Override
+	public ClassTask getClassTaskByTCId(Integer taskId, Integer classId) {
+		return classTaskMapper.getClassTaskByTCId(taskId,classId);
+	}
+
 }

@@ -18,7 +18,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
 	<div class="container">
 		<div class="nav-header">
-			<a href="adminIndex.action" class="navbar-brand">作业在线评审系统</a>
+			<a href="studentIndex.action" class="navbar-brand">作业在线评审系统</a>
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mynavbar" >
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
@@ -76,6 +76,47 @@
 	</div>
 </div>
 
+<!--调整分工-->
+<div class="modal fade" id="updatefengong">
+	<input type="hidden" id="moduleId">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="close" data-dismiss="modal">&times</span>
+				<h4 class="modal-title">修改分工</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-5">
+						<div class="form-group">
+							<label class="control-label">小组所有成员：</label>
+							<select class="form-control" style="height: 200px" multiple>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-2" style="margin-top: 60px;">
+						<div class="row">
+							<button class="btn btn-info btn-sm btn-block" id="add"><span class="glyphicon glyphicon-chevron-right"></span></button>
+							<button class="btn btn-info btn-sm btn-block" id="remove"><span class="glyphicon glyphicon-chevron-left"></span></button>
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="form-group">
+							<label class="control-label">负责该题目的成员：</label>
+							<select class="form-control" style="height: 200px" multiple>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" data-dismiss="modal">完成</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <!--修改密码模态框-->
 <div class="modal fade" id="changePwdModal">
 	<div class="modal-dialog modal-sm">
@@ -112,6 +153,21 @@
 	</div>
 </div>
 
+<!-- 确认操作弹框 -->
+<div class="modal fade" id="confirmSubmit">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="close" data-dismiss="modal">&times</span>
+				<h4 class="modal-title">你已经提交过了，确认要覆盖吗？</h4>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-default" data-dismiss="modal">取消</button>
+				<button class="btn btn-primary">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- 确认退出弹框 -->
 <div class="modal fade" id="logout">

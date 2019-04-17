@@ -106,4 +106,15 @@ public interface ClassTaskService {
 	 * @return
 	 */
 	public ClassTask getClassTaskInfo(Integer ctid);
+	
+	
+	/**
+	 * 通过班级和任务id获取班级任务
+	 * @author 罗龙贵
+	 * @date 2019年4月17日 下午7:31:59
+	 * @param taskId
+	 * @param classId
+	 * @return
+	 */
+	public ClassTask getClassTaskByTCId(Integer taskId,Integer classId);
 }
