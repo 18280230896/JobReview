@@ -23,8 +23,8 @@ $(".prevSubject").click(function(){
 	if(classTask.type == 2){
 		nowDivision = getDivision(task.subjects[subjectIndex].id);
 		showDivision(subjectIndex,nowDivision);
-		submitIsdisabled();
 	}
+	submitIsdisabled();
 	getAndShowCode(task.subjects[subjectIndex].id);
 	$(".console").empty();
 });
@@ -40,8 +40,8 @@ $(".nextSubject").click(function(){
 	if(classTask.type == 2){
 		nowDivision = getDivision(task.subjects[subjectIndex].id);
 		showDivision(subjectIndex,nowDivision);
-		submitIsdisabled();
 	}
+	submitIsdisabled();
 	getAndShowCode(task.subjects[subjectIndex].id);
 	$(".console").empty();
 });
@@ -99,10 +99,11 @@ $("#submitBtn").click(function(){
 	//判断有没有输入新内容
 	if(javaEditor.getValue() == nowCode) return;
 	//验证是否是第一次提交
-	if(!subjectIsFirstSubmit(task.subjects[subjectIndex].id)){
+	var mark = subjectIsFirstSubmit(task.subjects[subjectIndex].id);
+	if(mark == 2){
 		//显示覆盖提示
 		$("#confirmSubmit").modal("show");
-	}else{
+	}else if(mark == 1){
 		submitJob(task.subjects[subjectIndex].id,javaEditor.getValue());
 	}
 });
@@ -123,7 +124,7 @@ function submitJob(subjectId,code){
 		data:{"subjectId":subjectId,"code":code},
 		dataType:"json",
 		success:function(result){
-			if(result.msg == 1){
+			if(result.status == 1){
 				//提交成功
 				tips("success","提交成功！");
 			}else{
@@ -138,7 +139,7 @@ function submitJob(subjectId,code){
 
 //验证题目是否是第一次提交
 function subjectIsFirstSubmit(subjectId){
-	var flag = false;
+	var flag = 0;
 	$.ajax({
 		url:"studentIsFirstSubmit.action",
 		type:"post",
@@ -146,8 +147,11 @@ function subjectIsFirstSubmit(subjectId){
 		dataType:"json",
 		async:false,
 		success:function(result){
-			if(result.msg != 0){
-				flag = result.msg;
+			if(result.status == 1){
+				if(result.msg) flag = 1;
+				else flag = 2;
+			}else{
+				tips("error",result.msg);
 			}
 		}
 	});
@@ -169,17 +173,23 @@ function getAndShowCode(subjectId){
 }
 
 function submitIsdisabled(){
-	var flag = false;
-	for(var i=0;i<nowDivision.length;i++){
-		if(nowDivision[i].student.id == student.id){
-			flag = true;
-			break;
-		}
-	}
-	if(flag){
-		$("#submitBtn").prop("disabled","");
-	}else{
+	if(classTask.status != 2){
 		$("#submitBtn").prop("disabled","disabled");
+		return;
+	}
+	if(classTask.type === 2) {
+		var flag = false;
+		for(var i=0;i<nowDivision.length;i++){
+			if(nowDivision[i].student.id == student.id){
+				flag = true;
+				break;
+			}
+		}
+		if(flag){
+			$("#submitBtn").prop("disabled","");
+		}else{
+			$("#submitBtn").prop("disabled","disabled");
+		}
 	}
 }
 
@@ -190,8 +200,13 @@ function addDivision(data){
 		data:data,
 		dataType:"json",
 		success:function(result){
-			clear();
-			getAndShowDivision();
+			if(result.status == 1){
+				clear();
+				getAndShowDivision();
+			}else{
+				$("#updatefengong").modal("hide");
+				tips("error",result.msg);
+			}
 		}
 	});
 }
@@ -203,8 +218,13 @@ function delDivision(data){
 		data:data,
 		dataType:"json",
 		success:function(result){
-			clear();
-			getAndShowDivision();
+			if(result.status == 1){
+				clear();
+				getAndShowDivision();
+			}else{
+				$("#updatefengong").modal("hide");
+				tips("error",result.msg);
+			}
 		}
 	});
 }
@@ -280,8 +300,8 @@ function showClassTask(){
 	if(classTask.type === 2) {
 		nowDivision = getDivision(task.subjects[0].id);
 		showDivision(0,nowDivision);
-		submitIsdisabled();
 	}
+	submitIsdisabled();
 	getAndShowCode(task.subjects[0].id);
 }
 
@@ -311,7 +331,7 @@ function showDivision(index,division){
 		}
 		newp.append("<span>"+text+"</span>");
 	}
-	if(isLeader){
+	if(isLeader && classTask.status != 3){
 		newp.append(" <span class='glyphicon glyphicon-pencil'></span>");
 	}
 	$(".content-list .content").eq(index).children(".fengong").append(newp);

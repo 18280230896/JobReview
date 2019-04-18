@@ -51,14 +51,4 @@ public interface SubjectStudentService {
 	 */
 	public List<SubjectStudent> getDivisionList(Integer sid,Integer gid);
 	
-	
-	/**
-	 * 通过id查找任务信息
-	 * @author 罗龙贵
-	 * @date 2019年4月18日 上午9:35:24
-	 * @param id
-	 * @return
-	 */
-	public SubjectStudent getDivisionById(Integer id);
-	
 }

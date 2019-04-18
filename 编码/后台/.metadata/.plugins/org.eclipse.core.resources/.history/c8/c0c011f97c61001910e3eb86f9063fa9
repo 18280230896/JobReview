@@ -231,7 +231,7 @@ public class StudentControl {
 		//获取任务信息
 		Task task = taskService.getTaskById(subject.getTask().getId());
 		//获取班级信息
-		Class c = classService.getClassById(student.getC().getId());
+		Class c = classService.getClassById(student.getId());
 		//获取班级任务信息
 		ClassTask classTask = classTaskService.getClassTaskByTCId(task.getId(), c.getId());
 		if(classTask.getStatus() == 3){
@@ -392,8 +392,7 @@ public class StudentControl {
 		//获取任务信息
 		Task task = taskService.getTaskById(subject.getTask().getId());
 		if(task.getType() == 2){
-			result.put("status", "2");
-			result.put("msg", "任务状态已经发生改变，请刷新页面！");
+			result.put("msg", "oracle任务提交到了java");
 			return result;
 		}
 		//获取学生信息
@@ -403,16 +402,6 @@ public class StudentControl {
 		Class c = classService.getClassById(student.getC().getId());
 		//获取班级任务信息
 		ClassTask classTask = classTaskService.getClassTaskByTCId(task.getId(), c.getId());
-		//判断任务状态
-		if(classTask.getStatus() == 1){
-			result.put("status", "3");
-			result.put("msg", "任务还未开始，不能提交！");
-			return result;
-		}else if(classTask.getStatus() == 3){
-			result.put("status", "4");
-			result.put("msg", "任务已经结束，不能提交！");
-			return result;
-		}
 		//判断任务类型
 		Work work;
 		if(classTask.getType() == 1) work = workService.getWorkBySId(subjectId, student.getId());
@@ -428,8 +417,7 @@ public class StudentControl {
 				}
 			}
 			if(!flag) {
-				result.put("status", "5");
-				result.put("msg", "你没有权限提交！");
+				result.put("msg", "该学生没有权限提交！");
 				return result;
 			}
 		}
@@ -444,7 +432,7 @@ public class StudentControl {
 				work.setGroup(group);
 			}
 			//创建文件
-			String fileName = FileUtil.createFileName()+".txt";
+			String fileName = FileUtil.createFileName()+".java";
 			File file = FileUtil.createFile(FileUtil.LOCAL_JOB_PATH+fileName);
 			//将代码写入文件
 			FileUtil.write(file, code);
@@ -456,7 +444,7 @@ public class StudentControl {
 			if(work.getCodePath() != null && !work.getCodePath().equals(""))
 				FileUtil.write(new File(work.getCodePath()), code);
 		}
-		result.put("status", 1);
+		result.put("msg", 1);
 		return result;
 	}
 	

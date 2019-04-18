@@ -231,7 +231,7 @@ public class StudentControl {
 		//获取任务信息
 		Task task = taskService.getTaskById(subject.getTask().getId());
 		//获取班级信息
-		Class c = classService.getClassById(student.getC().getId());
+		Class c = classService.getClassById(student.getId());
 		//获取班级任务信息
 		ClassTask classTask = classTaskService.getClassTaskByTCId(task.getId(), c.getId());
 		if(classTask.getStatus() == 3){
@@ -444,7 +444,7 @@ public class StudentControl {
 				work.setGroup(group);
 			}
 			//创建文件
-			String fileName = FileUtil.createFileName()+".txt";
+			String fileName = FileUtil.createFileName()+".java";
 			File file = FileUtil.createFile(FileUtil.LOCAL_JOB_PATH+fileName);
 			//将代码写入文件
 			FileUtil.write(file, code);

@@ -124,7 +124,7 @@ function submitJob(subjectId,code){
 		data:{"subjectId":subjectId,"code":code},
 		dataType:"json",
 		success:function(result){
-			if(result.status == 1){
+			if(result.msg == 1){
 				//提交成功
 				tips("success","提交成功！");
 			}else{

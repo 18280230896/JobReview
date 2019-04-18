@@ -1,5 +1,0 @@
-var javaEditor = CodeMirror.fromTextArea(document.getElementById("code"), {
-            lineNumbers: true,
-            matchBrackets: true,
-            mode: "text/x-java"
-        });

@@ -99,11 +99,10 @@ $("#submitBtn").click(function(){
 	//判断有没有输入新内容
 	if(javaEditor.getValue() == nowCode) return;
 	//验证是否是第一次提交
-	var mark = subjectIsFirstSubmit(task.subjects[subjectIndex].id);
-	if(mark == 2){
+	if(!subjectIsFirstSubmit(task.subjects[subjectIndex].id)){
 		//显示覆盖提示
 		$("#confirmSubmit").modal("show");
-	}else if(mark == 1){
+	}else{
 		submitJob(task.subjects[subjectIndex].id,javaEditor.getValue());
 	}
 });
@@ -124,7 +123,7 @@ function submitJob(subjectId,code){
 		data:{"subjectId":subjectId,"code":code},
 		dataType:"json",
 		success:function(result){
-			if(result.status == 1){
+			if(result.msg == 1){
 				//提交成功
 				tips("success","提交成功！");
 			}else{

@@ -46,10 +46,5 @@ public class SubjectStudentServiceImpl implements SubjectStudentService {
 		return mapper.getDivivionList(sid, gid);
 	}
 
-	@Override
-	public SubjectStudent getDivisionById(Integer id) {
-		return mapper.getById(id);
-	}
-
 	
 }
