@@ -76,9 +76,6 @@ $("table").click(function(event){
 		$("#delTaskModal").modal("show");
 		//将任务id赋值给隐藏域
 		$("#delTaskModal input").val(data[$(event.target).parent().parent().index()-1].id);
-	}else if($(event.target).hasClass("btn-primary")){
-		$("#toTaskInfo input").val(data[$(event.target).parent().parent().index()-1].id);
-		$("#toTaskInfo")[0].submit();
 	}
 });
 

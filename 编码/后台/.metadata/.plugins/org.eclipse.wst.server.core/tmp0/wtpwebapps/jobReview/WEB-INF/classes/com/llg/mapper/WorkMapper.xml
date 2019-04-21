@@ -36,8 +36,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getWorkById" parameterType="Integer" resultMap="work">
-		select * from t_work where subject_id = #{0}
+		select * from t_work where work_id = #{0}
 	</select>
 	
-	
+	<update id="updateWork" parameterType="Work">
+		update t_work set
+		work_name = #{name},
+		code_path = #{codePath},
+		pic_path = #{picPath}
+		where work_id = #{id}
+	</update>
 </mapper>

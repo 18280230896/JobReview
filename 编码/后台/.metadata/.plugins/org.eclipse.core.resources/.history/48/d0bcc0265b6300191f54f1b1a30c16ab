@@ -1,0 +1,18 @@
+*{
+	padding:0px;
+	margin:0px;
+}
+body{
+	padding-top:90px;
+}
+.container{
+	padding:15px;
+}
+.media{
+	background-color:rgb(245,245,245);
+}
+.media-object{
+	width:100px;
+	height:100px;
+}
+

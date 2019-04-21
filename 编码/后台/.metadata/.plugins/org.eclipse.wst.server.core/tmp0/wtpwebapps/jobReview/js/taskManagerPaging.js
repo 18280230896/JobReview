@@ -84,7 +84,7 @@ function createTable(){
 					"<td>"+type+"</td>"+
 					"<td>" +
 						" <button class='btn btn-danger btn-sm'>删除</button>"+
-						" <button class='btn btn-primary btn-sm'>查看详情</button>" +
+						" <a href='teacherToTaskInfo.action?taskId="+data[i].id+"'teacherToTaskInfo.action><button class='btn btn-primary btn-sm'>查看详情</button></a>" +
 					"</td>"+
 				"</tr>");
 		$("table").append(tr);

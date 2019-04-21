@@ -78,7 +78,7 @@ function createTable(){
 						"<td>"+groups[i].name+"</td>"+
 						"<td>"+
 							" <button class='btn btn-danger btn-sm'>删除</button>"+
-							" <button class='btn btn-primary btn-sm'>查看详情</button>"+
+							" <a href='teacherToGroupInfo.action?groupId="+groups[i].id+"'><button class='btn btn-primary btn-sm'>查看详情</button></a>"+
 						"</td>"+
 					"</tr>");
 		$("#GruopManager table").append(tr);

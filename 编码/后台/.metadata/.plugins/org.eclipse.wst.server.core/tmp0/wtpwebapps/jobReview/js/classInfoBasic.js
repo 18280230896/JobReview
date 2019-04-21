@@ -150,11 +150,7 @@ $("#GruopManager .table").click(function(event){
 		$("#delModal .modal-title").text("确定要删除该小组吗？");
 		//弹出提示框
 		$("#delModal").modal("show");
-	}else if($(event.target).hasClass("btn-primary")){
-		$("#toGroupInfo input").val(groups[$(event.target).parent().parent().index()-1].id);
-		$("#toGroupInfo")[0].submit();
 	}
-	
 });
 
 var addStudentNameInput = false;

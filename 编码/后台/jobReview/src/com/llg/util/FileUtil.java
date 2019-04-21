@@ -22,7 +22,7 @@ public class FileUtil {
 	public static final String LOCAL_PATH = "D:\\jobReview\\";
 	public static final String LOCAL_JOB_PATH = LOCAL_PATH+"job\\";
 	public static final String LOCAL_TEMP_PATH = LOCAL_PATH+"temp\\";
-	public static final String VIRTUAL_PATH = "file/";
+	public static final String VIRTUAL_PATH = "/file/";
 	public static final String VIRTUAL_JOB_PATH = VIRTUAL_PATH+"job/";
 	public static final String VIRTUAL_TEMP_PATH = VIRTUAL_PATH+"temp/";
 	

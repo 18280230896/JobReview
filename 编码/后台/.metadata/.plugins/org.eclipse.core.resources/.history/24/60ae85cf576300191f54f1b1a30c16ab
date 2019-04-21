@@ -1,0 +1,25 @@
+*{
+	padding:0px;
+	margin:0px;
+}
+body{
+	padding-top:90px;
+}
+.content-list{
+	background-color:rgb(245,245,245);
+	padding:0px 30px;
+}
+.content{
+	margin-top:15px;
+	background-color:rgb(255,255,255);
+	border:1px inset #dee;
+}
+.right{
+	text-align:center;
+	display: flex;
+	/*控制元素在主轴的对齐方式*/
+	justify-content: center;
+	/*控制默认的一行的对齐方式*/
+	align-items: center;
+}
+

@@ -9,12 +9,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.llg.bean.Class;
 import com.llg.bean.ClassTask;
@@ -146,14 +148,15 @@ public class StudentControl {
 		//判断此任务是否是该学生要执行的任务
 		if(classTask == null || classTask.getC().getId() != student.getC().getId()) return "redirect:studentIndex.action";
 		//获取任务信息
-		Task task = taskService.getTaskById(classTask.getC().getId());
+		Task task = taskService.getTaskById(classTask.getTask().getId());
+		request.setAttribute("task", task);
+		request.setAttribute("classTask", classTask);
 		if(task.getType() == 1){
 			//java任务
-			request.setAttribute("classTask", classTask);
-			request.setAttribute("task", task);
 			return "reportJavaJob.jsp";
 		}
 		return "reportOracleJob.jsp";
+		
 	}
 	
 	
@@ -498,6 +501,113 @@ public class StudentControl {
 				result.put("code",FileUtil.getFileContent(new File(work.getCodePath())));
 			}
 		}
+		return result;
+	}
+	
+	
+	/**
+	 * 提交oracle任务
+	 * @author 罗龙贵
+	 * @date 2019年4月21日 下午2:48:17
+	 * @param file
+	 * @param subjectId
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="studentSubmitOracleJob.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> studentSubmitOracleJob(MultipartFile file ,Integer subjectId,HttpSession session){
+		Map<String, Object> result = new HashMap<>();
+		//判断文件是否为空
+		if(file.isEmpty()){
+			//1、表示正确，2、表示文件为空 ，3、表示文件格式不符合要求
+			result.put("status", "2");
+			result.put("msg", "没有选择文件！");
+			return result;
+		}
+		//获取文件名
+		String fileName = file.getOriginalFilename();
+		//获取文件后缀名
+		String ext = FilenameUtils.getExtension(fileName);
+		if(!ext.equals("jpg") && !ext.equals("png") && !ext.equals("gif")){
+			result.put("status", "3");
+			result.put("msg", "仅支持png、jpg、gif格式的图片！");
+			return result;
+		}
+		//获取题目信息
+		Subject subject = subjectService.getSubjectById(subjectId);
+		//获取任务信息
+		Task task = taskService.getTaskById(subject.getTask().getId());
+		if(task.getType() == 1){
+			result.put("status", "4");
+			result.put("msg", "任务状态已经发生改变，请刷新页面！");
+			return result;
+		}
+		//获取学生信息
+		User user = (User)session.getAttribute("user");
+		Student student = studentService.getStudentById(user.getId());
+		//获取班级信息
+		Class c = classService.getClassById(student.getC().getId());
+		//获取班级任务信息
+		ClassTask classTask = classTaskService.getClassTaskByTCId(task.getId(), c.getId());
+		//判断任务状态
+		if(classTask.getStatus() == 1){
+			result.put("status", "5");
+			result.put("msg", "任务还未开始，不能提交！");
+			return result;
+		}else if(classTask.getStatus() == 3){
+			result.put("status", "6");
+			result.put("msg", "任务已经结束，不能提交！");
+			return result;
+		}
+		//判断任务类型
+		Work work;
+		if(classTask.getType() == 1) work = workService.getWorkBySId(subjectId, student.getId());
+		else {
+			work = workService.getWorkByGId(subjectId, student.getGroup().getId());
+			//判断学生有没有权限提交
+			List<SubjectStudent> subjectStudents = divisionService.getDivisionList(subjectId, student.getGroup().getId());
+			boolean flag = false;
+			for (SubjectStudent subjectStudent : subjectStudents) {
+				if(subjectStudent.getStudent().getId() == student.getId()){
+					flag = true;
+					break;
+				}
+			}
+			if(!flag) {
+				result.put("status", "7");
+				result.put("msg", "你没有权限提交！");
+				return result;
+			}
+		}
+		//判断是否是第一次提交
+		if(work == null){
+			work = new Work();
+			work.setSubject(subject);
+			if(classTask.getType() == 1) work.setStudent(student);
+			else work.setGroup(student.getGroup());
+			work.setName(fileName+"."+ext);
+			fileName = FileUtil.createFileName();
+			work.setPicPath(FileUtil.VIRTUAL_JOB_PATH+fileName+"."+ext);
+			try {
+				file.transferTo(FileUtil.createFile(FileUtil.LOCAL_JOB_PATH+fileName+"."+ext));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			workService.addWork(work);
+		}else{
+			//不是第二次提交就覆盖
+			try {
+				work.setName(fileName+"."+ext);
+				fileName = FileUtil.createFileName();
+				file.transferTo(FileUtil.createFile(FileUtil.LOCAL_JOB_PATH+fileName+"."+ext));
+				work.setPicPath(FileUtil.VIRTUAL_JOB_PATH+fileName+"."+ext);
+				workService.updateWork(work);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		result.put("status", 1);
 		return result;
 	}
 }

@@ -263,9 +263,12 @@ public class TeacherControl {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value="teacherToClassInfo.action",method=RequestMethod.POST)
-	public String teacherToClassInfo(Integer classId,HttpServletRequest request){
+	@RequestMapping(value="teacherToClassInfo.action",method=RequestMethod.GET)
+	public String teacherToClassInfo(Integer classId,HttpServletRequest request,HttpSession session){
 		Class c = classService.getClassById(classId);
+		if(c == null) return "redirect:teacherToClassManage.action";
+		User user = (User) session.getAttribute("user");
+		if(!c.getTeacher().getId().equals(user.getId())) return "redirect:teacherToClassManage.action";
 		request.setAttribute("c", c);
 		return "classInfo.jsp";
 	}
@@ -661,9 +664,13 @@ public class TeacherControl {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value="teacherToGroupInfo.action",method=RequestMethod.POST)
-	public String teacherToGroupInfo(Integer groupId,HttpServletRequest request){
+	@RequestMapping(value="teacherToGroupInfo.action",method=RequestMethod.GET)
+	public String teacherToGroupInfo(Integer groupId,HttpServletRequest request,HttpSession session){
 		Group group = groupService.getGroupById(groupId);
+		if(group == null) return "redirect:teacherToClassManage.action";
+		User user = (User) session.getAttribute("user");
+		Class c = classService.getClassById(group.getC().getId());
+		if(!user.getId().equals(c.getTeacher().getId())) return "redirect:teacherToClassManage.action";
 		request.setAttribute("group", group);
 		return "groupInfo.jsp";
 	}
@@ -796,9 +803,12 @@ public class TeacherControl {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value="teacherToTaskInfo.action",method=RequestMethod.POST)
-	public String teacherToTaskInfo(Integer taskId,HttpServletRequest request){
+	@RequestMapping(value="teacherToTaskInfo.action",method=RequestMethod.GET)
+	public String teacherToTaskInfo(Integer taskId,HttpServletRequest request,HttpSession session){
 		Task task = taskService.getTaskById(taskId);
+		if(task == null) return "redirect:teacherToClassManage.action";
+		User user = (User)session.getAttribute("user");
+		if(!user.getId().equals(task.getTeacher().getId())) return "redirect:teacherToClassManage.action";
 		request.setAttribute("task", task);
 		return "taskInfo.jsp";
 	}

@@ -21,7 +21,14 @@ public interface WorkMapper {
 	 */
 	public void deleteWork(Integer id);
 	
-
+	
+	/**
+	 * 修改作业
+	 * @author 罗龙贵
+	 * @date 2019年4月21日 下午3:23:49
+	 * @param work
+	 */
+	public void updateWork(Work work);
 	
 	
 	/**

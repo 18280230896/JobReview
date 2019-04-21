@@ -1,7 +1,0 @@
-package com.llg.service.impl;
-
-import com.llg.service.ClassService;
-
-public class ClassServiceImpl implements ClassService {
-
-}

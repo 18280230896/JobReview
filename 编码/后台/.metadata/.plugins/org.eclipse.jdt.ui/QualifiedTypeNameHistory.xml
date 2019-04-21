@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="com.llg.mapper.TaskMapper"/>
 <fullyQualifiedTypeName name="java.sql.Timestamp"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="java.awt.List"/>
 <fullyQualifiedTypeName name="com.llg.mapper.StudentMapper"/>
-<fullyQualifiedTypeName name="org.apache.commons.io.FilenameUtils"/>
 <fullyQualifiedTypeName name="org.apache.poi.ss.usermodel.Workbook"/>
 <fullyQualifiedTypeName name="org.apache.poi.hssf.usermodel.HSSFWorkbook"/>
 <fullyQualifiedTypeName name="org.apache.poi.xssf.usermodel.XSSFWorkbook"/>
 <fullyQualifiedTypeName name="org.apache.poi.ss.usermodel.Cell"/>
 <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
-<fullyQualifiedTypeName name="org.springframework.web.multipart.MultipartFile"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="com.llg.mapper.UserMapper"/>
 <fullyQualifiedTypeName name="net.sf.ezmorph.object.NumberMorpher"/>
@@ -43,21 +40,24 @@
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="com.llg.mapper.WorkMapper"/>
 <fullyQualifiedTypeName name="com.llg.service.SubjectService"/>
-<fullyQualifiedTypeName name="com.llg.bean.User"/>
 <fullyQualifiedTypeName name="com.llg.service.ClassTaskService"/>
 <fullyQualifiedTypeName name="com.llg.service.WorkService"/>
-<fullyQualifiedTypeName name="com.llg.bean.Work"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="com.llg.bean.Group"/>
-<fullyQualifiedTypeName name="com.llg.util.FileUtil"/>
 <fullyQualifiedTypeName name="java.io.File"/>
-<fullyQualifiedTypeName name="java.lang.String"/>
-<fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
 <fullyQualifiedTypeName name="com.llg.bean.SubjectStudent"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="com.llg.bean.Subject"/>
 <fullyQualifiedTypeName name="com.llg.bean.Student"/>
 <fullyQualifiedTypeName name="com.llg.bean.Task"/>
-<fullyQualifiedTypeName name="com.llg.bean.Class"/>
 <fullyQualifiedTypeName name="com.llg.bean.ClassTask"/>
+<fullyQualifiedTypeName name="org.springframework.web.multipart.MultipartFile"/>
+<fullyQualifiedTypeName name="org.apache.commons.io.FilenameUtils"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
+<fullyQualifiedTypeName name="com.llg.util.FileUtil"/>
+<fullyQualifiedTypeName name="com.llg.bean.Work"/>
+<fullyQualifiedTypeName name="org.omg.PortableInterceptor.USER_EXCEPTION"/>
+<fullyQualifiedTypeName name="com.llg.bean.Group"/>
+<fullyQualifiedTypeName name="com.llg.bean.Class"/>
+<fullyQualifiedTypeName name="com.llg.bean.User"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
 </qualifiedTypeNameHistroy>

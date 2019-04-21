@@ -383,16 +383,6 @@
 	</div>
 </div>
 
-<div class="hide">
-	<form action="teacherToReviewBug.action" method="post">
-		<input type="hidden" name="ctId">
-		<button type="submit" id="toReviewBugBtn"></button>
-	</form>
-	<form action="teacherToGroupInfo.action" method="post" id="toGroupInfo">
-		<input type="hidden" name="groupId">
-	</form>
-</div>
-
 <script src="bootstrap/js/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.js"></script>
 <script src="bootstrap/js/docs.min.js"></script>
