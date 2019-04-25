@@ -1042,7 +1042,6 @@ public class TeacherControl {
 			//获取学生信息
 			Student student = studentService.getStudentById(id);
 			if(student == null ) return "redirect:teacherIndex.action";
-			System.out.println(2);
 			//获取该学生班级信息
 			Class c = classService.getClassById(student.getC().getId());
 			if(!c.getTeacher().getId().equals(user.getId())) return "redirect:teacherIndex.action";
