@@ -1,0 +1,21 @@
+var ctid = $("#ctid").val();
+var task;
+var classTask;
+
+
+function getTaskInfo(){
+	$.ajax({
+		url:"teacherGetClassTask.action",
+		type:"post",
+		data:{"ctid":ctid},
+		dataType:"json",
+		async:false,
+		success:function(result){
+			if(result.msg == 1){
+				task = result.task;
+				classTask = result.classTask;
+			}
+		}
+	});
+}
+

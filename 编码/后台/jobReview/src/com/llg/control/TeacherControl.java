@@ -1,5 +1,6 @@
 package com.llg.control;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -27,17 +28,24 @@ import org.springframework.web.multipart.MultipartFile;
 import com.llg.bean.Class;
 import com.llg.bean.ClassTask;
 import com.llg.bean.Group;
+import com.llg.bean.JobStatus;
 import com.llg.bean.Student;
 import com.llg.bean.Subject;
+import com.llg.bean.SubjectStudent;
 import com.llg.bean.Task;
 import com.llg.bean.Teacher;
 import com.llg.bean.User;
+import com.llg.bean.Work;
 import com.llg.service.ClassService;
 import com.llg.service.ClassTaskService;
 import com.llg.service.GroupService;
+import com.llg.service.JobStatusService;
 import com.llg.service.StudentService;
 import com.llg.service.SubjectService;
+import com.llg.service.SubjectStudentService;
 import com.llg.service.TaskService;
+import com.llg.service.WorkService;
+import com.llg.util.FileUtil;
 
 @Controller
 public class TeacherControl {
@@ -54,7 +62,12 @@ public class TeacherControl {
 	private GroupService groupService;
 	@Autowired
 	private SubjectService subjectService;
-	
+	@Autowired
+	private JobStatusService jobService;
+	@Autowired
+	private SubjectStudentService divisionService;
+	@Autowired
+	private WorkService workService;
 	
 	/**
 	 * 跳转到教师首页
@@ -936,4 +949,253 @@ public class TeacherControl {
 		return result;
 	}
 	
+	/**
+	 * 教师跳转到作业提交情况界面
+	 * @author 罗龙贵
+	 * @date 2019年4月22日 上午10:30:18
+	 * @param ctid
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="teacher2JobStatus.action",method=RequestMethod.GET)
+	public String teacher2ReviewJob(Integer ctid,HttpServletRequest request){
+		//获取班级任务信息
+		ClassTask classTask = classTaskService.getClassTaskById(ctid);
+		if(classTask == null) return "redirect:teacherToClassManage.action";
+		//获取任务信息
+		Task task = taskService.getTaskById(classTask.getTask().getId());
+		request.setAttribute("classTask", classTask);
+		request.setAttribute("task", task);
+		return "jobStatus.jsp";
+	}
+	
+	
+	/**
+	 * 分页获取获取任务状态信息
+	 * @author 罗龙贵
+	 * @date 2019年4月24日 下午3:28:40
+	 * @param ctid
+	 * @param startNum
+	 * @param pageSize
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetTaskSubmitStatus.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetTaskSubmitStatus(Integer ctid,Integer startNum,Integer pageSize,HttpSession session){
+		Map<String, Object> result = new HashMap<>();
+		//获取班级任务
+		ClassTask classTask = classTaskService.getClassTaskById(ctid);
+		//判断任务类型
+		if(classTask.getType() == 1){
+			//个人任务
+			//获取学生列表
+			List<Student> students = studentService.getStudentList(classTask.getC().getId(), startNum, pageSize);
+			//获取任务状态信息
+			List<JobStatus> jobStatus = new ArrayList<>();
+			for (Student student : students) {
+				JobStatus job = jobService.getJobStatusByCTSId(ctid, student.getId());
+				jobStatus.add(job);
+			}
+			result.put("data", students);
+			result.put("jobStatus", jobStatus);
+		}else{
+			//小组任务
+			//获取小组列表
+			List<Group> groups = groupService.getGroupList(classTask.getC().getId(), startNum, pageSize);
+			//获取任务状态信息
+			List<JobStatus> jobStatus = new ArrayList<>();
+			for (Group group : groups) {
+				JobStatus job = jobService.getJobStatusByCTGId(ctid, group.getId());
+				jobStatus.add(job);
+			}
+			result.put("data", groups);
+			result.put("jobStatus", jobStatus);
+		}
+		result.put("status", 1);
+		return result;
+	}
+	
+	/**
+	 * 跳转到批改作业界面
+	 * @author 罗龙贵
+	 * @date 2019年4月24日 下午4:54:06
+	 * @param action 小组任务传2，个人任务传1
+	 * @param id 学生或小组id
+	 * @param ctid 班级任务id
+	 * @param session
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="teacher2ReviewJob.action",method=RequestMethod.GET)
+	public String teacher2ReviewJavaJob(Integer id,Integer ctid,HttpSession session,HttpServletRequest request){
+		//获取班级任务信息
+		ClassTask classTask = classTaskService.getClassTaskById(ctid);
+		if(classTask == null ) return "redirect:teacherIndex.action";
+		//获取任务信息 
+		Task task = taskService.getTaskById(classTask.getTask().getId());
+		request.setAttribute("classTask", classTask);
+		request.setAttribute("task", task);
+		//获取当前登录的教师信息
+		User user = (User) session.getAttribute("user");
+		if(classTask.getType() == 1){
+			//获取学生信息
+			Student student = studentService.getStudentById(id);
+			if(student == null ) return "redirect:teacherIndex.action";
+			System.out.println(2);
+			//获取该学生班级信息
+			Class c = classService.getClassById(student.getC().getId());
+			if(!c.getTeacher().getId().equals(user.getId())) return "redirect:teacherIndex.action";
+			if(!c.getId().equals(classTask.getC().getId())) return "redirect:teacherIndex.action";
+			request.setAttribute("data", student);
+		}else if(classTask.getType() == 2){
+			//获取小组信息
+			Group group = groupService.getGroupById(id);
+			if(group == null ) return "redirect:teacherIndex.action";
+			//获取班级信息
+			Class c = classService.getClassById(group.getC().getId());
+			if(!c.getTeacher().getId().equals(user.getId())) return "redirect:teacherIndex.action";
+			if(!c.getId().equals(classTask.getC().getId())) return "redirect:teacherIndex.action";
+			request.setAttribute("data", group);
+		}
+		if(task.getType() == 1) return "reviewJavaJob.jsp";
+		return "reviewOracleJob.jsp";
+	}
+	
+	/**
+	 * 获取学生或小组某个任务的分数
+	 * @author 罗龙贵
+	 * @date 2019年4月25日 上午11:09:39
+	 * @param id
+	 * @param ctid
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetScore.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetScore(Integer id,Integer ctid){
+		Map<String, Object> result = new HashMap<>();
+		//获取班级任务
+		ClassTask classTask = classTaskService.getClassTaskById(ctid);
+		JobStatus jobStatus;
+		if(classTask.getType() == 1) jobStatus = jobService.getJobStatusByCTSId(ctid, id);
+		else jobStatus = jobService.getJobStatusByCTGId(ctid, id);
+		result.put("jobStatus", jobStatus);
+		result.put("status", 1);
+		return result;
+	}
+	
+	
+	/**
+	 * 获取班级任务信息
+	 * @author 罗龙贵
+	 * @date 2019年4月25日 下午12:18:51
+	 * @param ctid
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetClassTask.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetClassTask(Integer ctid,Integer id){
+		Map<String, Object> result = new HashMap<>();
+		//获取班级任务
+		ClassTask classTask = classTaskService.getClassTaskById(ctid);
+		Task task = taskService.getTaskInfo(classTask.getTask().getId());
+		JobStatus jobStatus;
+		if(classTask.getType() == 1) jobStatus = jobService.getJobStatusByCTSId(ctid, id);
+		else jobStatus = jobService.getJobStatusByCTGId(ctid, id);
+		result.put("classTask", classTask);
+		result.put("jobStatus", jobStatus);
+		result.put("task", task);
+		result.put("status", 1);
+		return result;
+	}
+	
+	
+	/**
+	 * 获取某个小组某个题目的分工
+	 * @author 罗龙贵
+	 * @date 2019年4月25日 下午2:25:11
+	 * @param gid
+	 * @param sid
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetDivision.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> studentGetDivision(Integer gid,Integer sid,HttpSession session){
+		Map<String, Object> result = new HashMap<>();
+		List<SubjectStudent> divisionList = divisionService.getDivisionList(sid,gid);
+		result.put("msg", 1);
+		result.put("division", divisionList);
+		return result;
+	}
+	
+	
+	/**
+	 * 获取提交的作业信息
+	 * @author 罗龙贵
+	 * @date 2019年4月25日 下午2:41:49
+	 * @param ctid
+	 * @param subjectId
+	 * @param id
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetWork.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetWork(Integer ctid,Integer subjectId,Integer id,HttpSession session){
+		Map<String, Object> result = new HashMap<>();
+		//获取班级任务信息
+		ClassTask classTask = classTaskService.getClassTaskById(ctid);
+		//获取任务信息
+		Task task = taskService.getTaskById(classTask.getTask().getId());
+		//判断任务类型
+		Work work;
+		if(classTask.getType() == 1) work = workService.getWorkBySId(subjectId, id);
+		else work = workService.getWorkByGId(subjectId, id);
+		if(work == null) result.put("status", 0);
+		else{
+			result.put("status", 1);
+			result.put("work", work);
+			if(task.getType() == 1){
+				result.put("code",FileUtil.getFileContent(new File(work.getCodePath())));
+			}
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * 给任务打分
+	 * @author 罗龙贵
+	 * @date 2019年4月25日 下午3:40:43
+	 * @param score
+	 * @param id
+	 * @param ctid
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="teacherSubmitScore.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherSubmitScore(Integer score,Integer id,Integer ctid,HttpSession session){
+		Map<String, Object> result = new HashMap<>();
+		//获取班级任务信息
+		ClassTask classTask = classTaskService.getClassTaskById(ctid);
+		//判断任务类型
+		JobStatus jobStatus;
+		if(classTask.getType() == 1) jobStatus = jobService.getJobStatusByCTSId(ctid, id);
+		else jobStatus = jobService.getJobStatusByCTGId(ctid, id);
+		if(jobStatus == null){
+			jobStatus = new JobStatus();
+			jobStatus.setClassTask(classTask);
+			if(classTask.getType() == 1) jobStatus.setStudent(studentService.getStudentById(id));
+			else jobStatus.setGroup(groupService.getGroupById(id));
+			jobStatus.setScore(score);
+			jobService.addJobStatus(jobStatus);
+		}else{
+			jobStatus.setScore(score);
+			jobService.updateJobStatus(jobStatus);
+		}
+		result.put("status", 1);
+		return result;
+	}
 }

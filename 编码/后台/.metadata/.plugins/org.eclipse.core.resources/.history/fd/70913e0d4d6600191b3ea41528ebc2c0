@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llg.mapper.JobStatusMapper">
+	<resultMap type="JobStatus" id="jobStatus">
+		<id property="id" column="score_id"/>
+		<result property="score" column="score_num"/>
+		<result property="submitTime" column="last_submit_time"/>
+		<association property="student" javaType="Student">
+			<id property="id" column="student_id"/>
+		</association>
+		<association property="group" javaType="Student">
+			<id property="id" column="group_id"/>
+		</association>
+		<association property="classTask" javaType="Student">
+			<id property="id" column="ct_id"/>
+		</association>
+	</resultMap>
+	
+	<insert id="addJobStatus" parameterType="JobStatus">
+		insert into t_task_status values(null,#{student.id},#{group.id},#{classTask.id},#{submitTime},null)
+	</insert>
+	
+	<delete id="deleteJobStatus" parameterType="Integer">
+		delete from t_task_status where score_id = #{id}
+	</delete>
+	
+	<update id="updateJobStatus" parameterType="JobStatus">
+		update t_task_status set
+		score_num = #{score},
+		last_submit_time = #{submitTime}
+	</update>
+	
+	
+	<select id="getStatusById" parameterType="Integer" resultMap="jobStatus">
+		select * from t_task_status where score_id = #{id}
+	</select>
+	
+	<select id="getStatusByCTSId" parameterType="Integer" resultMap="jobStatus">
+		select * from t_task_status where ct_id = #{0} and student_id = #{1}
+	</select>
+	
+	
+	<select id="getstatusByCTGId" parameterType="Integer" resultMap="jobStatus">
+		select * from t_task_status where ct_id = #{0} and group_id = #{1}
+	</select>
+</mapper>

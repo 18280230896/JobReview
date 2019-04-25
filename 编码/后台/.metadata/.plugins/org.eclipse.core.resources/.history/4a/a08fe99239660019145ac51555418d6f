@@ -1,0 +1,12 @@
+package com.llg.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.llg.mapper.JobStatusMapper;
+import com.llg.service.JobStatusService;
+@Service
+public class JobStatusServiceImpl implements JobStatusService{
+	@Autowired
+	private JobStatusMapper statusMapper;
+}

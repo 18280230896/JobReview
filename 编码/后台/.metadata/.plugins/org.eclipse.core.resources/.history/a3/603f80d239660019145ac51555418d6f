@@ -1,0 +1,41 @@
+package com.llg.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.llg.bean.JobStatus;
+import com.llg.mapper.JobStatusMapper;
+import com.llg.service.JobStatusService;
+@Service
+public class JobStatusServiceImpl implements JobStatusService{
+	@Autowired
+	private JobStatusMapper statusMapper;
+
+	@Override
+	public void addJobStatus(JobStatus jobStatus) {
+		statusMapper.addJobStatus(jobStatus);
+	}
+
+	@Override
+	public void deleteJobStatus(Integer id) {
+		statusMapper.deleteJobStatus(id);
+	}
+
+	@Override
+	public void updateJobStatus(JobStatus jobStatus) {
+		JobStatus jobStatus2 = statusMapper.getStatusById(jobStatus.getId());
+		if(jobStatus.getScore() != null)
+	}
+
+	@Override
+	public JobStatus getJobStatusById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public JobStatus getJobStatusByCTSId(Integer ctid, Integer student_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

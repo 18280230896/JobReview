@@ -1,0 +1,51 @@
+package com.llg.service;
+
+import com.llg.bean.JobStatus;
+
+public interface JobStatusService {
+
+	/**
+	 * 添加一个任务状态
+	 * @author 罗龙贵
+	 * @date 2019年4月24日 上午10:28:59
+	 * @param jobStatus
+	 */
+	public void addJobStatus(JobStatus jobStatus);
+	
+	/**
+	 * 删除一个任务状态
+	 * @author 罗龙贵
+	 * @date 2019年4月24日 上午10:29:33
+	 * @param id
+	 */
+	public void deleteJobStatus(Integer id);
+	
+	
+	/**
+	 * 修改任务状态
+	 * @author 罗龙贵
+	 * @date 2019年4月24日 上午10:30:07
+	 * @param jobStatus
+	 */
+	public void updateJobStatus(JobStatus jobStatus);
+	
+	/**
+	 * 通过id查找任务状态
+	 * @author 罗龙贵
+	 * @date 2019年4月24日 上午10:30:52
+	 * @param id
+	 * @return
+	 */
+	public JobStatus getJobStatusById(Integer id);
+	
+	
+	/**
+	 * 通过学生和班级任务低查找任务状态
+	 * @author 罗龙贵
+	 * @date 2019年4月24日 上午10:31:53
+	 * @param ctid
+	 * @param student_id
+	 * @return
+	 */
+	public JobStatus getJobStatusByCTSId(Integer ctid,Integer student_id);
+}

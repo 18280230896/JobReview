@@ -1,0 +1,118 @@
+package com.llg.service.impl;
+
+import java.sql.Timestamp;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.llg.bean.Class;
+import com.llg.bean.ClassTask;
+import com.llg.bean.JobStatus;
+import com.llg.bean.Task;
+import com.llg.bean.Work;
+import com.llg.mapper.ClassMapper;
+import com.llg.mapper.ClassTaskMapper;
+import com.llg.mapper.GroupMapper;
+import com.llg.mapper.JobStatusMapper;
+import com.llg.mapper.StudentMapper;
+import com.llg.mapper.SubjectMapper;
+import com.llg.mapper.TaskMapper;
+import com.llg.mapper.WorkMapper;
+import com.llg.service.WorkService;
+@Service
+public class WorkServiceImpl implements WorkService {
+	@Autowired
+	private WorkMapper workMapper;
+	@Autowired
+	private JobStatusMapper jobStatusMapper;
+	@Autowired
+	private SubjectMapper subjectMapper;
+	@Autowired
+	private TaskMapper taskMapper;
+	@Autowired
+	private StudentMapper studentMapper;
+	@Autowired
+	private ClassMapper classMapper;
+	@Autowired
+	private ClassTaskMapper classTaskMapper;
+	@Autowired
+	private GroupMapper groupMapper;
+
+	@Override
+	public void addWork(Work work) {
+		//获取任务状态
+		Task task = taskMapper.getTaskById(subjectMapper.getSubjectById(work.getSubject().getId()).getTask().getId());
+		ClassTask classTask;
+		JobStatus jobStatus;
+		if(work.getStudent() != null){
+			Class c = classMapper.getClassById(studentMapper.getStudentById(work.getStudent().getId()).getC().getId());
+			classTask = classTaskMapper.getClassTaskByTCId(task.getId(), c.getId());
+			jobStatus = jobStatusMapper.getStatusByCTSId(classTask.getId(), work.getStudent().getId());
+		}else{
+			Class c = classMapper.getClassById(groupMapper.getGroupById(work.getGroup().getId()).getId());
+			classTask = classTaskMapper.getClassTaskByTCId(task.getId(), c.getId());
+			jobStatus = jobStatusMapper.getstatusByCTGId(classTask.getId(), work.getGroup().getId());
+		}
+		if(jobStatus == null){
+			jobStatus = new JobStatus();
+			jobStatus.setClassTask(classTask);
+			jobStatus.setGroup(work.getGroup());
+			jobStatus.setStudent(work.getStudent());
+			jobStatus.setSubmitTime(new Timestamp(new Date().getTime()));
+			jobStatusMapper.addJobStatus(jobStatus);
+		}else{
+			jobStatus.setSubmitTime(new Timestamp(new Date().getTime()));
+			jobStatusMapper.updateJobStatus(jobStatus);
+		}
+		workMapper.addWork(work);
+	}
+
+	@Override
+	public Work getWorkBySId(Integer subjectId, Integer studentId) {
+		return workMapper.getWorkBySId(subjectId, studentId);
+	}
+
+	@Override
+	public Work getWorkByGId(Integer subjectId, Integer groupId) {
+		return workMapper.getWorkByGId(subjectId, groupId);
+	}
+
+	@Override
+	public Work getWorkById(Integer id) {
+		return workMapper.getWorkById(id);
+	}
+
+	@Override
+	public void updateWork(Work work) {
+		//获取任务状态
+		Task task = taskMapper.getTaskById(subjectMapper.getSubjectById(work.getSubject().getId()).getId());
+		ClassTask classTask;
+		JobStatus jobStatus;
+		if(work.getStudent() != null){
+			Class c = classMapper.getClassById(studentMapper.getStudentById(work.getStudent().getId()).getId());
+			classTask = classTaskMapper.getClassTaskByTCId(task.getId(), c.getId());
+			jobStatus = jobStatusMapper.getStatusByCTSId(classTask.getId(), work.getStudent().getId());
+		}else{
+			Class c = classMapper.getClassById(groupMapper.getGroupById(work.getGroup().getId()).getId());
+			classTask = classTaskMapper.getClassTaskByTCId(task.getId(), c.getId());
+			jobStatus = jobStatusMapper.getstatusByCTGId(classTask.getId(), work.getGroup().getId());
+		}
+		if(jobStatus == null){
+			jobStatus = new JobStatus();
+			jobStatus.setClassTask(classTask);
+			jobStatus.setGroup(work.getGroup());
+			jobStatus.setStudent(work.getStudent());
+			jobStatus.setSubmitTime(new Timestamp(new Date().getTime()));
+			jobStatusMapper.addJobStatus(jobStatus);
+		}else{
+			jobStatus.setSubmitTime(new Timestamp(new Date().getTime()));
+			jobStatusMapper.updateJobStatus(jobStatus);
+		}
+		Work work2 = workMapper.getWorkById(work.getId());
+		if(work.getName() != null && !work.getName().equals("")) work2.setName(work.getName());;
+		if(work.getCodePath() != null && !work.getCodePath().equals("")) work2.setCodePath(work.getCodePath());
+		if(work.getPicPath() != null && !work.getPicPath().equals("")) work2.setPicPath(work.getPicPath());
+		workMapper.updateWork(work2);
+	}
+}

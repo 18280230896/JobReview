@@ -1,5 +1,0 @@
-package com.llg.service;
-
-public interface WorkService {
-
-}

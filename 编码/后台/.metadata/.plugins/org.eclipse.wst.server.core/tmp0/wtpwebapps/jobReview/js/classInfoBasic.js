@@ -108,16 +108,6 @@ $("#TaskManager .table").click(function(event){
 		$("#delModal .modal-title").text("确定要立即截止该任务吗？");
 		//弹出提示框
 		$("#delModal").modal("show");
-	}else if($(event.target).hasClass("btn-primary")){
-		var index = $(event.target).index();
-		var ctId = classTasks[$(event.target).parent().parent().index()-1].ctId;
-		if(index == 0){
-			$("#toReviewCaseBtn").prev().val(ctId);
-			$("#toReviewCaseBtn").click();
-		}else if(index == 1){
-			$("#toReviewBugBtn").prev().val(ctId);
-			$("#toReviewBugBtn").click();
-		}
 	}
 });
 

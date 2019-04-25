@@ -111,7 +111,7 @@ function createTaskTable(){
 						"<td>"+dateFtt("yyyy-MM-dd hh:mm:ss",new Date(classTasks[i].endTime))+"</td>"+
 						"<td class='"+statusClass+"'>"+status+"</td>"+
 						"<td>"+
-							" <button class='btn btn-primary btn-sm'>批阅</button>"+
+							" <a href='teacher2JobStatus.action?ctid="+classTasks[i].id+"'><button class='btn btn-primary btn-sm'>查看</button></a>"+
 							" <button class='btn btn-info btn-sm'>修改</button>"+
 							" <button class='btn btn-danger btn-sm'>删除</button>"+
 							" <button class='btn btn-warning btn-sm'>立即截止</button>"+

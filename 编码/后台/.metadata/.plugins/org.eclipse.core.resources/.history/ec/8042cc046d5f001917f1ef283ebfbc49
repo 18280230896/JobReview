@@ -1,7 +1,0 @@
-package com.llg.service.impl;
-
-import com.llg.service.SubjectService;
-
-public class SubjectServiceImpl implements SubjectService {
-
-}

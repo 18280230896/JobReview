@@ -92,7 +92,7 @@ $("input[type='file']").change(function(){
 					tips("success","上传成功！");
 					var work = getWork(task.subjects[index].id);
 					$(".media").eq(index).find(".media-object").attr("src",work.picPath).addClass("pic");
-					
+					$("#upload input[type='file']").val("");
 				}else{
 					tips("error",result.msg);
 				}

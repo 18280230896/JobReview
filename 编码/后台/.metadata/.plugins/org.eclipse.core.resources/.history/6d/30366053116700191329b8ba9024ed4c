@@ -1,0 +1,24 @@
+var ctid = $("#ctid").val();
+var tid = $("#tid").val();
+var task;
+var classTask;
+
+
+function getTaskInfo(){
+	$.ajax({
+		url:"teacherGetTaskInfo.action",
+		type:"post",
+		data:{"taskId":tid},
+		dataType:"json",
+		async:false,
+		success:function(result){
+			if(result.msg == 1){
+				task = result.task;
+			}
+		}
+	});
+}
+
+function getClassTask(){
+	
+}

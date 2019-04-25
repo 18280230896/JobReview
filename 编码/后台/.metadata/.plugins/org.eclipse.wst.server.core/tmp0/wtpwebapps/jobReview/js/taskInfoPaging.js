@@ -115,7 +115,7 @@ function createTable(){
 					"<td>"+dateFtt("yyyy-MM-dd hh:mm:ss",new Date(data[i].startTime))+"</td>"+
 					"<td>"+dateFtt("yyyy-MM-dd hh:mm:ss",new Date(data[i].endTime))+"</td>"+
 					"<td class='"+bg+"'>"+status+"</td>"+
-					"<td><button class='btn btn-sm btn-primary'>批阅</button></td>"+
+					"<td><a href='teacher2JobStatus.action?ctid="+data[i].id+"'><button class='btn btn-sm btn-primary'>查看</button></a></td>"+
 				"</tr>");
 		$("table").append(tr);
 	}
