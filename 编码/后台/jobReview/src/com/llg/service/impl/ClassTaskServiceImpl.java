@@ -102,4 +102,14 @@ public class ClassTaskServiceImpl implements ClassTaskService {
 		return classTaskMapper.getClassTaskByTCId(taskId,classId);
 	}
 
+	@Override
+	public List<ClassTask> getClassTaskAll(Integer classId) {
+		return classTaskMapper.getClassTaskAll(classId);
+	}
+
+	@Override
+	public List<ClassTask> getClassTaskByType(Integer classId, Integer type) {
+		return classTaskMapper.getClassTaskAllByType(classId, type);
+	}
+
 }

@@ -65,6 +65,7 @@ function studentCreateTable(){
 	//创建表头
 	var thead = $("<tr>"+
 						"<th>序号</th>"+
+						"<th>学号</th>"+
 						"<th>姓名</th>"+
 						"<th>用户名</th>"+
 						"<th>密码</th>"+
@@ -75,6 +76,7 @@ function studentCreateTable(){
 	for(var i=0;i<students.length;i++){
 		var tr = $("<tr>"+
 						"<td>"+((studentNowPage-1)*pageSize+i+1)+"</td>"+
+						"<td>"+students[i].num+"</td>"+
 						"<td>"+students[i].name+"</td>"+
 						"<td>"+students[i].username+"</td>"+
 						"<td>"+students[i].password+"</td>"+

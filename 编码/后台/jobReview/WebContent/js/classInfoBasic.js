@@ -126,8 +126,8 @@ $("#StudentManager .table").click(function(){
 	}else if($(event.target).hasClass("btn-primary")){
 		//点击修改学生按钮
 		$("#udpateStudnetModal").modal("show");
-		$("#udpateStudnetModal input").eq(0).val($(event.target).parent().siblings("td").eq(1).text());
-		$("#udpateStudnetModal input").eq(1).val($(event.target).parent().siblings("td").eq(3).text());
+		$("#udpateStudnetModal input").eq(0).val($(event.target).parent().siblings("td").eq(2).text());
+		$("#udpateStudnetModal input").eq(1).val($(event.target).parent().siblings("td").eq(4).text());
 		$("#udpateStudnetModal input").eq(2).val($(event.target).parent().parent().index()-1);
 	}
 });
@@ -142,30 +142,58 @@ $("#GruopManager .table").click(function(event){
 		$("#delModal").modal("show");
 	}
 });
-
+var addStudentNumInput = false;
 var addStudentNameInput = false;
 var addStudentUserNameInput = false;
 var addStudentPasswordInput = false;
 //添加学生输入验证
 $("#addStudent input").eq(0).on("input propertychange",function(){
 	var value = $(this).val();
-	if(value.length < 2 || value.length > 10){
-		addStudentNameInput = false;
+	if(!/^[0-9]{6}$/.test(value)){
+		addStudentNumInput = false;
 		$("#addStudent .form-group").eq(0).addClass("has-error").removeClass("has-sucess");
-		$("#addStudent .help-block").eq(0).hide().text("姓名长度为2-10个字符！").slideDown(200);
-	}else{
-		addStudentNameInput = true;
-		$("#addStudent .form-group").eq(0).addClass("has-success").removeClass("has-error");
-		$("#addStudent .help-block").eq(0).slideUp(200);
+		$("#addStudent .help-block").eq(0).hide().text("只能输入6位数字！").slideDown(200);
+		return;
 	}
+	//判断学号是否存在
+	$.ajax({
+		url:"teacherGetNumIsEmpty.action",
+		type:"post",
+		data:{"num":value},
+		dataType:"json",
+		success:function(result){
+			if(!result.msg){
+				//存在
+				addStudentNumInput = false;
+				$("#addStudent .form-group").eq(0).addClass("has-error").removeClass("has-sucess");
+				$("#addStudent .help-block").eq(0).hide().text("学号已存在！").slideDown(200);
+			}else{
+				addStudentNumInput = true;
+				$("#addStudent .form-group").eq(0).addClass("has-success").removeClass("has-error");
+				$("#addStudent .help-block").eq(0).slideUp(200);
+			}
+		}
+	});
 });
 $("#addStudent input").eq(1).on("input propertychange",function(){
+	var value = $(this).val();
+	if(value.length < 2 || value.length > 10){
+		addStudentNameInput = false;
+		$("#addStudent .form-group").eq(1).addClass("has-error").removeClass("has-sucess");
+		$("#addStudent .help-block").eq(1).hide().text("姓名长度为2-10个字符！").slideDown(200);
+	}else{
+		addStudentNameInput = true;
+		$("#addStudent .form-group").eq(1).addClass("has-success").removeClass("has-error");
+		$("#addStudent .help-block").eq(1).slideUp(200);
+	}
+});
+$("#addStudent input").eq(2).on("input propertychange",function(){
 	var value = $(this).val();
 	var RegExp = /^[0-9a-zA-Z]{6,20}$/;
 	if(!RegExp.test(value)){
 		addStudentUserNameInput = false;
-		$("#addStudent .form-group").eq(1).addClass("has-error").removeClass("has-sucess");
-		$("#addStudent .help-block").eq(1).hide().text("只能输入数字和字母，且长度为6-20！").slideDown(200);
+		$("#addStudent .form-group").eq(2).addClass("has-error").removeClass("has-sucess");
+		$("#addStudent .help-block").eq(2).hide().text("只能输入数字和字母，且长度为6-20！").slideDown(200);
 		return;
 	}
 	//判断用户名是否存在
@@ -178,28 +206,28 @@ $("#addStudent input").eq(1).on("input propertychange",function(){
 			if(result.msg == 0){
 				//存在
 				addStudentUserNameInput = false;
-				$("#addStudent .form-group").eq(1).addClass("has-error").removeClass("has-sucess");
-				$("#addStudent .help-block").eq(1).hide().text("用户名已存在！").slideDown(200);
+				$("#addStudent .form-group").eq(2).addClass("has-error").removeClass("has-sucess");
+				$("#addStudent .help-block").eq(2).hide().text("用户名已存在！").slideDown(200);
 			}else{
 				addStudentUserNameInput = true;
-				$("#addStudent .form-group").eq(1).addClass("has-success").removeClass("has-error");
-				$("#addStudent .help-block").eq(1).slideUp(200);
+				$("#addStudent .form-group").eq(2).addClass("has-success").removeClass("has-error");
+				$("#addStudent .help-block").eq(2).slideUp(200);
 			}
 		}
 	});
 	
 });
-$("#addStudent input").eq(2).on("input propertychange",function(){
+$("#addStudent input").eq(3).on("input propertychange",function(){
 	var value = $(this).val();
 	var RegExp = /^[0-9a-zA-Z]{6,20}$/;
 	if(!RegExp.test(value)){
 		addStudentPasswordInput = false;
-		$("#addStudent .form-group").eq(2).addClass("has-error").removeClass("has-sucess");
-		$("#addStudent .help-block").eq(2).hide().text("值允许输入数字和字母，且长度为6-20").slideDown(200);
+		$("#addStudent .form-group").eq(3).addClass("has-error").removeClass("has-sucess");
+		$("#addStudent .help-block").eq(3).hide().text("值允许输入数字和字母，且长度为6-20").slideDown(200);
 	}else{
 		addStudentPasswordInput = true;
-		$("#addStudent .form-group").eq(2).addClass("has-success").removeClass("has-error");
-		$("#addStudent .help-block").eq(2).slideUp(200);
+		$("#addStudent .form-group").eq(3).addClass("has-success").removeClass("has-error");
+		$("#addStudent .help-block").eq(3).slideUp(200);
 	}
 });
 

@@ -24,11 +24,10 @@ public class StudentServiceImpl implements StudentService {
 	
 	@Override
 	public int addStudent(Student student) {
-		if(userMapper.getUserByUserName(student.getUsername())== null){
-			studentMapper.addStudent(student);
-			return 1;
-		}
-		return 0;
+		if(userMapper.getUserByUserName(student.getUsername()) != null) return 2;
+		if(studentMapper.getStudentByNum(student.getNum()) != null) return 3;
+		studentMapper.addStudent(student);
+		return 1;
 	}
 
 	@Override
@@ -40,6 +39,7 @@ public class StudentServiceImpl implements StudentService {
 	public void updateStudent(Student student) {
 		//获取学生信息
 		Student student2 = studentMapper.getStudentById(student.getId());
+		if(student.getNum() != null && student.getNum().equals("")) student2.setNum(student.getNum());
 		if(student.getName() != null && !"".equals(student.getName())) student2.setName(student.getName());
 		if(student.getUsername() != null && !"".equals(student.getUsername())) student2.setUsername(student.getUsername());
 		if(student.getPassword() != null && !"".equals(student.getPassword())) student2.setPassword(student.getPassword());
@@ -61,7 +61,7 @@ public class StudentServiceImpl implements StudentService {
 	public int batchAddStudent(List<Student> students, Integer cid) {
 		int success = 0;
 		for (Student student : students) {
-			if(userMapper.getUserByUserName(student.getUsername()) == null){
+			if(userMapper.getUserByUserName(student.getUsername()) == null && studentMapper.getStudentByNum(student.getNum()) == null){
 				Class c = new Class();
 				c.setId(cid);
 				student.setC(c);
@@ -101,6 +101,17 @@ public class StudentServiceImpl implements StudentService {
 	@Override
 	public Student getStudentInfo(Integer studentId) {
 		return studentMapper.getStudentInfo(studentId);
+	}
+
+	@Override
+	public boolean getStudentByNum(String num) {
+		Student student = studentMapper.getStudentByNum(num);
+		return student == null;
+	}
+
+	@Override
+	public List<Student> getStudentAll(Integer cid) {
+		return studentMapper.getStudentAll(cid);
 	}
 	
 }

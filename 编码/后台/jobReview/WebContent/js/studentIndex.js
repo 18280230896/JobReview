@@ -8,8 +8,9 @@ $.ajax({
 		student = result.student;
 		//显示学生信息
 		$("title").text("欢迎你！"+student.name);
-		$("#studentInfo .form-control-static:eq(0)").text(student.name);
-		$("#studentInfo .form-control-static:eq(1)").text(student.c.name);
+		$("#studentInfo .form-control-static:eq(0)").text(student.num);
+		$("#studentInfo .form-control-static:eq(1)").text(student.name);
+		$("#studentInfo .form-control-static:eq(2)").text(student.c.name);
 		if(student.group != null){
 			var numNode = $("<div class='form-group'>"+
 							"<label class='col-md-5 control-label'>小组编号：</label>"+
@@ -32,17 +33,11 @@ $.ajax({
 
 //表格按钮点击事件
 $("table").click(function(event){
-	if(event.target.nodeName == "BUTTON"){
+	if($(event.target).hasClass("btn")){
 		var index = $(event.target).parent().parent().index() - 1;
-		if($(event.target).text() == "查看详情"){
-			$("#studentTaskInfo input").val(classTasks[index].ctId);
-			$("#studentTaskInfo button").click();
-		}else if($(event.target).text() == "提交用例"){
-			$("#case input").val(classTasks[index].ctId);
-			$("#case button").click();
-		}else if($(event.target).text() == "提交BUG"){
-			$("#bug input").val(classTasks[index].ctId);
-			$("#bug button").click();
+		if(classTasks[index].type == 2 && student.group == null) tips("warning","你还没有分组,不能查看该任务！");
+		else {
+			$(event.target).next()[0].click();
 		}
 	}
 });

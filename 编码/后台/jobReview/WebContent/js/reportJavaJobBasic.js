@@ -2,12 +2,11 @@
 var ctid = $("#ctid").val();
 var classTask;
 var task;
-var isLeader = studentIsLeader();
 var student;
 //获取显示任务信息
 getClassTaskInfo();
 showClassTask();
-
+var isLeader = classTask.type == 2 ? studentIsLeader() : false;
 var defaultCode = $("#code").val();
 var nowCode;
 

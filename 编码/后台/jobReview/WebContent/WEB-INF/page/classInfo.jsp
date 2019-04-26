@@ -48,6 +48,7 @@
 			<li class="active"><a href="#TaskManager" data-toggle="tab">班级任务管理</a></li>
 			<li><a href="#StudentManager" data-toggle="tab">班级学生管理</a></li>
 			<li><a href="#GruopManager" data-toggle="tab">班级小组管理</a></li>
+			<li id="finalScore"><a href="#finalExam" data-toggle="tab">查看成绩单</a></li>
 		</ul>
 	</div>
 	<div class="row">
@@ -81,6 +82,26 @@
 				</h3>
 				<table class="table table-hover table-striped"></table>
 				<ul class="pagination pull-right"></ul>
+			</div>
+			<div id="finalExam" class="tab-pane">
+				<div class="row" style="margin-top:30px;">
+					<div class="col-md-9">
+						<h4 id="info">616322班大一上期期末成绩表，共有10次个人任务3次小组任务</h4>
+					</div>
+					<div class="col-md-2">
+						<select class="form-control pull-right" id="taskType">
+							<option value="1">Java 成绩</option>
+							<option value="2">Oracle 成绩</option>
+						</select>
+					</div>
+					<div class="col-md-1">
+						<button class="btn btn-primary pull-right" id="downloadBtn">导出成绩单</button>
+						<a href="" class="hidden"></a>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-hover table-striped"></table>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -158,18 +179,23 @@
 			<div class="modal-body">
 				<form>
 					<div class="form-group">
+						<label class="control-label">学号：</label>
+						<input type="text" class="form-control" placeholder="学号"/>
+						<span class="help-block"></span>
+					</div>
+					<div class="form-group">
 						<label class="control-label">姓名：</label>
-						<input type="text" class="form-control" placeholder="name"/>
+						<input type="text" class="form-control" placeholder="姓名"/>
 						<span class="help-block"></span>
 					</div>
 					<div class="form-group">
 						<label class="control-label">用户名：</label>
-						<input type="text" class="form-control" placeholder="username"/>
+						<input type="text" class="form-control" placeholder="用户名"/>
 						<span class="help-block"></span>
 					</div>
 					<div class="form-group">
 						<label class="control-label">密码：</label>
-						<input type="password" class="form-control" placeholder="password"/>
+						<input type="password" class="form-control" placeholder="密码"/>
 						<span class="help-block"></span>
 					</div>
 				</form>

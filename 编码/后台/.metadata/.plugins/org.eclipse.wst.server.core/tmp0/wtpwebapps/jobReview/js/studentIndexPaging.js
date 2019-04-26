@@ -104,7 +104,7 @@ function createTable(){
 					"<td>"+dateFtt("yyyy-MM-dd hh:mm:ss",new Date(classTasks[i].endTime))+"</td>"+
 					"<td class='"+statusClass+"'>"+status+"</td>"+
 					"<td>"+
-						" <a href='student2TaskInfo.action?ctid="+classTasks[i].id+"'><button class='btn btn-info btn-sm'>详情</button></a>"+
+						" <button class='btn btn-info btn-sm'>详情</button><a href='student2TaskInfo.action?ctid="+classTasks[i].id+"'></a>"+
 					"</td>"+
 				"</tr>");
 		$("table").append(tr);

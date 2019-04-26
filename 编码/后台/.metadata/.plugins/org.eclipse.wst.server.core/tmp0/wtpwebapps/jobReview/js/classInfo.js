@@ -155,25 +155,30 @@ $("#delModal .btn").eq(1).click(function(){
 //点击确认添加学生按钮
 $("#addStudent .btn").eq(1).click(function(){
 	//输入验证
-	if(!addStudentNameInput) {
+	if(!addStudentNumInput) {
 		$("#addStudent input").eq(0).focus();
 		return;
 	}
-	if(!addStudentUserNameInput) {
+	if(!addStudentNameInput) {
 		$("#addStudent input").eq(1).focus();
 		return;
 	}
-	if(!addStudentPasswordInput) {
+	if(!addStudentUserNameInput) {
 		$("#addStudent input").eq(2).focus();
 		return;
 	}
-	var name = $("#addStudent input").eq(0).val();
-	var username = $("#addStudent input").eq(1).val();
-	var password = $("#addStudent input").eq(2).val();
+	if(!addStudentPasswordInput) {
+		$("#addStudent input").eq(3).focus();
+		return;
+	}
+	var num = $("#addStudent input").eq(0).val();
+	var name = $("#addStudent input").eq(1).val();
+	var username = $("#addStudent input").eq(2).val();
+	var password = $("#addStudent input").eq(3).val();
 	$.ajax({
 		url:"teacherAddStudent.action",
 		type:"post",
-		data:{"classId":classId,"name":name,"username":username,"password":password},
+		data:{"classId":classId,"num":num,"name":name,"username":username,"password":password},
 		dataType:"json",
 		success:function(result){
 			if(result.msg == 1){
@@ -194,7 +199,8 @@ $("#addStudent .btn").eq(1).click(function(){
 				//弹窗消失
 				$("#addStudent").modal("hide");
 				//显示提示
-				tips("error","用户名已存在！");
+				if(result.msg == 2) tips("error","用户名已存在！");
+				else tips("error","学号已存在！")
 				//重置input
 				$("#addStudent input").val("");
 				addStudentNameInput = false;
@@ -238,7 +244,7 @@ $("#fileInput").change(function(){
 });
 
 //点击确认修改学生按钮
-$("#udpateStudnetModal .btn").click(function(){
+$("#udpateStudnetModal .btn").eq(1).click(function(){
 	//输入验证
 	if(!updateStudentNameInput) {
 		$("#udpateStudnetModal input").eq(0).focus();
@@ -303,4 +309,60 @@ $("#addGroupModal .btn").eq(1).click(function(){
 			}
 		});
 	}
+});
+
+
+$("#finalScore").click(function(){
+	getAndShowScore();
+});
+
+
+$("#taskType").change(function(){
+	getAndShowScore();
+});
+
+function getAndShowScore(){
+	$.ajax({
+		url:"teacherGetFinalExam.action",
+		type:"post",
+		data:{"type":$("#finalExam option:selected").val(),"classId":$("#classId").val()},
+		dataType:"json",
+		success:function(result){
+			if(result.status == 1){
+				var data = result.data;
+				var semester;
+				switch(result.c.semester){
+					case 1:semester = "大一上期";break;
+					case 2:semester = "大一下期";break;
+					case 3:semester = "大二上期";break;
+					case 4:semester = "大二下期";break;
+					case 5:semester = "大三上期";break;
+					case 6:semester = "大三下期";break;
+					case 7:semester = "大四上期";break;
+					case 8:semester = "大四下期";break;
+				}
+				var type = $("#finalExam option:selected").val() == 1 ? "Java":"Oracle";
+				$("#info").text(result.c.name+"班"+semester+type+"成绩单，这学期共有"+result.studentTask+"次个人任务,"+result.groupTask+"次小组任务，具体如下：");
+				$("#finalExam table").empty();
+				for(var i = 0;i<data.length;i++){
+					var tr = $("<tr></tr>");
+					for(var j = 0;j<data[0].length;j++){
+						if(i == 0){
+							var th = $("<th>"+data[i][j]+"</th>");
+							tr.append(th);
+						}else{
+							var td = $("<td>"+data[i][j]+"</td>");
+							tr.append(td);
+						}
+					}
+					$("#finalExam table").append(tr);
+				}
+			}
+		}
+	});
+}
+
+//点击导出成绩单
+$("#downloadBtn").click(function(){
+	$(this).next().attr("href","teacherDownLoadReportCard.action?type="+$("#finalExam option:selected").val()+"&classId="+$("#classId").val())[0].click();
 });

@@ -117,4 +117,25 @@ public interface ClassTaskService {
 	 * @return
 	 */
 	public ClassTask getClassTaskByTCId(Integer taskId,Integer classId);
+	
+	
+	/**
+	 * 获取班级所有的任务列表
+	 * @author 罗龙贵
+	 * @date 2019年4月25日 下午9:40:23
+	 * @param classId
+	 * @return
+	 */
+	public List<ClassTask> getClassTaskAll(Integer classId);
+	
+	
+	/**
+	 * 查找班级指定任务类型的所有任务
+	 * @author 罗龙贵
+	 * @date 2019年4月26日 下午2:56:45
+	 * @param classId
+	 * @param type
+	 * @return
+	 */
+	public List<ClassTask> getClassTaskByType(Integer classId,Integer type);
 }

@@ -97,4 +97,23 @@ public interface StudentMapper {
 	 * @return
 	 */
 	public Student getStudentInfo(Integer id);
+	
+	/**
+	 * 通过学号查找学生
+	 * @author 罗龙贵
+	 * @date 2019年4月25日 下午8:02:21
+	 * @param num
+	 * @return
+	 */
+	public Student getStudentByNum(String num);
+	
+	
+	/**
+	 * 获取班级所有学生
+	 * @author 罗龙贵
+	 * @date 2019年4月25日 下午9:45:44
+	 * @param cid
+	 * @return
+	 */
+	public List<Student> getStudentAll(Integer cid);
 }

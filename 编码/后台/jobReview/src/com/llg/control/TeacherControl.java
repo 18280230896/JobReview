@@ -1,6 +1,7 @@
 package com.llg.control;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -13,12 +14,19 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -462,6 +470,21 @@ public class TeacherControl {
 		return result;
 	}
 	
+	/**
+	 * 判断学号是否存在
+	 * @author 罗龙贵
+	 * @date 2019年4月25日 下午8:08:45
+	 * @param num
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetNumIsEmpty.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetNumIsEmpty(String num){
+		Map<String, Object> result = new HashMap<>();
+		result.put("msg", studentService.getStudentByNum(num));
+		return result;
+	}
+	
 	
 	/**
 	 * 添加学生
@@ -557,15 +580,20 @@ public class TeacherControl {
 				for(int rowNum=0;rowNum <= workbook.getSheetAt(sheetNum).getLastRowNum();rowNum++){
 					if(workbook.getSheetAt(sheetNum).getRow(rowNum) == null)
 						continue;
-					Cell nameCell = workbook.getSheetAt(sheetNum).getRow(rowNum).getCell(0);
-					Cell usernameCell = workbook.getSheetAt(sheetNum).getRow(rowNum).getCell(1);
-					Cell passwordCell = workbook.getSheetAt(sheetNum).getRow(rowNum).getCell(2);
-					String name = null,username = null,password = null;
-					if(nameCell != null && usernameCell != null && passwordCell != null){
+					Cell numCell = workbook.getSheetAt(sheetNum).getRow(rowNum).getCell(0);
+					Cell nameCell = workbook.getSheetAt(sheetNum).getRow(rowNum).getCell(1);
+					Cell usernameCell = workbook.getSheetAt(sheetNum).getRow(rowNum).getCell(2);
+					Cell passwordCell = workbook.getSheetAt(sheetNum).getRow(rowNum).getCell(3);
+					String num = null,name = null,username = null,password = null;
+					if(numCell != null &&nameCell != null && usernameCell != null && passwordCell != null){
+						num = numCell.toString().split("\\.")[0];
 						name = nameCell.toString().split("\\.")[0];
 						username = usernameCell.toString().split("\\.")[0];
 						password = passwordCell.toString().split("\\.")[0];
 						String regExp = "^[0-9a-zA-Z]{6,20}$";
+						if((!Pattern.matches("^[0-9]{6}$", username)) || (!Pattern.matches(regExp, password))){
+							continue;
+						}
 						if((name.toCharArray()).length<2 || (name.toCharArray()).length>11){
 							continue;
 						}
@@ -574,6 +602,7 @@ public class TeacherControl {
 						}
 						count++;
 						Student student = new Student();
+						student.setNum(num);
 						student.setName(name);
 						student.setUsername(username);
 						student.setPassword(password);
@@ -1196,5 +1225,142 @@ public class TeacherControl {
 		}
 		result.put("status", 1);
 		return result;
+	}
+	
+	
+	/**
+	 * 获取期末成绩信息
+	 * @author 罗龙贵
+	 * @date 2019年4月25日 下午10:43:40
+	 * @param classId 班级id
+	 * @param type 任务类型
+	 * @return
+	 */
+	@RequestMapping(value="teacherGetFinalExam.action",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> teacherGetFinalExam(Integer type,Integer classId){
+		Map<String, Object> result = new HashMap<>();
+		//获取班级信息
+		Class c = classService.getClassById(classId);
+		//获取班级任务列表
+		List<ClassTask> classTasks = classTaskService.getClassTaskByType(classId, type);
+		//获取所有学生列表
+		List<Student> students = studentService.getStudentAll(classId);
+		//个人任务次数
+		int studentTask = 0;
+		//小组任务次数
+		int groupTask = 0;
+		int row = students.size()+1;
+		int colunm = classTasks.size()+4;
+		String[][] data = new String[row][colunm];
+		for(int m = 0;m < row;m++){
+			if(m == 0){
+				data[m][0] = "编号";
+				data[m][1] = "学号";
+				data[m][2] = "姓名";
+				int i = 0;
+				for(;i<classTasks.size();i++){
+					String typeStr;
+					if(classTasks.get(i).getType() == 1){
+						typeStr = "个人";
+						studentTask++;
+					}else{
+						typeStr = "小组";
+						groupTask++;
+					}
+					data[m][i+3] = classTasks.get(i).getTask().getName()+"("+typeStr+")("+classTasks.get(i).getProportion()+"%)";
+				}
+				data[m][i+3] = "成绩";
+				continue;
+			}
+			data[m][0] = (m)+"";
+			data[m][1] = students.get(m-1).getNum();
+			data[m][2] = students.get(m-1).getName();
+			double finalScore = 0;
+			for(int n = 3;n < colunm - 1;n++){
+				//获取该学生该任务的分数
+				JobStatus jobStatus;
+				if(classTasks.get(n-3).getType() == 1) jobStatus = jobService.getJobStatusByCTSId(classTasks.get(n-3).getId(), students.get(m-1).getId());
+				else {
+					if(students.get(m-1).getGroup() == null || students.get(m-1).getGroup().getId() == null) jobStatus = null;
+					else jobStatus = jobService.getJobStatusByCTGId(classTasks.get(n-3).getId(), students.get(m-1).getGroup().getId());
+				}
+				int score = (jobStatus == null || jobStatus.getScore() == null) ? 0 : jobStatus.getScore();
+				finalScore += score * classTasks.get(n-3).getProportion() * 0.01;
+				data[m][n] = ""+score;
+			}
+			data[m][colunm - 1] = (int)Math.round(finalScore)+"";
+		}
+		result.put("status", 1);
+		result.put("c", c);
+		result.put("studentTask", studentTask);
+		result.put("groupTask", groupTask);
+		result.put("data", data);
+		return result;
+	}
+	
+	/**
+	 * 导出成绩单
+	 * @author 罗龙贵
+	 * @date 2019年4月26日 下午7:11:19
+	 * @param type
+	 * @param classId
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value="teacherDownLoadReportCard.action",method=RequestMethod.GET)
+	public ResponseEntity<byte[]> teacherDownLoadReportCard(Integer type,Integer classId) throws IOException{
+		Map<String, Object> map = teacherGetFinalExam(type,classId);
+		//获取班级信息
+		Class c = (Class)map.get("c");
+		String[][] data = (String[][]) map.get("data");
+		String typeStr = type == 1 ? "Java" : "Oracle";
+		String DownLoadFileName = c.getName()+getSemester(c.getSemester())+typeStr+"课程成绩单.xlsx";
+		//创建成绩单文件
+		File file = FileUtil.createFile(FileUtil.LOCAL_TEMP_PATH+FileUtil.createFileName()+".xlsx");
+		FileOutputStream outputStream = new FileOutputStream(file);
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet();
+		for(int i=0;i<data.length;i++){
+			Row row = sheet.createRow(i);
+			if(i == 0){
+				for(int j = 0;j<data[0].length;j++){
+					Cell cell = row.createCell(j);
+					cell.setCellValue(data[i][j]);
+				}
+				continue;
+			}
+			for(int j = 0;j<data[0].length;j++){
+				Cell cell = row.createCell(j);
+				if(j == 0 || j > 2) cell.setCellValue(Integer.parseInt(data[i][j]));
+				else cell.setCellValue(data[i][j]);
+			}
+		}
+		wb.write(outputStream);
+		wb.close();
+		outputStream.close();
+		//通知浏览器下载
+		HttpHeaders headers = new HttpHeaders();
+		DownLoadFileName = new String(DownLoadFileName.getBytes("UTF-8"),"iso-8859-1");
+        headers.setContentDispositionFormData("attachment", DownLoadFileName); 
+        //application/octet-stream ： 二进制流数据（最常见的文件下载）。
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
+                headers, HttpStatus.CREATED);
+	}
+	
+	public String getSemester(int semester){
+		String semesterStr = "";
+		switch(semester){
+			case 1 : semesterStr = "大一上期";break;
+			case 2 : semesterStr = "大一下期";break;
+			case 3 : semesterStr = "大二上期";break;
+			case 4 : semesterStr = "大二下期";break;
+			case 5 : semesterStr = "大三上期";break;
+			case 6 : semesterStr = "大三下期";break;
+			case 7 : semesterStr = "大四上期";break;
+			case 8 : semesterStr = "大四下期";break;
+		}
+		return semesterStr;
 	}
 }

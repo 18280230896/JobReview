@@ -5,9 +5,18 @@ import java.io.Serializable;
 public class Student extends User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	private String num;
 	private Class c;
 	private Group group;
 
+	
+	
+	public String getNum() {
+		return num;
+	}
+	public void setNum(String num) {
+		this.num = num;
+	}
 	public Class getC() {
 		return c;
 	}

@@ -118,4 +118,15 @@ public interface ClassTaskMapper {
 	 * @return
 	 */
 	public ClassTask getClassTaskByTCId(Integer taskId, Integer classId);
+	
+	
+	/**
+	 * 查找班级指定任务类型的所有任务
+	 * @author 罗龙贵
+	 * @date 2019年4月26日 下午2:54:23
+	 * @param classId
+	 * @param type
+	 * @return
+	 */
+	public List<ClassTask> getClassTaskAllByType(Integer classId,Integer type);
 }

@@ -104,4 +104,24 @@ public interface StudentService {
 	 * @return
 	 */
 	public Student getStudentInfo(Integer studentId);
+	
+	
+	/**
+	 * 通过学号查找学生
+	 * @author 罗龙贵
+	 * @date 2019年4月25日 下午8:05:37
+	 * @param num
+	 * @return
+	 */
+	public boolean getStudentByNum(String num);
+	
+	
+	/**
+	 * 获取班级所有的学生
+	 * @author 罗龙贵
+	 * @date 2019年4月25日 下午9:47:19
+	 * @param cid
+	 * @return
+	 */
+	public List<Student> getStudentAll(Integer cid);
 }

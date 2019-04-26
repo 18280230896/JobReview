@@ -59,7 +59,7 @@
 	<ul class="breadcrumb">
 	  <li><a href="teacherIndex.action">主页</a></li>
 	  <li><a href="teacherToClassManage.action">班级管理</a></li>
-	  <li><a href="javaScript:" id="toClassInfoBtn">班级详情</a></li>
+	  <li><a href="teacherToClassInfo.action?classId=${group.c.id}" id="toClassInfoBtn">班级详情</a></li>
 	  <li class="active">小组详情</li>
 	</ul>
 	<div class="row">
@@ -239,21 +239,13 @@
 	</div>
 </div>
 
-<div class="hide">
-	<form action="teacherToClassInfo.action" method="post" id="toClassInfo">
-		<input name="classId" type="hidden" value="${group.c.id}">
-	</form>
-</div>
+
 <script src="bootstrap/js/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.js"></script>
 <script src="bootstrap/js/docs.min.js"></script>
 <script src="js/userInfo.js"></script>
 <script src="js/groupInfoBasic.js"></script>
 <script src="js/groupInfoData.js"></script>
-<script>
-	$("#toClassInfoBtn").click(function(){
-		$("#toClassInfo")[0].submit();
-	});
-</script>
+
 </body>
 </html>

@@ -151,6 +151,8 @@ public class StudentControl {
 		//获取学生信息
 		User user = (User)session.getAttribute("user");
 		Student student = studentService.getStudentById(user.getId());
+		//判断任务状态，如果是小组任务，且该学生没有分组，则跳转到首页
+		if(classTask.getType() == 2 && student.getGroup() == null) return "redirect:studentIndex.action";
 		//判断此任务是否是该学生要执行的任务
 		if(classTask == null || classTask.getC().getId() != student.getC().getId()) return "redirect:studentIndex.action";
 		//获取任务信息
