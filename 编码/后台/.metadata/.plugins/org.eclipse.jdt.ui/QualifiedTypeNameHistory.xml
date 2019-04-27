@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="com.llg.bean.SubjectStudent"/>
-<fullyQualifiedTypeName name="org.springframework.web.multipart.MultipartFile"/>
-<fullyQualifiedTypeName name="org.apache.commons.io.FilenameUtils"/>
 <fullyQualifiedTypeName name="com.llg.bean.Work"/>
 <fullyQualifiedTypeName name="org.omg.PortableInterceptor.USER_EXCEPTION"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
@@ -46,7 +43,6 @@
 <fullyQualifiedTypeName name="org.springframework.http.MediaType"/>
 <fullyQualifiedTypeName name="org.apache.tomcat.util.http.fileupload.FileUtils"/>
 <fullyQualifiedTypeName name="org.apache.commons.io.FileUtils"/>
-<fullyQualifiedTypeName name="com.llg.util.FileUtil"/>
 <fullyQualifiedTypeName name="org.apache.poi.hssf.usermodel.HSSFWorkbook"/>
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
 <fullyQualifiedTypeName name="org.apache.poi.hssf.usermodel.HSSFSheet"/>
@@ -60,4 +56,8 @@
 <fullyQualifiedTypeName name="org.apache.poi.ss.usermodel.CellStyle"/>
 <fullyQualifiedTypeName name="org.apache.poi.hssf.usermodel.HSSFCellStyle"/>
 <fullyQualifiedTypeName name="java.lang.Double"/>
+<fullyQualifiedTypeName name="org.dom4j.io.SAXReader"/>
+<fullyQualifiedTypeName name="org.dom4j.Document"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="com.llg.util.FileUtil"/>
 </qualifiedTypeNameHistroy>

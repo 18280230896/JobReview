@@ -1,0 +1,33 @@
+package com.llg.listener;
+
+import java.io.File;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.io.SAXReader;
+
+public class MyServletContentListener implements ServletContextListener {
+
+	@Override
+	public void contextDestroyed(ServletContextEvent arg0) {
+		
+	}
+
+	@Override
+	public void contextInitialized(ServletContextEvent arg0) {
+		System.out.println("解析开始了");
+		//解析path.xml
+		SAXReader saxReader = new SAXReader(true);
+		try {
+			saxReader.setFeature("http://apache.org/xml/features/validation/schema", true);
+			saxReader.setProperty("http://apache.org/xml/properties/schema/external-schemaLocation","http://www.example.org/path path.xsd");
+			Document document = saxReader.read(new File("src/path.xml"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}

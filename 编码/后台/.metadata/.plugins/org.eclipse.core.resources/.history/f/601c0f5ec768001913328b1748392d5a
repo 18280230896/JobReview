@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/path" xmlns:path="http://www.example.org/path" elementFormDefault="qualified">
+	<element name="path" type="path:pathType"></element>
+	<complexType name="pathType">
+			<complexContent>
+				<restriction base="anyType">
+					<sequence>
+						<element name="localJobPath" type="string"></element>
+						<element name="localTempPath" type="string"></element>
+						<element name="virtualJobPath" type="string"></element>
+					</sequence> 
+				</restriction>
+			</complexContent>
+		</complexType>
+</schema>

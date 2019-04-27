@@ -1,0 +1,31 @@
+package com.llg.listener;
+
+import java.io.File;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.io.SAXReader;
+
+public class MyServletContentListener implements ServletContextListener {
+
+	@Override
+	public void contextDestroyed(ServletContextEvent arg0) {
+		
+	}
+
+	@Override
+	public void contextInitialized(ServletContextEvent arg0) {
+		System.out.println("开始了");
+		//解析path.xml
+		SAXReader saxReader = new SAXReader(true);
+		try {
+			Document document = saxReader.read(new File("src/path.xml"));
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+	}
+
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<path xmlns="http://www.example.org/path" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.example.org/path path.xsd">
+	<!-- 本地路径，用于存放提交的代码文档和截图文档 -->
+	<localJobPath>D:\jobReview\job\</localJobPath>
+	<!-- 本地路径，用于存放编译运行所产生的临时文档 -->
+	<localTempPath>D:\jobReview\temp\</localTempPath>
+	<!-- 虚拟路径，配置tomcat虚拟路径时将此路径与localJobPath关联，用于在网页上访问截图 -->
+	<virtualJobPath>/file/job/</virtualJobPath>
+</path>

@@ -40,4 +40,9 @@
 		<filter-name>encoding</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<!-- 配置servletContextListener -->
+	<listener>
+		<listener-class>com.llg.listener.MyServletContentListener</listener-class>
+	</listener>
 </web-app>
