@@ -1243,7 +1243,7 @@ public class TeacherControl {
 		//获取班级信息
 		Class c = classService.getClassById(classId);
 		//获取班级任务列表
-		List<ClassTask> classTasks = classTaskService.getClassTaskByType(classId, type ,c.getSemester());
+		List<ClassTask> classTasks = classTaskService.getClassTaskByType(classId, type);
 		//获取所有学生列表
 		List<Student> students = studentService.getStudentAll(classId);
 		//个人任务次数

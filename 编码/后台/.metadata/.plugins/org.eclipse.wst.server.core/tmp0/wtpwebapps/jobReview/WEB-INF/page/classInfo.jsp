@@ -86,7 +86,7 @@
 			<div id="finalExam" class="tab-pane">
 				<div class="row" style="margin-top:30px;">
 					<div class="col-md-9">
-						<h4 id="info">616322班大一上期期末成绩表，共有10次个人任务3次小组任务</h4>
+						<h4 id="info"></h4>
 					</div>
 					<div class="col-md-2">
 						<select class="form-control pull-right" id="taskType">

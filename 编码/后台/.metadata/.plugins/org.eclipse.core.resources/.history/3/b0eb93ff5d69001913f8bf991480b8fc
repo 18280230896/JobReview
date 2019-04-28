@@ -83,6 +83,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="getClassTaskAllByType" parameterType="Integer" resultMap="classTask">
 		select * from v_class_task_info 
-		where class_id = #{0} and task_type = #{1} and ct_semester = #{2}
+		where class_id = #{0} and task_type = #{1} and ct_semester = #{semester}
 	</select>
 </mapper>

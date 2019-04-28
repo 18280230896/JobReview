@@ -108,8 +108,8 @@ public class ClassTaskServiceImpl implements ClassTaskService {
 	}
 
 	@Override
-	public List<ClassTask> getClassTaskByType(Integer classId, Integer type,Integer semester) {
-		return classTaskMapper.getClassTaskAllByType(classId, type,semester);
+	public List<ClassTask> getClassTaskByType(Integer classId, Integer type) {
+		return classTaskMapper.getClassTaskAllByType(classId, type);
 	}
 
 }

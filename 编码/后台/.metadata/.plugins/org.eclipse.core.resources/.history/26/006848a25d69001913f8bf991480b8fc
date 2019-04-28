@@ -137,5 +137,5 @@ public interface ClassTaskService {
 	 * @param type
 	 * @return
 	 */
-	public List<ClassTask> getClassTaskByType(Integer classId,Integer type,Integer semester);
+	public List<ClassTask> getClassTaskByType(Integer classId,Integer type);
 }

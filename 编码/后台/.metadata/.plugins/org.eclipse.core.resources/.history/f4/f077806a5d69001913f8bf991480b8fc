@@ -128,5 +128,5 @@ public interface ClassTaskMapper {
 	 * @param type
 	 * @return
 	 */
-	public List<ClassTask> getClassTaskAllByType(Integer classId,Integer type,Integer semester);
+	public List<ClassTask> getClassTaskAllByType(Integer classId,Integer type);
 }
