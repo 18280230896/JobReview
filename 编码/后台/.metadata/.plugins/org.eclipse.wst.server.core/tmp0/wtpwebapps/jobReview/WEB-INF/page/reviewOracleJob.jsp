@@ -48,7 +48,18 @@
 		<div class="col-md-3 col-md-offset-4">
 			<div class="form-group">
 				<div class="input-group">
-					<input class="form-control" placeholder="请在这里打分！" id="scoreInput">
+					<input id="scoreInput" class="form-control" placeholder="请在这里打分！">
+					<select id="level5" class="form-control">
+						<option value="1">优</option>
+						<option value="2">良</option>
+						<option value="3">中</option>
+						<option value="4">及格</option>
+						<option value="5">不及格</option>
+					</select>
+					<select id="level2" class="form-control">
+						<option value="1">通过</option>
+						<option value="2">不通过</option>
+					</select>
 					<span class="input-group-btn">
 						<button class="btn btn-primary" id="submit">确定</button>
 					</span>

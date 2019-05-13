@@ -120,13 +120,26 @@ $("#addTeacherModal .modal-footer .btn").eq(1).click(function(){
 //删除和修改按钮的监听事件
 $("table").click(function(event){
 	if($(event.target).attr("id") == "update"){
+		//点击了修改按钮
 		$("#updateTeacherModal").modal("show");
 		$("#updateTeacherModal input").eq(0).val($(event.target).parent().siblings().eq(1).text());
-		$("#updateTeacherModal input").eq(1).val($(event.target).parent().siblings().eq(3).text());
+		$("#updateTeacherModal input").eq(1).val(teachers[$(event.target).parent().parent().index()-1].password);
 		$("#updateTeacherModal input").eq(2).val($(event.target).parent().parent().index()-1);
 	}else if($(event.target).attr("id") == "delete"){
+		//点击了删除按钮
 		$("#dleTeacherModal").modal("show");
 		$("#dleTeacherModal input").val($(event.target).parent().parent().index()-1);
+	}else if($(event.target).hasClass("glyphicon")){
+		//点击了显示和隐藏密码按钮
+		if($(event.target).hasClass("glyphicon-eye-open")){
+			//显示密码
+			var index = $(event.target).parent().parent().index() - 1;
+			$(event.target).removeClass("glyphicon-eye-open").addClass("glyphicon-eye-close").prev().text(teachers[index].password);
+		}else if($(event.target).hasClass("glyphicon-eye-close")){
+			//隐藏密码
+			$(event.target).removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open").prev().text("******");
+		}
+		
 	}
 });
 

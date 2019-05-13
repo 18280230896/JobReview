@@ -74,7 +74,7 @@ function createTable(){
 				"<td>"+((nowPage-1)*pageSize+i+1)+"</td>"+
 				"<td>"+teachers[i].name+"</td>"+
 				"<td>"+teachers[i].username+"</td>"+
-				"<td>"+teachers[i].password+"</td>"+
+				"<td><span>******</span> <span class='glyphicon glyphicon-eye-open'></span></td>"+
 				"<td>"+
 					" <button class='btn btn-warning btn-sm' id='update'>修改</button>"+
 					" <button class='btn btn-danger btn-sm' id='delete'>删除</button>"+

@@ -10,6 +10,11 @@
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
 	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
 	<title>${c.name}</title>
+	<style>
+		.glyphicon-eye-open,.glyphicon-eye-close{
+			cursor:pointer;
+		}
+	</style>
 </head>
 <body>
 <input id="classId" type="hidden" value="${c.id}">
@@ -89,7 +94,7 @@
 						<h4 id="info"></h4>
 					</div>
 					<div class="col-md-2">
-						<select class="form-control pull-right" id="taskType">
+						<select class="form-control pull-right" id="scoreType">
 							<option value="1">Java 成绩</option>
 							<option value="2">Oracle 成绩</option>
 						</select>
@@ -250,6 +255,15 @@
 							</select>
 					</div>
 					<div class="form-group">
+						<label class="control-label">评分标准：</label>
+						<select class="form-control" id="updateStandard">
+								<option value="1">百分制</option>
+								<option value="2">五级制</option>
+								<option value="3">通过制</option>
+						</select>
+						<span class="help-block"></span>
+						</div>
+					<div class="form-group">
 						<label class="control-label">开始时间：</label>
 						<input type="text" id="updateStartTime" class="form-control">
 						<span class="help-block"></span>
@@ -302,6 +316,15 @@
 									<c:forEach begin="1" end="100" var="i">
 										<option value="${i}">${i}%</option>
 									</c:forEach>
+								</select>
+								<span class="help-block"></span>
+							</div>
+							<div class="form-group">
+								<label class="control-label">评分标准：</label>
+								<select class="form-control" id="standard">
+										<option value="1">百分制</option>
+										<option value="2">五级制</option>
+										<option value="3">通过制</option>
 								</select>
 								<span class="help-block"></span>
 							</div>

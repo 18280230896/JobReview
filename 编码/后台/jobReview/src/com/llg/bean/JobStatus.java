@@ -12,6 +12,8 @@ public class JobStatus implements Serializable{
 	private ClassTask classTask;
 	private Timestamp submitTime;
 	private Integer score;
+	private Integer gread;
+	private Integer adopt;
 
 	
 	public Integer getId() {
@@ -74,10 +76,32 @@ public class JobStatus implements Serializable{
 	}
 
 
+	public Integer getGread() {
+		return gread;
+	}
+
+
+	public void setGread(Integer gread) {
+		this.gread = gread;
+	}
+
+
+	public Integer getAdopt() {
+		return adopt;
+	}
+
+
+	public void setAdopt(Integer adopt) {
+		this.adopt = adopt;
+	}
+
+
 	@Override
 	public String toString() {
 		return "JobStatus [id=" + id + ", student=" + student + ", group=" + group + ", classTask=" + classTask
-				+ ", submitTime=" + submitTime + ", score=" + score + "]";
+				+ ", submitTime=" + submitTime + ", score=" + score + ", gread=" + gread + ", adopt=" + adopt + "]";
 	}
+
+
 	
 }

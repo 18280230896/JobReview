@@ -16,9 +16,12 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -33,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.llg.bean.Achievement;
 import com.llg.bean.Class;
 import com.llg.bean.ClassTask;
 import com.llg.bean.Group;
@@ -591,7 +595,7 @@ public class TeacherControl {
 						username = usernameCell.toString().split("\\.")[0];
 						password = passwordCell.toString().split("\\.")[0];
 						String regExp = "^[0-9a-zA-Z]{6,20}$";
-						if((!Pattern.matches("^[0-9]{6}$", username)) || (!Pattern.matches(regExp, password))){
+						if((!Pattern.matches("^[0-9]{6}$", num))){
 							continue;
 						}
 						if((name.toCharArray()).length<2 || (name.toCharArray()).length>11){
@@ -1041,6 +1045,7 @@ public class TeacherControl {
 			result.put("data", groups);
 			result.put("jobStatus", jobStatus);
 		}
+		result.put("classTask", classTask);
 		result.put("status", 1);
 		return result;
 	}
@@ -1204,10 +1209,16 @@ public class TeacherControl {
 	 */
 	@RequestMapping(value="teacherSubmitScore.action",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> teacherSubmitScore(Integer score,Integer id,Integer ctid,HttpSession session){
+	public Map<String, Object> teacherSubmitScore(Achievement achievement,Integer id,Integer ctid,HttpSession session){
 		Map<String, Object> result = new HashMap<>();
 		//获取班级任务信息
 		ClassTask classTask = classTaskService.getClassTaskById(ctid);
+		switch(classTask.getStandard()){
+			case 1:if(achievement.getScore() == null) {result.put("msg", "任务状态异常,尝试刷新页面！"); return result;} break;
+			case 2:if(achievement.getGread() == null) {result.put("msg", "任务状态异常,尝试刷新页面！"); return result;} break;
+			case 3:if(achievement.getAdopt() == null) {result.put("msg", "任务状态异常,尝试刷新页面！"); return result;} break;
+			default: break;
+		}
 		//判断任务类型
 		JobStatus jobStatus;
 		if(classTask.getType() == 1) jobStatus = jobService.getJobStatusByCTSId(ctid, id);
@@ -1217,10 +1228,20 @@ public class TeacherControl {
 			jobStatus.setClassTask(classTask);
 			if(classTask.getType() == 1) jobStatus.setStudent(studentService.getStudentById(id));
 			else jobStatus.setGroup(groupService.getGroupById(id));
-			jobStatus.setScore(score);
+			switch(classTask.getStandard()){
+				case 1: jobStatus.setScore(achievement.getScore()); break;
+				case 2: jobStatus.setGread(achievement.getGread()); break;
+				case 3: jobStatus.setAdopt(achievement.getAdopt()); break;
+				default: break;
+			}
 			jobService.addJobStatus(jobStatus);
 		}else{
-			jobStatus.setScore(score);
+			switch(classTask.getStandard()){
+				case 1: jobStatus.setScore(achievement.getScore()); break;
+				case 2: jobStatus.setGread(achievement.getGread()); break;
+				case 3: jobStatus.setAdopt(achievement.getAdopt()); break;
+				default: break;
+			}
 			jobService.updateJobStatus(jobStatus);
 		}
 		result.put("status", 1);
@@ -1273,7 +1294,7 @@ public class TeacherControl {
 				data[m][i+3] = "成绩";
 				continue;
 			}
-			data[m][0] = (m)+"";
+			data[m][0] = m+"";
 			data[m][1] = students.get(m-1).getNum();
 			data[m][2] = students.get(m-1).getName();
 			double finalScore = 0;
@@ -1285,9 +1306,22 @@ public class TeacherControl {
 					if(students.get(m-1).getGroup() == null || students.get(m-1).getGroup().getId() == null) jobStatus = null;
 					else jobStatus = jobService.getJobStatusByCTGId(classTasks.get(n-3).getId(), students.get(m-1).getGroup().getId());
 				}
-				int score = (jobStatus == null || jobStatus.getScore() == null) ? 0 : jobStatus.getScore();
+				int score = 0;
+				if(classTasks.get(n-3).getStandard() == 1){
+					score = (jobStatus == null || jobStatus.getScore() == null) ? 0 : jobStatus.getScore();
+					data[m][n] = ""+score;
+				}else if(classTasks.get(n-3).getStandard() == 2){
+					data[m][n] = (jobStatus == null || jobStatus.getGread() == null)? "不及格" : getGread(jobStatus.getGread());
+					score = (jobStatus == null || jobStatus.getGread() == null)? 0 : 100 - jobStatus.getGread() * 10;
+					if(jobStatus != null && jobStatus.getGread() == 5) score = 0;
+				}else if(classTasks.get(n-3).getStandard() == 3){
+					data[m][n] = (jobStatus == null || jobStatus.getAdopt() == null)? "不通过" : getAdopt(jobStatus.getAdopt());
+					if(jobStatus == null || jobStatus.getAdopt() == null) score = 0;
+					else score = jobStatus.getAdopt() == 1 ? 80 : 20;
+				}
 				finalScore += score * classTasks.get(n-3).getProportion() * 0.01;
-				data[m][n] = ""+score;
+				
+				
 			}
 			data[m][colunm - 1] = (int)Math.round(finalScore)+"";
 		}
@@ -1321,6 +1355,9 @@ public class TeacherControl {
 		FileOutputStream outputStream = new FileOutputStream(file);
 		HSSFWorkbook wb = new HSSFWorkbook();
 		HSSFSheet sheet = wb.createSheet();
+		CellStyle style = wb.createCellStyle();
+		style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND); 
+		style.setFillForegroundColor(IndexedColors.RED.getIndex());
 		for(int i=0;i<data.length;i++){
 			Row row = sheet.createRow(i);
 			if(i == 0){
@@ -1332,7 +1369,8 @@ public class TeacherControl {
 			}
 			for(int j = 0;j<data[0].length;j++){
 				Cell cell = row.createCell(j);
-				if(j == 0 || j > 2) cell.setCellValue(Integer.parseInt(data[i][j]));
+				if(Integer.parseInt(data[i][data[i].length-1]) < 60) cell.setCellStyle(style);
+				if(j == 0 || j == data[0].length -1) cell.setCellValue(Integer.parseInt(data[i][j]));
 				else cell.setCellValue(data[i][j]);
 			}
 		}
@@ -1362,5 +1400,26 @@ public class TeacherControl {
 			case 8 : semesterStr = "大四下期";break;
 		}
 		return semesterStr;
+	}
+	
+	public String getGread(int i){
+		String gread = "";
+		switch(i){
+		case 1 : gread = "优"; break;
+		case 2 : gread = "良"; break;
+		case 3 : gread = "中"; break;
+		case 4 : gread = "及格"; break;
+		case 5 : gread = "不及格"; break;
+		}
+		return gread;
+	}
+	
+	public String getAdopt(int i){
+		String adopt = "";
+		switch (i) {
+			case 1:adopt = "通过"; break;
+			case 2:adopt = "不通过"; break;
+		}
+		return adopt;
 	}
 }

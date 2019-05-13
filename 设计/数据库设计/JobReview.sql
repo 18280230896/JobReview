@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2019-04-26 21:04:52
+Date: 2019-05-13 23:20:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -45,13 +45,12 @@ CREATE TABLE `t_class` (
   PRIMARY KEY (`class_id`),
   KEY `FK_Relationship_1` (`teacher_id`),
   CONSTRAINT `FK_Relationship_1` FOREIGN KEY (`teacher_id`) REFERENCES `t_teacher` (`teacher_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_class
 -- ----------------------------
-INSERT INTO `t_class` VALUES ('1', '1', '616322', '1');
-INSERT INTO `t_class` VALUES ('2', '1', '测试班级', '3');
+INSERT INTO `t_class` VALUES ('4', '3', '123', '1');
 
 -- ----------------------------
 -- Table structure for `t_class_task`
@@ -65,6 +64,7 @@ CREATE TABLE `t_class_task` (
   `ct_status` int(11) NOT NULL,
   `ct_semester` int(11) NOT NULL,
   `ct_proportion` int(11) NOT NULL,
+  `ct_standard` int(11) NOT NULL DEFAULT '1',
   `ct_start_time` datetime NOT NULL,
   `ct_end_time` datetime NOT NULL,
   PRIMARY KEY (`ct_id`),
@@ -72,23 +72,14 @@ CREATE TABLE `t_class_task` (
   KEY `FK_Relationship_8` (`class_id`),
   CONSTRAINT `FK_Relationship_7` FOREIGN KEY (`task_id`) REFERENCES `t_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Relationship_8` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_class_task
 -- ----------------------------
-INSERT INTO `t_class_task` VALUES ('13', '10', '1', '1', '2', '1', '10', '2019-04-25 21:43:14', '2019-05-11 00:00:00');
-INSERT INTO `t_class_task` VALUES ('14', '11', '1', '2', '2', '1', '30', '2019-04-25 21:43:29', '2019-04-27 00:00:00');
-INSERT INTO `t_class_task` VALUES ('15', '12', '1', '1', '2', '1', '10', '2019-04-25 21:43:42', '2019-05-04 00:00:00');
-INSERT INTO `t_class_task` VALUES ('16', '13', '1', '2', '2', '1', '50', '2019-04-25 21:43:55', '2019-05-04 00:00:00');
-INSERT INTO `t_class_task` VALUES ('17', '10', '2', '1', '2', '3', '15', '2019-04-26 20:02:11', '2019-04-26 20:02:12');
-INSERT INTO `t_class_task` VALUES ('18', '11', '2', '1', '2', '3', '12', '2019-04-26 20:02:40', '2019-04-26 20:02:42');
-INSERT INTO `t_class_task` VALUES ('20', '13', '2', '1', '2', '3', '15', '2019-04-26 20:03:02', '2019-04-26 20:03:03');
-INSERT INTO `t_class_task` VALUES ('21', '14', '2', '1', '2', '3', '25', '2019-04-26 20:03:16', '2019-04-26 20:03:17');
-INSERT INTO `t_class_task` VALUES ('22', '15', '2', '1', '2', '3', '25', '2019-04-26 20:03:33', '2019-04-26 20:03:35');
-INSERT INTO `t_class_task` VALUES ('23', '16', '2', '1', '2', '3', '20', '2019-04-26 20:03:40', '2019-04-26 20:03:41');
-INSERT INTO `t_class_task` VALUES ('24', '17', '2', '1', '2', '3', '20', '2019-04-26 20:03:54', '2019-04-26 20:03:55');
-INSERT INTO `t_class_task` VALUES ('25', '12', '2', '2', '2', '3', '1', '2019-04-26 20:11:05', '2019-04-26 20:11:06');
+INSERT INTO `t_class_task` VALUES ('3', '1', '4', '1', '3', '1', '20', '1', '2019-05-13 11:38:30', '2019-05-13 11:38:31');
+INSERT INTO `t_class_task` VALUES ('5', '2', '4', '1', '3', '1', '80', '2', '2019-05-13 11:42:13', '2019-05-13 11:42:14');
+INSERT INTO `t_class_task` VALUES ('6', '3', '4', '1', '3', '1', '30', '3', '2019-05-13 17:44:31', '2019-05-13 17:44:33');
 
 -- ----------------------------
 -- Table structure for `t_group`
@@ -105,16 +96,17 @@ CREATE TABLE `t_group` (
   KEY `FK_Relationship_3` (`class_id`),
   CONSTRAINT `FK_Relationship_16` FOREIGN KEY (`leader_id`) REFERENCES `t_student` (`student_id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `FK_Relationship_3` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_group
 -- ----------------------------
-INSERT INTO `t_group` VALUES ('1', '1', null, '第一组', '第一组');
-INSERT INTO `t_group` VALUES ('2', '1', null, '第二组', '第二组');
-INSERT INTO `t_group` VALUES ('3', '2', '35', '第一组', '第一组');
-INSERT INTO `t_group` VALUES ('4', '2', '45', '第二组', '第二组');
-INSERT INTO `t_group` VALUES ('5', '2', '52', '第三组', '第三组');
+INSERT INTO `t_group` VALUES ('3', '2', null, '第一组', '第一组');
+INSERT INTO `t_group` VALUES ('4', '2', null, '第二组', '第二组');
+INSERT INTO `t_group` VALUES ('5', '2', null, '第三组', '第三组');
+INSERT INTO `t_group` VALUES ('6', '3', null, '第一组1', 'xxxx1组房');
+INSERT INTO `t_group` VALUES ('7', '4', null, '123', '123');
+INSERT INTO `t_group` VALUES ('8', '4', null, '123', '123');
 
 -- ----------------------------
 -- Table structure for `t_student`
@@ -134,71 +126,13 @@ CREATE TABLE `t_student` (
   KEY `FK_Relationship_17` (`group_id`),
   CONSTRAINT `FK_Relationship_17` FOREIGN KEY (`group_id`) REFERENCES `t_group` (`group_id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `FK_Relationship_2` FOREIGN KEY (`class_id`) REFERENCES `t_class` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_student
 -- ----------------------------
-INSERT INTO `t_student` VALUES ('17', '1', '1', '100001', '学生2', '111112', '111112', '3');
-INSERT INTO `t_student` VALUES ('18', '1', '1', '100002', '学生3', '111113', '111113', '3');
-INSERT INTO `t_student` VALUES ('19', '1', '1', '100003', '学生4', '111114', '111114', '3');
-INSERT INTO `t_student` VALUES ('20', '1', '1', '100004', '学生5', '111115', '111115', '3');
-INSERT INTO `t_student` VALUES ('21', '1', '2', '100005', '学生6', '111116', '111116', '3');
-INSERT INTO `t_student` VALUES ('22', '1', '2', '100006', '学生7', '111117', '111117', '3');
-INSERT INTO `t_student` VALUES ('23', '1', '2', '100007', '学生8', '111118', '111118', '3');
-INSERT INTO `t_student` VALUES ('24', '1', '2', '100008', '学生9', '111119', '111119', '3');
-INSERT INTO `t_student` VALUES ('25', '1', '2', '100009', '学生10', '111120', '111120', '3');
-INSERT INTO `t_student` VALUES ('26', '1', '2', '100010', '学生11', '111121', '111121', '3');
-INSERT INTO `t_student` VALUES ('27', '1', '2', '100011', '学生12', '111122', '111122', '3');
-INSERT INTO `t_student` VALUES ('28', '1', '2', '100013', '学生13', '111123', '111123', '3');
-INSERT INTO `t_student` VALUES ('29', '1', '2', '100015', '学生16', '111126', '111126', '3');
-INSERT INTO `t_student` VALUES ('30', '1', '2', '100016', '学生17', '111127', '111127', '3');
-INSERT INTO `t_student` VALUES ('31', '1', '2', '100017', '学生18', '111128', '111128', '3');
-INSERT INTO `t_student` VALUES ('32', '1', null, '100018', '张三', '111129', '111111', '3');
-INSERT INTO `t_student` VALUES ('33', '1', null, '999999', '999999', '999999', '9999992', '3');
-INSERT INTO `t_student` VALUES ('34', '1', null, '123321', '李四', '222222', '222222', '3');
-INSERT INTO `t_student` VALUES ('35', '2', '3', '333333', '学生1', '333333', '333333', '3');
-INSERT INTO `t_student` VALUES ('36', '2', '3', '333334', '学生2', '333334', '333334', '3');
-INSERT INTO `t_student` VALUES ('37', '2', '3', '333335', '学生3', '333335', '333335', '3');
-INSERT INTO `t_student` VALUES ('38', '2', '3', '333336', '学生4', '333336', '333336', '3');
-INSERT INTO `t_student` VALUES ('39', '2', '3', '333337', '学生5', '333337', '333337', '3');
-INSERT INTO `t_student` VALUES ('40', '2', '3', '333338', '学生6', '333338', '333338', '3');
-INSERT INTO `t_student` VALUES ('41', '2', '3', '333339', '学生7', '333339', '333339', '3');
-INSERT INTO `t_student` VALUES ('42', '2', '3', '333340', '学生8', '333340', '333340', '3');
-INSERT INTO `t_student` VALUES ('43', '2', '3', '333341', '学生9', '333341', '333341', '3');
-INSERT INTO `t_student` VALUES ('44', '2', '3', '333342', '学生10', '333342', '333342', '3');
-INSERT INTO `t_student` VALUES ('45', '2', '4', '333343', '学生11', '333343', '333343', '3');
-INSERT INTO `t_student` VALUES ('46', '2', '4', '333344', '学生12', '333344', '333344', '3');
-INSERT INTO `t_student` VALUES ('47', '2', '4', '333345', '学生13', '333345', '333345', '3');
-INSERT INTO `t_student` VALUES ('48', '2', '4', '333346', '学生14', '333346', '333346', '3');
-INSERT INTO `t_student` VALUES ('49', '2', '4', '333347', '学生15', '333347', '333347', '3');
-INSERT INTO `t_student` VALUES ('50', '2', '4', '333348', '学生16', '333348', '333348', '3');
-INSERT INTO `t_student` VALUES ('51', '2', '4', '333349', '学生17', '333349', '333349', '3');
-INSERT INTO `t_student` VALUES ('52', '2', '5', '333350', '学生18', '333350', '333350', '3');
-INSERT INTO `t_student` VALUES ('53', '2', '5', '333351', '学生19', '333351', '333351', '3');
-INSERT INTO `t_student` VALUES ('54', '2', '5', '333352', '学生20', '333352', '333352', '3');
-INSERT INTO `t_student` VALUES ('55', '2', '5', '333353', '学生21', '333353', '333353', '3');
-INSERT INTO `t_student` VALUES ('56', '2', '4', '333354', '学生22', '333354', '333354', '3');
-INSERT INTO `t_student` VALUES ('57', '2', '4', '333355', '学生23', '333355', '333355', '3');
-INSERT INTO `t_student` VALUES ('58', '2', '4', '333356', '学生24', '333356', '333356', '3');
-INSERT INTO `t_student` VALUES ('59', '2', '4', '333357', '学生25', '333357', '333357', '3');
-INSERT INTO `t_student` VALUES ('60', '2', '4', '333358', '学生26', '333358', '333358', '3');
-INSERT INTO `t_student` VALUES ('61', '2', '4', '333359', '学生27', '333359', '333359', '3');
-INSERT INTO `t_student` VALUES ('62', '2', '4', '333360', '学生28', '333360', '333360', '3');
-INSERT INTO `t_student` VALUES ('63', '2', '4', '333361', '学生29', '333361', '333361', '3');
-INSERT INTO `t_student` VALUES ('64', '2', '4', '333362', '学生30', '333362', '333362', '3');
-INSERT INTO `t_student` VALUES ('65', '2', '4', '333363', '学生31', '333363', '333363', '3');
-INSERT INTO `t_student` VALUES ('66', '2', '4', '333364', '学生32', '333364', '333364', '3');
-INSERT INTO `t_student` VALUES ('67', '2', '5', '333365', '学生33', '333365', '333365', '3');
-INSERT INTO `t_student` VALUES ('68', '2', '5', '333366', '学生34', '333366', '333366', '3');
-INSERT INTO `t_student` VALUES ('69', '2', '5', '333367', '学生35', '333367', '333367', '3');
-INSERT INTO `t_student` VALUES ('70', '2', '5', '333368', '学生36', '333368', '333368', '3');
-INSERT INTO `t_student` VALUES ('71', '2', '5', '333369', '学生37', '333369', '333369', '3');
-INSERT INTO `t_student` VALUES ('72', '2', '5', '333370', '学生38', '333370', '333370', '3');
-INSERT INTO `t_student` VALUES ('73', '2', '5', '333371', '学生39', '333371', '333371', '3');
-INSERT INTO `t_student` VALUES ('74', '2', '5', '333372', '学生40', '333372', '333372', '3');
-INSERT INTO `t_student` VALUES ('75', '2', '5', '333373', '学生41', '333373', '333373', '3');
-INSERT INTO `t_student` VALUES ('76', '2', '5', '333374', '学生42', '333374', '333374', '3');
+INSERT INTO `t_student` VALUES ('100', '4', null, '123123', '123', '312321', '123321', '3');
+INSERT INTO `t_student` VALUES ('101', '4', null, '321321', '张三', '222222', '222222 ', '3');
 
 -- ----------------------------
 -- Table structure for `t_subject`
@@ -211,36 +145,16 @@ CREATE TABLE `t_subject` (
   PRIMARY KEY (`subject_id`),
   KEY `FK_Relationship_9` (`task_id`),
   CONSTRAINT `FK_Relationship_9` FOREIGN KEY (`task_id`) REFERENCES `t_task` (`task_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_subject
 -- ----------------------------
-INSERT INTO `t_subject` VALUES ('33', '10', '企业发放的奖金根据利润提成。利润(I)低于或等于10万元时，奖金可提10%；利润高于10万元，低于20万元时，低于10万元的部分按10%提成，高于10万元的部分，可可提成7.5%；20万到40万之间时，高于20万元的部分，可提成5%；');
-INSERT INTO `t_subject` VALUES ('34', '10', '一个整数，它加上100后是一个完全平方数，再加上168又是一个完全平方数，请问该数是多少？ \r\n1.程序分析：在10万以内判断，先将该数加上100后再开方，再将该数加上268后再开方，如果开方后的结果满足如下条件，即是结果。');
-INSERT INTO `t_subject` VALUES ('35', '10', '输入某年某月某日，判断这一天是这一年的第几天？ \r\n1.程序分析：以3月5日为例，应该先把前两个月的加起来，然后再加上5天即本年的第几天，特殊情况，闰年且输入月份大于3时需考虑多加一天。');
-INSERT INTO `t_subject` VALUES ('36', '10', '输入三个整数x,y,z，请把这三个数由小到大输出。');
-INSERT INTO `t_subject` VALUES ('37', '10', '有1、2、3、4个数字，能组成多少个互不相同且无重复数字的三位数？都是多少？ ');
-INSERT INTO `t_subject` VALUES ('38', '11', '企业发放的奖金根据利润提成。利润(I)低于或等于10万元时，奖金可提10%；利润高于10万元，低于20万元时，低于10万元的部分按10%提成，高于10万元的部分，可可提成7.5%；20万到40万之间时，高于20万元的部分，可提成5%；');
-INSERT INTO `t_subject` VALUES ('39', '11', '一个整数，它加上100后是一个完全平方数，再加上168又是一个完全平方数，请问该数是多少？ 1.程序分析：在10万以内判断，先将该数加上100后再开方，再将该数加上268后再开方，如果开方后的结果满足如下条件，即是结果。');
-INSERT INTO `t_subject` VALUES ('40', '11', '输入某年某月某日，判断这一天是这一年的第几天？ 1.程序分析：以3月5日为例，应该先把前两个月的加起来，然后再加上5天即本年的第几天，特殊情况，闰年且输入月份大于3时需考虑多加一天。');
-INSERT INTO `t_subject` VALUES ('41', '11', '输入三个整数x,y,z，请把这三个数由小到大输出。');
-INSERT INTO `t_subject` VALUES ('42', '11', '有1、2、3、4个数字，能组成多少个互不相同且无重复数字的三位数？都是多少？');
-INSERT INTO `t_subject` VALUES ('43', '12', '这是题目一');
-INSERT INTO `t_subject` VALUES ('44', '12', '这是题目二');
-INSERT INTO `t_subject` VALUES ('45', '12', '这是题目三');
-INSERT INTO `t_subject` VALUES ('46', '12', '这是题目四\r\n');
-INSERT INTO `t_subject` VALUES ('47', '13', 'qefadfsadfdsfdsadfsdf');
-INSERT INTO `t_subject` VALUES ('48', '13', 'sadfsdf');
-INSERT INTO `t_subject` VALUES ('49', '13', 'sadfsdf');
-INSERT INTO `t_subject` VALUES ('50', '13', 'safdsadf');
-INSERT INTO `t_subject` VALUES ('51', '13', 'asdfsdaf');
-INSERT INTO `t_subject` VALUES ('52', '13', 'efsdfsdafassdf');
-INSERT INTO `t_subject` VALUES ('54', '13', 'asdfsdfsdfsdfsdfdsaf');
-INSERT INTO `t_subject` VALUES ('55', '14', '任务1');
-INSERT INTO `t_subject` VALUES ('56', '15', '任务2');
-INSERT INTO `t_subject` VALUES ('57', '16', '任务3');
-INSERT INTO `t_subject` VALUES ('58', '17', '23112313');
+INSERT INTO `t_subject` VALUES ('1', '1', '21313123');
+INSERT INTO `t_subject` VALUES ('2', '2', '123');
+INSERT INTO `t_subject` VALUES ('3', '2', '123');
+INSERT INTO `t_subject` VALUES ('4', '3', '234234');
+INSERT INTO `t_subject` VALUES ('5', '3', '234234');
 
 -- ----------------------------
 -- Table structure for `t_subject_student`
@@ -255,7 +169,7 @@ CREATE TABLE `t_subject_student` (
   KEY `FK_Relationship_11` (`student_id`),
   CONSTRAINT `FK_Relationship_10` FOREIGN KEY (`subject_id`) REFERENCES `t_subject` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Relationship_11` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_subject_student
@@ -273,19 +187,14 @@ CREATE TABLE `t_task` (
   PRIMARY KEY (`task_id`),
   KEY `FK_Relationship_6` (`teacher_id`),
   CONSTRAINT `FK_Relationship_6` FOREIGN KEY (`teacher_id`) REFERENCES `t_teacher` (`teacher_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_task
 -- ----------------------------
-INSERT INTO `t_task` VALUES ('10', '1', '测试任务', '1');
-INSERT INTO `t_task` VALUES ('11', '1', '测试任务2', '1');
-INSERT INTO `t_task` VALUES ('12', '1', '测试oracle任务', '2');
-INSERT INTO `t_task` VALUES ('13', '1', '测试oracle2', '2');
-INSERT INTO `t_task` VALUES ('14', '1', '任务1', '1');
-INSERT INTO `t_task` VALUES ('15', '1', '任务2', '1');
-INSERT INTO `t_task` VALUES ('16', '1', '任务3', '1');
-INSERT INTO `t_task` VALUES ('17', '1', '12313', '1');
+INSERT INTO `t_task` VALUES ('1', '3', '任务1', '1');
+INSERT INTO `t_task` VALUES ('2', '3', '修改', '1');
+INSERT INTO `t_task` VALUES ('3', '3', '2342', '2');
 
 -- ----------------------------
 -- Table structure for `t_task_status`
@@ -297,27 +206,24 @@ CREATE TABLE `t_task_status` (
   `group_id` int(11) DEFAULT NULL,
   `ct_id` int(11) NOT NULL,
   `last_submit_time` datetime DEFAULT NULL,
-  `score_num` int(11) DEFAULT NULL,
+  `number` int(11) DEFAULT NULL,
+  `gread` int(11) DEFAULT NULL,
+  `adopt` int(11) DEFAULT NULL,
   PRIMARY KEY (`score_id`),
   KEY `FK_Relationship_14` (`ct_id`),
   KEY `FK_Relationship_15` (`student_id`),
   CONSTRAINT `FK_Relationship_14` FOREIGN KEY (`ct_id`) REFERENCES `t_class_task` (`ct_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Relationship_15` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_task_status
 -- ----------------------------
-INSERT INTO `t_task_status` VALUES ('19', null, '1', '16', null, '80');
-INSERT INTO `t_task_status` VALUES ('20', null, '2', '16', null, '90');
-INSERT INTO `t_task_status` VALUES ('21', null, '1', '14', null, '60');
-INSERT INTO `t_task_status` VALUES ('22', null, '2', '14', null, '85');
-INSERT INTO `t_task_status` VALUES ('23', '34', null, '15', null, '100');
-INSERT INTO `t_task_status` VALUES ('24', '29', null, '13', null, '100');
-INSERT INTO `t_task_status` VALUES ('25', '23', null, '13', null, '99');
-INSERT INTO `t_task_status` VALUES ('26', '31', null, '13', null, '88');
-INSERT INTO `t_task_status` VALUES ('27', '76', null, '24', null, '100');
-INSERT INTO `t_task_status` VALUES ('28', '75', null, '24', null, '100');
+INSERT INTO `t_task_status` VALUES ('1', '101', null, '3', '2019-05-13 16:52:25', '10', null, null);
+INSERT INTO `t_task_status` VALUES ('2', '101', null, '5', null, null, '3', null);
+INSERT INTO `t_task_status` VALUES ('3', '100', null, '5', null, null, '2', null);
+INSERT INTO `t_task_status` VALUES ('4', '101', null, '6', null, null, null, '2');
+INSERT INTO `t_task_status` VALUES ('5', '100', null, '6', null, null, null, '1');
 
 -- ----------------------------
 -- Table structure for `t_teacher`
@@ -330,12 +236,12 @@ CREATE TABLE `t_teacher` (
   `teacher_pwd` varchar(20) NOT NULL,
   `role` int(11) NOT NULL,
   PRIMARY KEY (`teacher_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_teacher
 -- ----------------------------
-INSERT INTO `t_teacher` VALUES ('1', '测试教师', '111111', '111111', '2');
+INSERT INTO `t_teacher` VALUES ('3', '教师一', '111111', '111111', '2');
 
 -- ----------------------------
 -- Table structure for `t_work`
@@ -354,22 +260,18 @@ CREATE TABLE `t_work` (
   KEY `FK_Relationship_13` (`student_id`),
   CONSTRAINT `FK_Relationship_12` FOREIGN KEY (`subject_id`) REFERENCES `t_subject` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_Relationship_13` FOREIGN KEY (`student_id`) REFERENCES `t_student` (`student_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_work
 -- ----------------------------
-INSERT INTO `t_work` VALUES ('29', '39', null, '1', 'Joba1bfb958a0b94364bc514e6060f4dc0e.txt', 'D:\\jobReview\\job\\Joba1bfb958a0b94364bc514e6060f4dc0e.txt', null);
-INSERT INTO `t_work` VALUES ('30', '40', null, '1', 'Jobb96be878bb5f4bfa83d2cb81db6beb51.txt', 'D:\\jobReview\\job\\Jobb96be878bb5f4bfa83d2cb81db6beb51.txt', null);
-INSERT INTO `t_work` VALUES ('36', '43', null, '1', '4d15bc3ee21e432f98c857a36d4b9d5d.png.png', null, '/file/job/Job12a78e4a3a7f4660ad8960d71970df3a.png');
-INSERT INTO `t_work` VALUES ('37', '44', null, '1', '4d15bc3ee21e432f98c857a36d4b9d5d.png.png', null, '/file/job/Job8f3c844ce9b94647bb7116941809e439.png');
-INSERT INTO `t_work` VALUES ('38', '45', null, '1', '4d15bc3ee21e432f98c857a36d4b9d5d.png.png', null, '/file/job/Jobdd32fe3d36b9480584ad3e9240f757f1.png');
+INSERT INTO `t_work` VALUES ('1', '1', '101', null, 'Jobf533c56b3328416ea47f48d00c380a4e.txt', 'D:\\jobReview\\job\\Jobf533c56b3328416ea47f48d00c380a4e.txt', null);
 
 -- ----------------------------
 -- View structure for `v_class_task_info`
 -- ----------------------------
 DROP VIEW IF EXISTS `v_class_task_info`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_class_task_info` AS select `c`.`class_id` AS `class_id`,`c`.`class_name` AS `class_name`,`ct`.`ct_id` AS `ct_id`,`ct`.`ct_type` AS `ct_type`,`ct`.`ct_status` AS `ct_status`,`ct`.`ct_semester` AS `ct_semester`,`ct`.`ct_proportion` AS `ct_proportion`,`ct`.`ct_start_time` AS `ct_start_time`,`ct`.`ct_end_time` AS `ct_end_time`,`t`.`task_id` AS `task_id`,`t`.`task_name` AS `task_name`,`t`.`task_type` AS `task_type` from ((`t_class_task` `ct` left join `t_class` `c` on((`c`.`class_id` = `ct`.`class_id`))) left join `t_task` `t` on((`ct`.`task_id` = `t`.`task_id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_class_task_info` AS select `c`.`class_id` AS `class_id`,`c`.`class_name` AS `class_name`,`ct`.`ct_id` AS `ct_id`,`ct`.`ct_type` AS `ct_type`,`ct`.`ct_status` AS `ct_status`,`ct`.`ct_semester` AS `ct_semester`,`ct`.`ct_proportion` AS `ct_proportion`,`ct`.`ct_standard` AS `ct_standard`,`ct`.`ct_start_time` AS `ct_start_time`,`ct`.`ct_end_time` AS `ct_end_time`,`t`.`task_id` AS `task_id`,`t`.`task_name` AS `task_name`,`t`.`task_type` AS `task_type` from ((`t_class_task` `ct` left join `t_class` `c` on((`c`.`class_id` = `ct`.`class_id`))) left join `t_task` `t` on((`ct`.`task_id` = `t`.`task_id`))) ;
 
 -- ----------------------------
 -- View structure for `v_division`

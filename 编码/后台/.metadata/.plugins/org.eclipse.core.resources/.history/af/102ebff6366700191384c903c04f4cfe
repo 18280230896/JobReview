@@ -1,2 +1,0 @@
-var ctid = $("#ctid").val();
-var id = $("#id").val();

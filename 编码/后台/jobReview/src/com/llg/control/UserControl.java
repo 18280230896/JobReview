@@ -141,7 +141,8 @@ public class UserControl {
 		Map<String, Object> result = new HashMap<>();
 		String fileName = FileUtil.createFileName();
 		File file = FileUtil.createFile(FileUtil.LOCAL_TEMP_PATH+fileName+".java");
-		code = "package com.llg.test;public class "+fileName+" {"+code+"}";
+//		code = "package com.llg.test;public class "+fileName+" {"+code+"}";
+		code = "public class "+fileName+" {"+code+"}";
 		String className = FileUtil.parseClassName(code);
 		//将代码写入文件
 		if(!FileUtil.write(file, code)){
@@ -155,20 +156,21 @@ public class UserControl {
 		if(!(boolean) res.get("success")){
 			//编译错误
 			result.put("status", 3);
-			result.put("msg", res.get("msg").toString());
+			result.put("msg", res.get("msg").toString().replace(FileUtil.LOCAL_TEMP_PATH, ""));
 			return result;
 		}
 		//运行
-		ByteArrayOutputStream bout = new ByteArrayOutputStream();
+		ByteArrayOutputStream bout = new ByteArrayOutputStream(8000);
 		ByteArrayOutputStream berr = new ByteArrayOutputStream(); 
 		MyRunnable runnable = new MyRunnable(bout, berr);
-		runnable.run(className, FileUtil.createFile(FileUtil.LOCAL_TEMP_PATH+fileName+".class"));
+		if(FileUtil.SYSTEM.equals("windows")) runnable.run(className);
+		else runnable.run(className, FileUtil.createFile(FileUtil.LOCAL_TEMP_PATH+fileName+".class"));
 		result.put("status", 1);
 		try {
 			byte[] outByte = bout.toByteArray();
 			byte[] errByte = berr.toByteArray();
 			result.put("out", new String(outByte,0,outByte.length,"UTF-8"));
-			result.put("err", new String(errByte,0,errByte.length,"UTF-8"));
+			result.put("err", new String(errByte,0,errByte.length,"UTF-8").replace(FileUtil.LOCAL_TEMP_PATH, ""));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

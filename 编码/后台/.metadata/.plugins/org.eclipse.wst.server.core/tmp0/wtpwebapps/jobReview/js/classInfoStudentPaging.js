@@ -79,7 +79,7 @@ function studentCreateTable(){
 						"<td>"+students[i].num+"</td>"+
 						"<td>"+students[i].name+"</td>"+
 						"<td>"+students[i].username+"</td>"+
-						"<td>"+students[i].password+"</td>"+
+						"<td><span>******</span> <span class='glyphicon glyphicon-eye-open'></span></td>"+
 						"<td>"+
 							" <button class='btn btn-danger btn-sm'>删除</button>"+
 							" <button class='btn btn-primary btn-sm'>修改</button>"+

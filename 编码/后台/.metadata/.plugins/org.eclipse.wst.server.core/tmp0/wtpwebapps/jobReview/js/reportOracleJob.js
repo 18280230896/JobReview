@@ -2,8 +2,9 @@ var ctid = $("#ctid").val();
 var classTask;
 var task;
 getClassTaskInfo();
-showSubject();
 var isLeader = classTask.type == 2 ? studentIsLeader() : false;
+showSubject();
+
 
 //修改分工按钮点击事件
 $(".media-list").click(function(event){

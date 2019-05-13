@@ -50,13 +50,6 @@
 	<div class="row">
 		<div class="col-md-12">
 			<table class="table table-striped table-hover">
-				<tr>
-					<th>编号</th>
-					<th>姓名</th>
-					<th>最后提交时间</th>
-					<th>分数</th>
-					<th>操作</th>
-				</tr>
 			</table>
 		</div>
 	</div>

@@ -44,6 +44,7 @@ public class ClassTaskServiceImpl implements ClassTaskService {
 		if(classTask.getEndTime() != null) classTask2.setEndTime(classTask.getEndTime());
 		if(classTask.getStatus() != 0) classTask2.setStatus(classTask.getStatus());
 		if(classTask.getProportion() != 0) classTask2.setProportion(classTask.getProportion());
+		if(classTask.getStandard() != 0) classTask2.setStandard(classTask.getStandard());
 		classTaskMapper.updateClassTask(classTask2);
 	}
 

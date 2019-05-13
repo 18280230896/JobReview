@@ -109,4 +109,7 @@ function tips(sign,msg){
 	}
 	$("#alert #msg").text(msg);
 	$("#alert").modal("show");
+	var timer = setTimeout(function(){
+		$("#alert").modal("hide");
+	},1500);
 }

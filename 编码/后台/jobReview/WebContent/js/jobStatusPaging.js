@@ -12,6 +12,7 @@ var totalPage;
 var data;
 var type = $("#type").val();
 var jobStatus;
+var classTask;
 
 
 init();
@@ -63,6 +64,7 @@ function getData(url){
 			if(result.status == 1){
 				data = result.data;
 				jobStatus = result.jobStatus
+				classTask = result.classTask;
 			}
 		}
 	});
@@ -77,19 +79,41 @@ function createTable(){
 					"<th>编号</th>"+
 					"<th>"+name+"</th>"+
 					"<th>最后一次提交时间</th>"+
-					"<th>分数</th>"+
+					"<th>成绩</th>"+
 					"<th>操作</th>"+
 				"</tr>");
 	$("table").append(thead);
 	//循环创建数据条目
 	for(var i=0;i<data.length;i++){
 		var time = jobStatus[i] == null || jobStatus[i].submitTime == null? "还未提交":dateFtt("yyyy-MM-dd hh:mm:ss",new Date(jobStatus[i].submitTime));
-		var score = (jobStatus[i] == null || jobStatus[i].score == null)? "还未打分":jobStatus[i].score;
+		var chengji;
+		if(classTask.standard == 1){
+			chengji = (jobStatus[i] == null || jobStatus[i].score == null)? "还未打分":jobStatus[i].score;
+		}else if(classTask.standard == 2){
+			if(jobStatus[i] == null || jobStatus[i].gread == null) chengji = "还未打分";
+			else {
+				switch(jobStatus[i].gread){
+				case 1:chengji = "优"; break;
+				case 2:chengji = "良"; break;
+				case 3:chengji = "中"; break;
+				case 4:chengji = "及格"; break;
+				case 5:chengji = "不及格"; break;
+				}
+			}
+		}else if(classTask.standard == 3){
+			if(jobStatus[i] == null || jobStatus[i].adopt == null) chengji = "还未打分";
+			else {
+				switch(jobStatus[i].adopt){
+				case 1:chengji = "通过"; break;
+				case 2:chengji = "不通过"; break;
+				}
+			}
+		}
 		var tr = $("<tr>"+
 					"<td>"+((nowPage-1)*pageSize+i+1)+"</td>"+
 					"<td>"+data[i].name+"</td>"+
 					"<td>"+time+"</td>"+
-					"<td>"+score+"</td>"+
+					"<td>"+chengji+"</td>"+
 					"<td><a href='teacher2ReviewJob.action?id="+data[i].id+"&ctid="+$("#ctid").val()+"'><button class='btn btn-sm btn-primary'>批阅</button></a></td>"+
 				"</tr>");
 		$("table").append(tr);

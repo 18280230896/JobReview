@@ -23,13 +23,14 @@ public class MyServletContentListener implements ServletContextListener {
 		//½âÎöpath.xml
 		SAXReader saxReader = new SAXReader();
 		try {
-			Document document = saxReader.read(MyServletContentListener.class.getClassLoader().getResourceAsStream("path.xml"));
+			Document document = saxReader.read(MyServletContentListener.class.getClassLoader().getResourceAsStream("config.xml"));
 			Element root = document.getRootElement();
 			List<Element> elements = root.elements();
 			for (Element element : elements) {
 				if(element.getQualifiedName().equals("localJobPath")) FileUtil.LOCAL_JOB_PATH = element.getText();
 				if(element.getQualifiedName().equals("localTempPath")) FileUtil.LOCAL_TEMP_PATH = element.getText();
 				if(element.getQualifiedName().equals("virtualJobPath")) FileUtil.VIRTUAL_JOB_PATH = element.getText();
+				if(element.getQualifiedName().equals("system")) FileUtil.SYSTEM = element.getText();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="semester" column="ct_semester"/>
 		<result property="status" column="ct_status"/>
 		<result property="proportion" column="ct_proportion"/>
+		<result property="standard" column="ct_standard"/>
 		<result property="startTime" column="ct_start_time"/>
 		<result property="endTime" column="ct_end_time"/>
 		<association property="task" javaType="Task">
@@ -24,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="addClassTask" parameterType="ClassTask">
 		insert into t_class_task 
-		values(null,#{task.id},#{c.id},#{type},2,#{c.semester},#{proportion},#{startTime},#{endTime})
+		values(null,#{task.id},#{c.id},#{type},2,#{c.semester},#{proportion},#{standard},#{startTime},#{endTime})
 	</insert>
 	
 	<delete id="deleteClassTask" parameterType="Integer">
@@ -37,6 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ct_semester = #{semester},
 		ct_status = #{status},
 		ct_proportion = #{proportion},
+		ct_standard = #{standard},
 		ct_start_time = #{startTime},
 		ct_end_time = #{endTime}
 		where ct_id = #{id}

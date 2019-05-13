@@ -57,7 +57,7 @@ $("#scoreInput").keypress(function(e) {
 var mark = false;
 $("#scoreInput").on("input propertychange",function(){
 	var value = $(this).val();
-	if(/^[1-9][0-9]{0,2}$/.test(value) && value <= 100){
+	if(/^[0-9]{1,3}$/.test(value) && value <= 100){
 		$(this).parent().parent().addClass("has-success").removeClass("has-error");
 		$(this).parent().next().hide();
 		mark = true;
@@ -70,20 +70,31 @@ $("#scoreInput").on("input propertychange",function(){
 
 //确定点击事件
 $("#submit").click(function(){
-	if(!mark) {
-		$("#scoreInput").focus();
-		return;
+	var data = {};
+	data.id = id;
+	data.ctid = ctid;
+	if(classTask.standard == 1){
+		if(!mark) {
+			$("#scoreInput").focus();
+			return;
+		}
+		data.score = $("#scoreInput").val();
+	}else if(classTask.standard == 2){
+		data.gread = $("#level5 option:selected").val();
+	}else if(classTask.standard == 3){
+		data.adopt = $("#level2 option:selected").val();
 	}
 	$.ajax({
 		url:"teacherSubmitScore.action",
 		type:"post",
-		data:{"score":$("#scoreInput").val(),"id":id,"ctid":ctid},
+		data:data,
 		dataType:"json",
 		success:function(result){
+			console.log(result);
 			if(result.status == 1){
 				tips("success","打分成功！");
 			}else{
-				tips("error","出错了！");
+				tips("error",result.msg);
 			}
 		}
 	});
@@ -107,7 +118,18 @@ function getTaskInfo(){
 }
 
 function showClassTask(){
-	if(jobStatus != null && jobStatus.score != null) $("#scoreInput").val(jobStatus.score);
+	//显示相应的评分栏
+	if(classTask.standard == 1){
+		$("#level5").addClass("hidden").next().addClass("hidden");
+		if(jobStatus != null && jobStatus.score != null) $("#scoreInput").val(jobStatus.score);
+	}else if(classTask.standard == 2){
+		$("#scoreInput").addClass("hidden").next().next().addClass("hidden");
+		if(jobStatus != null && jobStatus.gread != null) $("#level5 option").eq(jobStatus.gread-1).prop("selected","selected");
+	}else if(classTask.standard == 3){
+		$("#scoreInput").addClass("hidden").next().addClass("hidden");
+		if(jobStatus != null && jobStatus.adopt != null) $("#level2 option").eq(jobStatus.gread-1).prop("selected","selected");
+	}
+	
 	var length = task.subjects.length;
 	if(length == 0){
 		prohibit();

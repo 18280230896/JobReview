@@ -5,12 +5,13 @@ $("#addTask .add").click(function(){
 		var taskId = $("#addTask input").eq(0).val();
 		var type = $("#taskType option:selected").val();
 		var proportion = $("#proportion option:selected").val();
+		var standard = $("#standard option:selected").val();
 		var startTime = $("#addTask input").eq(1).val();
 		var endTime = $("#addTask input").eq(2).val();
 		$.ajax({
 			url:"teacherAddClassTask.action",
 			type:"post",
-			data:{"classId":classId,"taskId":taskId,"type":type,"proportion":proportion,"startTime":startTime,"endTime":endTime},
+			data:{"classId":classId,"taskId":taskId,"type":type,"proportion":proportion,"standard":standard,"startTime":startTime,"endTime":endTime},
 			dataType:"json",
 			success:function(result){
 				if(result.msg == 1){
@@ -33,7 +34,8 @@ $("#addTask .add").click(function(){
 //点击确认修改按钮
 $("#updateModal .btn").eq(1).click(function(){
 	var ctid = classTasks[$("#updateModal input").eq(0).val()].id;
-	var proportion = $("#updateModal option:selected").val();
+	var proportion = $("#updateModal #updateProportion option:selected").val();
+	var standard = $("#updateModal #updateStandard option:selected").val();
 	var startTime = $("#updateModal input").eq(2).val();
 	var endTime = $("#updateModal input").eq(3).val();
 	if((new Date(startTime)).getTime() >= (new Date(endTime)).getTime()){
@@ -45,7 +47,7 @@ $("#updateModal .btn").eq(1).click(function(){
 		$.ajax({
 			url:"teacherUpdateClassTask.action",
 			type:"post",
-			data:{"id":ctid,"proportion":proportion,"startTime":startTime,"endTime":endTime},
+			data:{"id":ctid,"proportion":proportion,"standard":standard,"startTime":startTime,"endTime":endTime},
 			dataType:"json",
 			success:function(result){
 				if(result.msg == 1){
@@ -317,7 +319,7 @@ $("#finalScore").click(function(){
 });
 
 
-$("#taskType").change(function(){
+$("#scoreType").change(function(){
 	getAndShowScore();
 });
 
@@ -345,7 +347,7 @@ function getAndShowScore(){
 				$("#info").text(result.c.name+"班"+semester+type+"成绩单，这学期共有"+result.studentTask+"次个人任务,"+result.groupTask+"次小组任务，具体如下：");
 				$("#finalExam table").empty();
 				for(var i = 0;i<data.length;i++){
-					var tr = $("<tr></tr>");
+					var tr = data[i][data[0].length-1] < 60 ? $("<tr class='danger'></tr>") : $("<tr></tr>");
 					for(var j = 0;j<data[0].length;j++){
 						if(i == 0){
 							var th = $("<th>"+data[i][j]+"</th>");

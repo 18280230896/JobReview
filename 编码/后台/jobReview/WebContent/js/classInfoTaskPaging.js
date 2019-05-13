@@ -74,6 +74,7 @@ function createTaskTable(){
 					"<th>任务类型</th>"+
 					"<th>完成类型</th>"+
 					"<th>评分占比</th>"+
+					"<th>评分标准</th>"+
 					"<th>开始时间</th>"+
 					"<th>截止时间</th>"+
 					"<th>状态</th>"+
@@ -86,6 +87,7 @@ function createTaskTable(){
 		var statusClass;
 		var taskType;
 		var carryType;
+		var standard;
 		if(classTasks[i].status == 1){
 			status = "未开始";
 			statusClass = "text-info";
@@ -100,13 +102,18 @@ function createTaskTable(){
 		if(classTasks[i].task.type == 2) taskType = "Oracle 任务";
 		if(classTasks[i].type == 1) carryType="个人任务";
 		if(classTasks[i].type == 2) carryType="小组任务";
-		
+		switch(classTasks[i].standard){
+		case 1:standard = "百分制";break;
+		case 2:standard = "五级制";break;
+		case 3:standard = "通过制";break;
+		}
 		var tr = $("<tr>"+
 						"<td>"+((taskNowPage-1)*pageSize+i+1)+"</td>"+
 						"<td>"+classTasks[i].task.name+"</td>"+
 						"<td>"+taskType+"</td>"+
 						"<td>"+carryType+"</td>"+
 						"<td>"+classTasks[i].proportion+"%</td>"+
+						"<td>"+standard+"</td>"+
 						"<td>"+dateFtt("yyyy-MM-dd hh:mm:ss",new Date(classTasks[i].startTime))+"</td>"+
 						"<td>"+dateFtt("yyyy-MM-dd hh:mm:ss",new Date(classTasks[i].endTime))+"</td>"+
 						"<td class='"+statusClass+"'>"+status+"</td>"+

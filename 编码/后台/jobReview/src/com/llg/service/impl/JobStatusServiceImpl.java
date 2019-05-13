@@ -25,6 +25,8 @@ public class JobStatusServiceImpl implements JobStatusService{
 	public void updateJobStatus(JobStatus jobStatus) {
 		JobStatus jobStatus2 = statusMapper.getStatusById(jobStatus.getId());
 		if(jobStatus.getScore() != null) jobStatus2.setScore(jobStatus.getScore());
+		if(jobStatus.getGread() != null) jobStatus2.setGread(jobStatus.getGread());
+		if(jobStatus.getAdopt() != null) jobStatus2.setAdopt(jobStatus.getAdopt());
 		if(jobStatus.getSubmitTime() != null) jobStatus2.setSubmitTime(jobStatus.getSubmitTime());
 		statusMapper.updateJobStatus(jobStatus2);
 	}

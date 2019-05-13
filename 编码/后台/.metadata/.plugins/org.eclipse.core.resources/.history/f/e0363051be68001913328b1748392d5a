@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<path xmlns:path="http://www.example.org/path" 
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xsi:schemaLocation="path path.xsd">
-	<localJobPath></localJobPath>
-</path>

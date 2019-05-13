@@ -22,7 +22,7 @@ public class FileUtil {
 	public static String LOCAL_JOB_PATH;
 	public static String LOCAL_TEMP_PATH;
 	public static String VIRTUAL_JOB_PATH;
-	
+	public static String SYSTEM;
 	/**
 	 * 用uuid生成一个随机文件名
 	 * @author 罗龙贵

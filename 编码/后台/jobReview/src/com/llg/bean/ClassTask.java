@@ -11,6 +11,7 @@ public class ClassTask implements Serializable{
 	private int semester;
 	private int status;
 	private int proportion;
+	private int standard;
 	private Timestamp startTime;
 	private Timestamp endTime;
 	private Task task;
@@ -73,13 +74,18 @@ public class ClassTask implements Serializable{
 	public void setProportion(int proportion) {
 		this.proportion = proportion;
 	}
+	public int getStandard() {
+		return standard;
+	}
+	public void setStandard(int standard) {
+		this.standard = standard;
+	}
 	@Override
 	public String toString() {
 		return "ClassTask [id=" + id + ", type=" + type + ", semester=" + semester + ", status=" + status
-				+ ", proportion=" + proportion + ", startTime=" + startTime + ", endTime=" + endTime + ", task=" + task
-				+ ", c=" + c + "]";
+				+ ", proportion=" + proportion + ", standard=" + standard + ", startTime=" + startTime + ", endTime="
+				+ endTime + ", task=" + task + ", c=" + c + "]";
 	}
-	
 	
 	
 	

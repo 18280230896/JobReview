@@ -89,9 +89,10 @@ $("#TaskManager .table").click(function(event){
 		//点击修改任务
 		$("#updateModal input").eq(0).val($(event.target).parent().parent().index()-1);
 		$("#updateModal input").eq(1).val($(event.target).parent().siblings("td").eq(1).text());
-		$("#updateModal option").eq(classTasks[$(event.target).parent().parent().index()-1].proportion-1).prop("selected","selected");
-		$("#updateModal input").eq(2).val($(event.target).parent().siblings("td").eq(5).text());
-		$("#updateModal input").eq(3).val($(event.target).parent().siblings("td").eq(6).text());
+		$("#updateModal #updateProportion option").eq(classTasks[$(event.target).parent().parent().index()-1].proportion-1).prop("selected","selected");
+		$("#updateModal #updateStandard option").eq(classTasks[$(event.target).parent().parent().index()-1].standard-1).prop("selected","selected");
+		$("#updateModal input").eq(2).val($(event.target).parent().siblings("td").eq(6).text());
+		$("#updateModal input").eq(3).val($(event.target).parent().siblings("td").eq(7).text());
 		//弹出修改弹窗
 		$("#updateModal").modal("show");
 	}else if($(event.target).hasClass("btn-danger")){
@@ -129,6 +130,17 @@ $("#StudentManager .table").click(function(){
 		$("#udpateStudnetModal input").eq(0).val($(event.target).parent().siblings("td").eq(2).text());
 		$("#udpateStudnetModal input").eq(1).val($(event.target).parent().siblings("td").eq(4).text());
 		$("#udpateStudnetModal input").eq(2).val($(event.target).parent().parent().index()-1);
+	}else if($(event.target).hasClass("glyphicon")){
+		//点击了显示和隐藏密码按钮
+		if($(event.target).hasClass("glyphicon-eye-open")){
+			//显示密码
+			var index = $(event.target).parent().parent().index() - 1;
+			$(event.target).removeClass("glyphicon-eye-open").addClass("glyphicon-eye-close").prev().text(students[index].password);
+		}else if($(event.target).hasClass("glyphicon-eye-close")){
+			//隐藏密码
+			$(event.target).removeClass("glyphicon-eye-close").addClass("glyphicon-eye-open").prev().text("******");
+		}
+		
 	}
 });
 
@@ -223,7 +235,7 @@ $("#addStudent input").eq(3).on("input propertychange",function(){
 	if(!RegExp.test(value)){
 		addStudentPasswordInput = false;
 		$("#addStudent .form-group").eq(3).addClass("has-error").removeClass("has-sucess");
-		$("#addStudent .help-block").eq(3).hide().text("值允许输入数字和字母，且长度为6-20").slideDown(200);
+		$("#addStudent .help-block").eq(3).hide().text("只允许输入数字和字母，且长度为6-20").slideDown(200);
 	}else{
 		addStudentPasswordInput = true;
 		$("#addStudent .form-group").eq(3).addClass("has-success").removeClass("has-error");

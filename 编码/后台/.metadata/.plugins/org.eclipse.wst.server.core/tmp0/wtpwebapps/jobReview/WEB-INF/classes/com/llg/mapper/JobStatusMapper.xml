@@ -5,7 +5,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.llg.mapper.JobStatusMapper">
 	<resultMap type="JobStatus" id="jobStatus">
 		<id property="id" column="score_id"/>
-		<result property="score" column="score_num"/>
+		<result property="score" column="number"/>
+		<result property="gread" column="gread"/>
+		<result property="adopt" column="adopt"/>
 		<result property="submitTime" column="last_submit_time"/>
 		<association property="student" javaType="Student">
 			<id property="id" column="student_id"/>
@@ -19,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	<insert id="addJobStatus" parameterType="JobStatus">
-		insert into t_task_status values(null,#{student.id},#{group.id},#{classTask.id},#{submitTime},#{score})
+		insert into t_task_status values(null,#{student.id},#{group.id},#{classTask.id},#{submitTime},#{score},#{gread},#{adopt})
 	</insert>
 	
 	<delete id="deleteJobStatus" parameterType="Integer">
@@ -28,7 +30,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="updateJobStatus" parameterType="JobStatus">
 		update t_task_status set
-		score_num = #{score},
+		number = #{score},
+		gread = #{gread},
+		adopt = #{adopt},
 		last_submit_time = #{submitTime}
 		where score_id = #{id}
 	</update>

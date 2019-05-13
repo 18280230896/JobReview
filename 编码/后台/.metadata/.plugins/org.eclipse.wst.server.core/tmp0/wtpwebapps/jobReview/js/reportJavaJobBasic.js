@@ -5,8 +5,8 @@ var task;
 var student;
 //获取显示任务信息
 getClassTaskInfo();
-showClassTask();
 var isLeader = classTask.type == 2 ? studentIsLeader() : false;
+showClassTask();
 var defaultCode = $("#code").val();
 var nowCode;
 
@@ -334,6 +334,7 @@ function showDivision(index,division){
 		newp.append(" <span class='glyphicon glyphicon-pencil'></span>");
 	}
 	$(".content-list .content").eq(index).children(".fengong").append(newp);
+	
 }
 
 
